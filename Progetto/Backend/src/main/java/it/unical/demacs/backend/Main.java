@@ -9,8 +9,7 @@ public class Main {
     // USARE SOLO PER TESTING
     public static void main(String[] args) {
         DatabaseHandler db = DatabaseHandler.getInstance();
-        //db.getUtenteDao().saveOrUpdate(new User("test", "test", "test", "test", "test", 'c'));
-        System.out.println(db.getUtenteDao().findAll());
+        db.getUtenteDao().saveOrUpdate(new User("Sav", "test", "Saverio", "Crea", "test", 'c'));
     }
 
 }

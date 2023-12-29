@@ -1,0 +1,26 @@
+package it.unical.demacs.backend.Controller.ServiziRest;
+
+import it.unical.demacs.backend.Persistenza.DatabaseHandler;
+import it.unical.demacs.backend.Persistenza.Model.User;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+@CrossOrigin(origins = "http://localhost:4200")
+@RestController
+public class RegisterController {
+
+    @PostMapping("/api/register")
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
+        if (DatabaseHandler.getInstance().getUtenteDao().findByUsername(user.getUsername()).getUsername() != null) {
+            return ResponseEntity.badRequest().body("Username already exists");
+        }
+        if (DatabaseHandler.getInstance().getUtenteDao().findByEmail(user.getEmail()).getEmail() != null) {
+            return ResponseEntity.badRequest().body("Email already exists");
+        }
+        DatabaseHandler.getInstance().getUtenteDao().saveOrUpdate(user);
+        return ResponseEntity.ok("User registered successfully");
+    }
+}
