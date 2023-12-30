@@ -14,10 +14,10 @@ public class RegisterController {
 
     @PostMapping("/api/register")
     public ResponseEntity<?> registerUser(@RequestBody User user) {
-        if (DatabaseHandler.getInstance().getUtenteDao().findByUsername(user.getUsername()).getUsername() != null) {
+        if (DatabaseHandler.getInstance().getUtenteDao().findByUsername(user.getUsername()).join().getUsername() != null) {
             return ResponseEntity.badRequest().body("Username already exists");
         }
-        if (DatabaseHandler.getInstance().getUtenteDao().findByEmail(user.getEmail()).getEmail() != null) {
+        if (DatabaseHandler.getInstance().getUtenteDao().findByEmail(user.getEmail()).join().getEmail() != null) {
             return ResponseEntity.badRequest().body("Email already exists");
         }
         DatabaseHandler.getInstance().getUtenteDao().saveOrUpdate(user);

@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import javax.crypto.SecretKey;
+import java.util.concurrent.CompletableFuture;
 
 
 @CrossOrigin(origins = "http://localhost:4200")
@@ -21,11 +22,10 @@ public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        User user = DatabaseHandler.getInstance().getUtenteDao().findByUsername(username);
-        if(user.getUsername() == null) {
+        if(DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join().getUsername() == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         } else {
-            if(BCrypt.checkpw(password, user.getPassword())) {
+            if(BCrypt.checkpw(password, DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join().getPassword())) {
                 SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.addHeader("Authorization", "Bearer " +
