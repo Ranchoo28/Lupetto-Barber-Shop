@@ -22,7 +22,6 @@ public class DatabaseHandler {
 
     Connection con = null;
 
-
     public Connection getConnection(){
         if (con == null){
             try {
