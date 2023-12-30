@@ -13,7 +13,7 @@ import { PrenotaComponent } from './componenti/prenota/prenota.component';
 import { GalleriaComponent } from './componenti/galleria/galleria.component';
 import { ContattiComponent } from './componenti/contatti/contatti.component';
 import { HomeComponent } from './componenti/home/home.component';
-import { NotFoundComponent } from './componenti/not-found/not-found.component';
+import { NotfoundComponent } from './componenti/notfound/notfound.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +24,7 @@ import { NotFoundComponent } from './componenti/not-found/not-found.component';
     GalleriaComponent,
     ContattiComponent,
     HomeComponent,
-    NotFoundComponent
+    NotfoundComponent
   ],
   imports: [
     RouterModule,

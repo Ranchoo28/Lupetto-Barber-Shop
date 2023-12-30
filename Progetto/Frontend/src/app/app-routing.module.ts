@@ -7,17 +7,17 @@ import { ProdottiComponent } from './componenti/prodotti/prodotti.component';
 import { PrenotaComponent } from './componenti/prenota/prenota.component';
 import { GalleriaComponent} from "./componenti/galleria/galleria.component";
 import { ContattiComponent} from "./componenti/contatti/contatti.component";
-import { NotFoundComponent } from './componenti/not-found/not-found.component';
+import {NotfoundComponent} from "./componenti/notfound/notfound.component";
 
 const routes: Routes = [
-  { path: '', redirectTo: '/home', pathMatch: 'full' }, // Reindirizza alla home se la rotta è vuota
   { path: 'home', component: HomeComponent },
   { path: 'prodotti', component: ProdottiComponent },
   { path: 'prenota', component: PrenotaComponent },
   { path: 'galleria', component: GalleriaComponent },
   { path: 'contatti', component: ContattiComponent },
-  { path: 'non-trovato', component: NotFoundComponent }, // Componente personalizzato per la pagina 404
-  { path: '**', redirectTo: '/non-trovato' } // Reindirizza tutte le rotte non riconosciute
+  { path: 'pagina_non_trovata', component: NotfoundComponent },
+  { path: '', redirectTo: '/home', pathMatch: 'full' },
+  { path: '**', redirectTo: '/pagina_non_trovata' }
 ];
 
 @NgModule({
