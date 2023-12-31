@@ -11,18 +11,12 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
-body{
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #c1f7f5;
-}
 
 .nav-links{
   position: fixed;
   top: 0;
   left: 0;
+  height: 64px;
   width: 100%;
   display: flex;
   align-items: center;
@@ -88,4 +82,18 @@ body{
 
 .nav-links li.right {
   margin-left: auto;
+}
+
+a{
+  text-align: center;
+  vertical-align: middle;
+}
+
+img{
+
+  vertical-align: middle;
+  max-height: 25px;
+  max-width: 25px;
+  margin-right: 10px;
+  text-align: center;
 }

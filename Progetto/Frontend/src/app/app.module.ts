@@ -1,9 +1,13 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
+import {MatCardModule} from "@angular/material/card";
+import {MatButtonModule} from "@angular/material/button";
+
 
 // Components
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './componenti/navbar/navbar.component';
+
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +18,8 @@ import { GalleriaComponent } from './componenti/galleria/galleria.component';
 import { ContattiComponent } from './componenti/contatti/contatti.component';
 import { HomeComponent } from './componenti/home/home.component';
 import { NotfoundComponent } from './componenti/notfound/notfound.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 
 @NgModule({
   declarations: [
@@ -29,7 +35,10 @@ import { NotfoundComponent } from './componenti/notfound/notfound.component';
   imports: [
     RouterModule,
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatCardModule,
   ],
   providers: [
     provideClientHydration()
