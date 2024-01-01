@@ -91,6 +91,10 @@
   margin-left: auto;
 }
 
+#homeText {
+  width: auto;
+  height: 50px;
+}
 
 mat-icon {
   margin-left: 10px;
