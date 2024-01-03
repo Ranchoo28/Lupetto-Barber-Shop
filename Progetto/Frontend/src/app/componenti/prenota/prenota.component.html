@@ -1,15 +1,57 @@
-
-
-<mat-card>
-  <mat-card-header>
-    <mat-card-title>SCHERMATA PRENOTAZIONE</mat-card-title>
-    <mat-card-subtitle>popipopi</mat-card-subtitle>
-  </mat-card-header>
-  <mat-card-content>
-    <p>testo a caso</p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-button>bottone</button>
-  </mat-card-actions>
+<mat-card [formGroup]="prenotaForm" style="text-align: center; margin: 20px; border-radius: 25px; border: 4px solid black">
+  <mat-card-title class="title">Prenota un Appuntamento</mat-card-title>
+  <div>
+    <mat-form-field class="form-field">
+      <mat-label>Nome e Cognome</mat-label>
+      <input matInput formControlName="nome">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="form-field">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" type="email">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="form-field">
+      <mat-label>Telefono</mat-label>
+      <input matInput formControlName="telefono" type="tel">
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="form-field">
+      <mat-label>Scegli il Servizio</mat-label>
+      <mat-select formControlName="servizio">
+        <!-- Aggiungi qui le tue opzioni -->
+        <mat-option value="option1">Opzione 1</mat-option>
+        <mat-option value="option2">Opzione 2</mat-option>
+        <!-- ecc... -->
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="form-field">
+      <mat-label>Seleziona una data</mat-label>
+      <input matInput formControlName="data" [matDatepickerFilter]="myFilter" [matDatepicker]="picker">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+</div>
+  <div>
+    <mat-form-field class="form-field">
+      <mat-label>Orario</mat-label>
+      <mat-select formControlName="orario">
+        <mat-option *ngFor="let time of timeSlots" [value]="time">{{time}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div>
+    <mat-form-field class="form-field">
+      <mat-label>Note</mat-label>
+      <textarea matInput formControlName="note"></textarea>
+    </mat-form-field>
+  </div>
+  <div>
+    <button mat-raised-button color="primary" [disabled]="prenotaForm.invalid" (click)="inviaDati()">Prenota</button>
+  </div>
 </mat-card>
-
