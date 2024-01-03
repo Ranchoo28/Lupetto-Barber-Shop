@@ -18,4 +18,8 @@ public class User {
     private String email;
     private char role;
     private ArrayList<Booking> prenotazioni;
+
+    public void addPrenotazioni(Booking booking) {
+        prenotazioni.add(booking);
+    }
 }

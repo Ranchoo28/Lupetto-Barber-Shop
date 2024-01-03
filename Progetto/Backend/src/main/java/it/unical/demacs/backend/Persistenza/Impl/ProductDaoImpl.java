@@ -81,14 +81,13 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public CompletableFuture<Void> saveOrUpdate(Product product) {
-        String query = "INSERT INTO products (id_product, name, description, category, price) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO products (name, description, category, price) VALUES ( ?, ?, ?, ?)";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
-            st.setLong(1, product.getIdProduct());
-            st.setString(2, product.getName());
-            st.setString(3, product.getDescription());
-            st.setString(4, product.getCategory());
-            st.setDouble(5, product.getPrice());
+            st.setString(1, product.getName());
+            st.setString(2, product.getDescription());
+            st.setString(3, product.getCategory());
+            st.setDouble(4, product.getPrice());
             st.executeUpdate();
         } catch (SQLException e) {
             e.fillInStackTrace();
