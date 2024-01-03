@@ -26,7 +26,7 @@ public class UserDaoImpl implements UserDao {
                 ResultSet rs = st.executeQuery(query)) {
             while (rs.next()) {
                 User user = new User();
-                user.setIdUtente(rs.getLong(1));
+                user.setIdUser(rs.getLong(1));
                 user.setUsername(rs.getString(2));
                 user.setPassword(rs.getString(3));
                 user.setName(rs.getString(4));
@@ -51,7 +51,7 @@ public class UserDaoImpl implements UserDao {
             st.setLong(1, id);
             try (ResultSet rs = st.executeQuery()) {
                 if (rs.next()) {
-                    user.setIdUtente(rs.getLong(1));
+                    user.setIdUser(rs.getLong(1));
                     user.setUsername(rs.getString(2));
                     user.setPassword(rs.getString(3));
                     user.setName(rs.getString(4));
