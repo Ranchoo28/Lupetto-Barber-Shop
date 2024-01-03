@@ -82,14 +82,13 @@ public class BookingDaoImpl implements BookingDao {
 
     @Override
     public CompletableFuture<Void> saveOrUpdate(Booking booking) {
-        String query = "INSERT INTO bookings (id_booking, id_user, id_service, data, ora) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO bookings (id_user, id_service, data, ora) VALUES ( ?, ?, ?, ?)";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
-            st.setLong(1, booking.getIdBooking());
-            st.setLong(2, booking.getIdUser());
-            st.setLong(3, booking.getIdService());
-            st.setDate(4, Date.valueOf(booking.getDate()));
-            st.setTime(5, booking.getTime());
+            st.setLong(1, booking.getIdUser());
+            st.setLong(2, booking.getIdService());
+            st.setDate(3, Date.valueOf(booking.getDate()));
+            st.setTime(4, booking.getTime());
             st.executeUpdate();
         } catch (SQLException e) {
             e.fillInStackTrace();
