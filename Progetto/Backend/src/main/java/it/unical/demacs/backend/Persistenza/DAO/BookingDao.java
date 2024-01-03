@@ -8,7 +8,6 @@ import java.util.concurrent.CompletableFuture;
 public interface BookingDao {
     CompletableFuture<ArrayList<Booking>> findAll();
     CompletableFuture<Booking> findByPrimaryKey(Long id);
-    CompletableFuture<Booking> findByUsername(String username);
     CompletableFuture<Void> saveOrUpdate(Booking booking);
     CompletableFuture<Void> delete(Long id);
 }

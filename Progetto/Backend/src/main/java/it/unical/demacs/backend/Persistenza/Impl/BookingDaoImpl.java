@@ -58,29 +58,9 @@ public class BookingDaoImpl implements BookingDao {
         }
         return CompletableFuture.completedFuture(booking);
     }
-    @Override
-    public CompletableFuture<Booking> findByUsername(String username) {
-        Booking booking=new Booking();
-        String query = "SELECT * FROM bookings WHERE username = ?";
-        try (
-                PreparedStatement st = this.con.prepareStatement(query)) {
-            st.setString(1, username);
-            try (ResultSet rs = st.executeQuery()) {
-                if (rs.next()) {
-                    booking.setIdBooking(rs.getLong(1));
-                    booking.setIdUser(rs.getLong(2));
-                    booking.setIdService(rs.getLong(3));
-                    booking.setDate(rs.getDate(4).toLocalDate());
-                    booking.setTime(rs.getTime(5));
-                }
-            }
-        } catch (SQLException e) {
-            e.fillInStackTrace();
-        }
-        return CompletableFuture.completedFuture(booking);
-    }
 
     @Override
+    @Async
     public CompletableFuture<Void> saveOrUpdate(Booking booking) {
         String query = "INSERT INTO bookings (id_user, id_service, data, ora) VALUES ( ?, ?, ?, ?)";
         try {
@@ -97,6 +77,7 @@ public class BookingDaoImpl implements BookingDao {
     }
 
     @Override
+    @Async
     public CompletableFuture<Void> delete(Long id) {
         String query = "DELETE FROM bookings WHERE id_booking = ?";
         try {
