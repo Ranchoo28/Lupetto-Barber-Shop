@@ -49,6 +49,7 @@ export class PrenotaComponent implements OnInit{
   }
 
   inviaDati() {
+    console.log("dati inviati");
     console.log(this.prenotaForm.value);
   }
 
