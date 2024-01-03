@@ -1,27 +1,21 @@
 package it.unical.demacs.backend.Persistenza.Model;
 
 import lombok.*;
+import java.util.ArrayList;
 
 @Getter
 @Setter
 @ToString
+@NoArgsConstructor
+@EqualsAndHashCode
 
 public class User {
-    private Long idUtente;
+    private Long idUser;
     private String username;
     private String password;
     private String name;
     private String surname;
     private String email;
     private char role;
-    public User() {}
-
-    public User(String username, String password, String name, String surname, String email, char role) {
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.surname = surname;
-        this.email = email;
-        this.role = role;
-    }
+    private ArrayList<Booking> prenotazioni;
 }
