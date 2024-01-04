@@ -1,5 +1,4 @@
 :host {
-
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -35,8 +34,6 @@ button{
   font-size: 20px;
   border-radius: 10px;
   background-color: #f2f2f2;
-
-
 
 
 }
