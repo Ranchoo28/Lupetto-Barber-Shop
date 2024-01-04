@@ -45,7 +45,7 @@ public class UserDaoImpl implements UserDao {
     @Async
     public CompletableFuture<User> findByPrimaryKey(Long id) {
         User user = new User();
-        String query = "SELECT * FROM users WHERE idutente = ?";
+        String query = "SELECT * FROM users WHERE id_user = ?";
         try (
                 PreparedStatement st = this.con.prepareStatement(query)) {
             st.setLong(1, id);
@@ -61,7 +61,7 @@ public class UserDaoImpl implements UserDao {
                 }
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
         return CompletableFuture.completedFuture(user);
     }
@@ -106,7 +106,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Async
     public CompletableFuture<Void> saveOrUpdate(User user) {
-        String query = "INSERT INTO users (username, password, name, surname, email, ruolo) VALUES (?, ?, ?, ?, ?,?)";
+        String query = "INSERT INTO users (username, password, name, surname, email, role) VALUES (?, ?, ?, ?, ?,?)";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
             st.setString(1, user.getUsername());
@@ -117,7 +117,7 @@ public class UserDaoImpl implements UserDao {
             st.setString(6, String.valueOf(user.getRole()));
             st.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
         return CompletableFuture.completedFuture(null);
     }
@@ -125,7 +125,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Async
     public CompletableFuture<Void> delete(Long id) {
-        String query = "DELETE FROM users WHERE idutente = ?";
+        String query = "DELETE FROM users WHERE id_user = ?";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
             st.setLong(1, id);
