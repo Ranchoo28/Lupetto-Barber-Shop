@@ -56,10 +56,7 @@
 .nav-links li a:hover:before{
   width: 100%;
 }
-.nav-links li.center a:before{
-  left: 50%;
-  transform: translateX(-50%);
-}
+
 .nav-links li.upward a:before{
   width: 100%;
   bottom: -20px;
@@ -69,19 +66,6 @@
   bottom: 0px;
   opacity: 1;
 }
-
-
-.nav-links li.forward a:before{
-  width: 100%;
-  transform: scaleX(0);
-  transform-origin: right;
-  transition: transform 0.4s ease;
-}
-.nav-links li.forward a:hover:before{
-  transform: scaleX(1);
-  transform-origin: left;
-}
-
 
 .nav-links li.left {
   margin-right: auto;
