@@ -8,7 +8,7 @@ import {MatIconModule} from '@angular/material/icon';
 // Components
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './componenti/navbar/navbar.component';
-
+import { LoginComponent } from './componenti/login/login.component';
 
 
 // Routing
@@ -26,10 +26,11 @@ import {MatInputModule} from "@angular/material/input";
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from "@angular/material/core";
+import {MatToolbarModule} from '@angular/material/toolbar';
 import { registerLocaleData } from '@angular/common';
 import localeIt from '@angular/common/locales/it';
 import {ReactiveFormsModule} from "@angular/forms";
-import { LoginComponent } from './componenti/login/login.component';
+
 
 
 registerLocaleData(localeIt, 'it');
@@ -60,6 +61,7 @@ registerLocaleData(localeIt, 'it');
     MatDatepickerModule,
     MatNativeDateModule,
     ReactiveFormsModule,
+    MatToolbarModule,
 
   ],
   providers: [
