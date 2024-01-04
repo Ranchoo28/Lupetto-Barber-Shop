@@ -1,17 +1,15 @@
-.spacer {
-  flex: 1 1 auto;
+
+#homeText{
+  max-height: 70px;
 }
 
-.navbar-logo {
-  height: 60px;
-  width: 130px;
+mat-icon{
+  transform: scale(1.5);
 }
-mat-toolbar {
-  min-width: max-content;
+
+.align-vertical {
   display: flex;
-  justify-content: space-between;
-  height: 70px;
+  align-items: center;
 }
-.v{
-  color: black;
-}
+
+

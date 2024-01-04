@@ -1,12 +1,49 @@
-<mat-toolbar>
-  <span><img class="navbar-logo" src="assets/images/full-logo-transparent.png" alt="Descrizione dell'immagine"></span>
 
-  <div class="v">
-    <button mat-button [routerLink]="['home']">Home</button>
-    <button mat-button [routerLink]="['prenota']">Prenota</button>
-    <button mat-button [routerLink]="['prodotti']">Prodotti</button>
-    <button mat-button [routerLink]="['galleria']">Galleria</button>
-    <button mat-button [routerLink]="['contatti']">Contatti</button>
-    <button mat-raised-button [routerLink]="['login']" color="primary">Login</button>
+
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" [routerLink]="['/']">
+      <img src="assets/images/text-logo.png" alt="" id="homeText" >
+    </a>
+    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#idNavBar" aria-controls="idNavBar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="navbar-collapse collapse" id="idNavBar">
+
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <button mat-button [routerLink]="['prenota']">
+            Prenota
+            <mat-icon fontIcon="calendar_today"></mat-icon>
+          </button>
+        </li>
+        <li>
+          <button mat-button [routerLink]="['prodotti']">
+            Prodotti
+            <mat-icon fontIcon="inventory"></mat-icon>
+          </button>
+        </li>
+        <li>
+          <button mat-button [routerLink]="['galleria']">
+            Galleria
+            <mat-icon fontIcon="photo"></mat-icon>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button mat-button [routerLink]="['contatti']">
+            Contatti
+            <mat-icon fontIcon="contacts"></mat-icon>
+          </button>
+        </li>
+        <li class="nav-item">
+          <button mat-raised-button [routerLink]="['login']" color="primary">
+            Login
+            <mat-icon fontIcon="person"></mat-icon>
+          </button>
+        </li>
+      </ul>
+    </div>
   </div>
-</mat-toolbar>
+</nav>
+
