@@ -30,6 +30,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {NgOptimizedImage, registerLocaleData} from '@angular/common';
 import localeIt from '@angular/common/locales/it';
 import {ReactiveFormsModule} from "@angular/forms";
+import { RegistrazioneComponent } from './componenti/registrazione/registrazione.component';
 
 
 
@@ -45,6 +46,7 @@ registerLocaleData(localeIt, 'it');
     HomeComponent,
     NotfoundComponent,
     LoginComponent,
+    RegistrazioneComponent,
 
   ],
   imports: [

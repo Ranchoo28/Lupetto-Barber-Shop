@@ -6,6 +6,8 @@ import { Component } from '@angular/core';
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+  hide = true;
+
   username : string ="";
   password : string ="";
   show: boolean= false;

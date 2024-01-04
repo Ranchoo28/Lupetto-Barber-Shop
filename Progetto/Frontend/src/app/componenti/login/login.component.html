@@ -1,33 +1,43 @@
 <form class="example-form">
 
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-3"></div>
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-3"></div>
 
-          <div class="col-lg-6">
-            <mat-card>
-              <mat-card-content>
-                <div class="row">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>User Name</mat-label>
-                    <input matInput placeholder="Enter your name" name="usename">
-                  </mat-form-field>
-                </div>
-                <div class="row">
-                  <mat-form-field class="example-full-width" appearance="outline">
-                    <mat-label>Password</mat-label>
-                    <input matInput placeholder="Enter your password" value="" name="password" type="password">
-                  </mat-form-field>
-                </div>
-                <div class="row">
-                  <button mat-raised-button color="primary">Submit</button>
-                  <span> <button mat-button color="accent">Login success !!</button></span>
-                </div>
-              </mat-card-content>
-            </mat-card>
-          </div>
+      <div class="col-lg-6">
+        <mat-card>
+          <mat-card-content>
+            <div class="row">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Nome Utente</mat-label>
+                <input matInput type="text" name="username" id="usernameField">
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <mat-form-field class="example-full-width" appearance="outline">
+                <mat-label>Password</mat-label>
+                <input matInput [type]="hide ? 'password' : 'text'" name="password" id="passwordField">
+                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+              </mat-form-field>
+            </div>
+            <div class="row">
+              <div class="col-lg-2"></div>
+              <div class="col-lg-8">
+                <button mat-raised-button color="primary" style="width: 100%">Accedi</button>
+                <br><br>
+                <button mat-button color="accent">Non sei ancora registrato? Registrati!</button>
 
-          <div class="col-lg-3"></div>
-        </div>
+              </div>
+              <div class="col-lg-2"></div>
+            </div>
+
+          </mat-card-content>
+        </mat-card>
       </div>
+
+      <div class="col-lg-3"></div>
+    </div>
+  </div>
 </form>
