@@ -30,7 +30,7 @@ public class UserProxy extends User {
                           booking.setIdBooking(rs.getLong(1));
                           booking.setIdUser(rs.getLong(2));
                           booking.setIdService(rs.getLong(3));
-                          booking.setDate(rs.getDate(4).toLocalDate());
+                          booking.setDate(rs.getDate(4));
                           booking.setTime(rs.getTime(5));
                           bookings.add(booking);
                      }
