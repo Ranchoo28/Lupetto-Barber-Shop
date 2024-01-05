@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class ContattiComponent {
   telefono="1234567890";
-  email="gatto@gmail.miao";
+  email="pro@gmail.miao";
   indirizzo="Via dei gatti 1";
   constructor() { }
 
