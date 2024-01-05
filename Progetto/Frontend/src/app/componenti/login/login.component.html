@@ -6,18 +6,15 @@
 
       <div class="col-lg-6">
         <mat-card>
-          <mat-card-content>
+          <mat-card-content [formGroup]="loginForm" (ngSubmit)="onLogin()">
             <div class="row">
-              <mat-form-field class="example-full-width" appearance="outline">
-                <mat-label>Nome Utente</mat-label>
-                <input matInput type="text" name="username" id="usernameField">
-              </mat-form-field>
+              <app-username [label]="'Nome Utente'" [type]="'text'" [control]="username"></app-username>
             </div>
             <div class="row">
               <mat-form-field class="example-full-width" appearance="outline">
                 <mat-label>Password</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" name="password" id="passwordField">
-                <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
+                <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                   <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
               </mat-form-field>
@@ -25,9 +22,9 @@
             <div class="row">
               <div class="col-lg-2"></div>
               <div class="col-lg-8">
-                <button mat-raised-button color="primary" style="width: 100%">Accedi</button>
+                <button mat-raised-button color="primary" style="width: 100%" [disabled]="loginForm.invalid" (click)="onLogin()">Accedi</button>
                 <br><br>
-                <button mat-button color="accent">Non sei ancora registrato? Registrati!</button>
+                <a mat-button [routerLink]="['/registrazione']" color="accent" style="text-align: center" >Non sei ancora registrato? Registrati!</a>
 
               </div>
               <div class="col-lg-2"></div>

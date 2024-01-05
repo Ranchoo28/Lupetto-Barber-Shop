@@ -9,6 +9,7 @@ import { GalleriaComponent} from "./componenti/galleria/galleria.component";
 import { ContattiComponent} from "./componenti/contatti/contatti.component";
 import { NotfoundComponent } from "./componenti/notfound/notfound.component";
 import { LoginComponent } from "./componenti/login/login.component";
+import {RegistrazioneComponent} from "./componenti/registrazione/registrazione.component";
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'galleria', component: GalleriaComponent },
   { path: 'contatti', component: ContattiComponent },
   { path: 'login', component: LoginComponent},
+  { path: 'registrazione', component: RegistrazioneComponent },
   { path: 'pagina_non_trovata', component: NotfoundComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/pagina_non_trovata' }
