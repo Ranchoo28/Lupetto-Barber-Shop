@@ -8,11 +8,7 @@
         <mat-card>
           <mat-card-content [formGroup]="loginForm" (ngSubmit)="onLogin()">
             <div class="row">
-              <mat-form-field class="example-full-width" appearance="outline">
-                <mat-label>{{ label }}</mat-label>
-                <input matInput type="text" formControlName="username"
-                       [matTooltip]="username?.invalid ? usernameInvalidMessage : ''">
-              </mat-form-field>
+              <app-username [usernameControl]="usernameControl"></app-username>
             </div>
             <div class="row">
               <mat-form-field class="example-full-width" appearance="outline">

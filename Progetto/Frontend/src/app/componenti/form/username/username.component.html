@@ -1,3 +1,8 @@
 
 
 
+<mat-form-field class="example-full-width" appearance="outline">
+  <mat-label>{{ label }}</mat-label>
+  <input matInput type="text" [formControl]="usernameControl"
+         [matTooltip]="usernameControl?.invalid ? usernameInvalidMessage : ''">
+</mat-form-field>
