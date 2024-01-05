@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import javax.crypto.SecretKey;
+import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 
@@ -19,15 +20,17 @@ import java.util.concurrent.CompletableFuture;
 @WebServlet("/api/login")
 public class LoginServlet extends HttpServlet {
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String username = request.getParameter("username");
         String password = request.getParameter("password");
         if(DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join().getUsername() == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Username not found");
         } else {
             if(BCrypt.checkpw(password, DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join().getPassword())) {
                 SecretKey secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS512);
                 response.setStatus(HttpServletResponse.SC_OK);
+                response.getWriter().write("Login successful");
                 response.addHeader("Authorization", "Bearer " +
                         Jwts.builder()
                                 .setSubject(username)
@@ -36,6 +39,7 @@ public class LoginServlet extends HttpServlet {
                 );
             } else {
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                response.getWriter().write("Wrong password");
             }
         }
     }
