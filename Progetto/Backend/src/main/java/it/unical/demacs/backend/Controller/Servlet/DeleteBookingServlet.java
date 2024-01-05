@@ -1,6 +1,5 @@
 package it.unical.demacs.backend.Controller.Servlet;
 
-import io.jsonwebtoken.Jwts;
 import it.unical.demacs.backend.Persistenza.DatabaseHandler;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import java.io.IOException;
 
 @CrossOrigin(origins = "http://localhost:4200")
-@WebServlet("/api/deleteBooking")
+@WebServlet("/api/booking/delete")
 public class DeleteBookingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
