@@ -16,9 +16,8 @@ public class UserProxy extends User {
         this.con = con;
     }
 
-    @Override
     public ArrayList<Booking> getPrenotazioni() {
-        if (super.getPrenotazioni() == null) {
+        if (super.getBookings() == null) {
            String query = "SELECT * FROM bookings as b, users as u WHERE u.id_user = ? and b.id_user = u.id_user";
               try (
                      PreparedStatement st = this.con.prepareStatement(query)) {
@@ -34,13 +33,13 @@ public class UserProxy extends User {
                           booking.setTime(rs.getTime(5));
                           bookings.add(booking);
                      }
-                     super.setPrenotazioni(bookings);
+                     super.setBookings(bookings);
                      return bookings;
                 }
               } catch (SQLException e) {
                 throw new RuntimeException(e);
               }
         }
-        return super.getPrenotazioni();
+        return super.getBookings();
     }
 }

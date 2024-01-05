@@ -70,14 +70,18 @@ public class UserDaoImpl implements UserDao {
     @Async
     public CompletableFuture<User> findByUsername(String username) {
         User user = new User();
-        String query = "SELECT username,password FROM users WHERE username = ?";
+        String query = "SELECT * FROM users WHERE username = ?";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
             st.setString(1, username);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                user.setUsername(rs.getString(1));
-                user.setPassword(rs.getString(2));
+                user.setIdUser(rs.getLong(1));
+                user.setUsername(rs.getString(2));
+                user.setPassword(rs.getString(3));
+                user.setName(rs.getString(4));
+                user.setSurname(rs.getString(5));
+                user.setEmail(rs.getString(6));
             }
         } catch (SQLException e) {
             e.printStackTrace();

@@ -61,7 +61,7 @@ public class BookingDaoImpl implements BookingDao {
 
     @Override
     @Async
-    public CompletableFuture<Boolean> saveOrUpdate(Booking booking) {
+    public CompletableFuture<Boolean> insert(Booking booking) {
         String query = "INSERT INTO bookings (id_user, id_service, data, ora) VALUES ( ?, ?, ?, ?)";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
@@ -69,6 +69,25 @@ public class BookingDaoImpl implements BookingDao {
             st.setLong(2, booking.getIdService());
             st.setDate(3, booking.getDate());
             st.setTime(4, booking.getTime());
+            int rowsAffected = st.executeUpdate();
+            st.close();
+
+            return CompletableFuture.completedFuture(rowsAffected > 0);
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        }
+        return CompletableFuture.completedFuture(false);
+    }
+
+    @Override
+    public CompletableFuture<Boolean> update(Booking booking) {
+        String query = "UPDATE bookings SET id_service=?, data=?, ora=? WHERE id_booking=?";
+        try {
+            PreparedStatement st = this.con.prepareStatement(query);
+            st.setLong(1, booking.getIdService());
+            st.setDate(2, booking.getDate());
+            st.setTime(3, booking.getTime());
+            st.setLong(4, booking.getIdBooking());
             int rowsAffected = st.executeUpdate();
             st.close();
 
