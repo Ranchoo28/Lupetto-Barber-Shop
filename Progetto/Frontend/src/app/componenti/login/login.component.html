@@ -8,7 +8,7 @@
         <mat-card>
           <mat-card-content [formGroup]="loginForm" (ngSubmit)="onLogin()">
             <div class="row">
-              <app-username [label]="'Nome Utente'" [type]="'text'" [control]="username"></app-username>
+              <app-username [usernameControl]="usernameControl"></app-username>
             </div>
             <div class="row">
               <mat-form-field class="example-full-width" appearance="outline">
