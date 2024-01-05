@@ -13,6 +13,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from "@angular/material/core";
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatTooltipModule } from "@angular/material/tooltip";
 
 // Components
 import { AppComponent } from './app.component';
@@ -25,31 +26,17 @@ import { NotfoundComponent } from './componenti/notfound/notfound.component';
 import { ProdottiComponent } from './componenti/prodotti/prodotti.component';
 import { PrenotaComponent } from './componenti/prenota/prenota.component';
 import { RegistrazioneComponent } from './componenti/registrazione/registrazione.component';
-
-// Routing
-import { AppRoutingModule } from './app-routing.module';
-import { RouterModule } from '@angular/router';
-import { ProdottiComponent } from './componenti/prodotti/prodotti.component';
-import { PrenotaComponent } from './componenti/prenota/prenota.component';
-import { GalleriaComponent } from './componenti/galleria/galleria.component';
-import { ContattiComponent } from './componenti/contatti/contatti.component';
-import { HomeComponent } from './componenti/home/home.component';
-import { NotfoundComponent } from './componenti/notfound/notfound.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {MatSelectModule} from "@angular/material/select";
-import {MatInputModule} from "@angular/material/input";
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatNativeDateModule} from "@angular/material/core";
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {NgOptimizedImage, registerLocaleData} from '@angular/common';
-import localeIt from '@angular/common/locales/it';
-import { ReactiveFormsModule} from "@angular/forms";
-import {MatTooltipModule} from "@angular/material/tooltip";
 import { UsernameComponent } from './componenti/form/username/username.component';
 import { PasswordComponent } from './componenti/form/password/password.component';
 import { EmailComponent } from './componenti/form/email/email.component';
 
+// Routing
+import { AppRoutingModule } from './app-routing.module';
+import { RouterModule } from '@angular/router';
+
+import {NgOptimizedImage, registerLocaleData} from '@angular/common';
+import localeIt from '@angular/common/locales/it';
+import { ReactiveFormsModule} from "@angular/forms";
 
 
 registerLocaleData(localeIt, 'it');
@@ -84,9 +71,9 @@ registerLocaleData(localeIt, 'it');
     MatDatepickerModule,
     MatNativeDateModule,
     MatToolbarModule,
+    MatGridListModule,
     ReactiveFormsModule,
-    NgOptimizedImage,
-
+    NgOptimizedImage
   ],
   providers: [
     provideClientHydration(),
