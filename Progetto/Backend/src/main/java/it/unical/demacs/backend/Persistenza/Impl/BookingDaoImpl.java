@@ -78,15 +78,34 @@ public class BookingDaoImpl implements BookingDao {
 
     @Override
     @Async
-    public CompletableFuture<Void> delete(Long id) {
+    public CompletableFuture<Boolean> delete(Long id) {
         String query = "DELETE FROM bookings WHERE id_booking = ?";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
             st.setLong(1, id);
-            st.executeUpdate();
+            int rowsAffected = st.executeUpdate();
             st.close();
-        } catch (SQLException ignored) {}
 
-        return CompletableFuture.completedFuture(null);
+            return CompletableFuture.completedFuture(rowsAffected > 0);
+        } catch (SQLException ignored) {
+            return CompletableFuture.completedFuture(false);
+        }
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<Boolean> isValid(Long bookingId) {
+        String query = "COUNT(*) FROM bookings WHERE id_booking = ? && is_expired=false";
+        boolean res=false;
+        try (
+                PreparedStatement st = this.con.prepareStatement(query)) {
+            st.setLong(1, bookingId);
+            try (ResultSet rs = st.executeQuery()) {
+                res=rs.next();
+            }
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        }
+        return CompletableFuture.completedFuture(res);
     }
 }

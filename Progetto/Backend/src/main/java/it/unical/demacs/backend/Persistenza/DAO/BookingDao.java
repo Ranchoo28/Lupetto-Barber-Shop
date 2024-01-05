@@ -9,5 +9,7 @@ public interface BookingDao {
     CompletableFuture<ArrayList<Booking>> findAll();
     CompletableFuture<Booking> findByPrimaryKey(Long id);
     CompletableFuture<Void> saveOrUpdate(Booking booking);
-    CompletableFuture<Void> delete(Long id);
+    CompletableFuture<Boolean> delete(Long id);
+
+    CompletableFuture<Boolean> isValid(Long bookingId);
 }
