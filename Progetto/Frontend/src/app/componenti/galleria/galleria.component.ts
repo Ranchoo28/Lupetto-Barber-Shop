@@ -8,9 +8,9 @@ import { Component,OnInit } from '@angular/core';
 })
 export class GalleriaComponent implements OnInit{
   images = [
-    {path: 'assets/images/taglio.jpg'},
-    {path: 'assets/images/taglio-donna1.jpg'},
-    {path: 'assets/images/taglio-uomo1.jpg'},
+    {path: 'assets/images/taglio.png'},
+    {path: 'assets/images/taglio-donna1.png'},
+    {path: 'assets/images/taglio-uomo1.png'},
     // {path: 'assets/images/text-logo.png'},
   ]
   currentImageIndex = 0;

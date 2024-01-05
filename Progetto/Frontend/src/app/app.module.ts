@@ -71,6 +71,7 @@ registerLocaleData(localeIt, 'it');
     MatDatepickerModule,
     MatNativeDateModule,
     MatToolbarModule,
+    MatTooltipModule,
     MatGridListModule,
     ReactiveFormsModule,
     NgOptimizedImage

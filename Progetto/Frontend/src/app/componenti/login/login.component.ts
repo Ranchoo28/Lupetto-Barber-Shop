@@ -9,6 +9,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 export class LoginComponent {
   hide = true;
 
+  label ="Nome Utente"
   usernameInvalidMessage ="L'username deve essere compreso tra 3 e 20 caratteri e può contenere solo lettere, numeri, underscore e trattini";
 
   loginForm = new FormGroup({
@@ -18,7 +19,10 @@ export class LoginComponent {
       Validators.maxLength(20),
       Validators.pattern('^[a-zA-Z0-9_-]+$') // Permette lettere, numeri, underscore e trattini
     ]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)])
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(6)
+    ])
   });
 
   get username() { return this.loginForm.get('username'); }
