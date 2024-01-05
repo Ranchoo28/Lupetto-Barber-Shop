@@ -27,6 +27,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from "@angular/material/core";
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatGridListModule} from '@angular/material/grid-list';
 import {NgOptimizedImage, registerLocaleData} from '@angular/common';
 import localeIt from '@angular/common/locales/it';
 import {ReactiveFormsModule} from "@angular/forms";
@@ -65,6 +66,7 @@ registerLocaleData(localeIt, 'it');
     ReactiveFormsModule,
     MatToolbarModule,
     NgOptimizedImage,
+    MatGridListModule,
 
   ],
   providers: [
