@@ -10,11 +10,14 @@ import { ContattiComponent} from "./componenti/contatti/contatti.component";
 import { NotfoundComponent } from "./componenti/notfound/notfound.component";
 import { LoginComponent } from "./componenti/login/login.component";
 import {RegistrazioneComponent} from "./componenti/registrazione/registrazione.component";
+import {PrenotazioniComponent} from "./componenti/prenotazioni/prenotazioni.component";
+import {AuthGuard} from "./componenti/services/auth-guard.service";
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
   { path: 'prodotti', component: ProdottiComponent },
-  { path: 'prenota', component: PrenotaComponent },
+  { path: 'prenota', component: PrenotaComponent, canActivate: [AuthGuard]},
+  { path: 'prenotazioni', component: PrenotazioniComponent, canActivate: [AuthGuard] },
   { path: 'galleria', component: GalleriaComponent },
   { path: 'contatti', component: ContattiComponent },
   { path: 'login', component: LoginComponent},

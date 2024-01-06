@@ -13,11 +13,10 @@ import {coerceStringArray} from "@angular/cdk/coercion";
 export class PrenotaComponent implements OnInit {
   timeSlots: string[] = this.generateTimeSlots();
 
-  constructor(private fb: FormBuilder, private bookingService: BookingService) {
+  constructor(private fb: FormBuilder) {
   }
 
   ngOnInit(): void {
-
   }
 
   prenotaForm = this.fb.group({
@@ -51,13 +50,13 @@ export class PrenotaComponent implements OnInit {
 
   inviaDati() {
     console.log(this.prenotaForm.value.nome,this.prenotaForm.value.cognome)
-    if (this.prenotaForm.valid) {
-      this.bookingService.inviaDati(this.prenotaForm.value)
-        .subscribe(response => {
-          console.log(response);
-        }, error => {
-          console.error(error);
-        });
-    }
+    // if (this.prenotaForm.valid) {
+    //   this.bookingService.inviaDati(this.prenotaForm.value)
+    //     .subscribe(response => {
+    //       console.log(response);
+    //     }, error => {
+    //       console.error(error);
+    //     });
+    // }
   }
 }

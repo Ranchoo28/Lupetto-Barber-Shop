@@ -6,17 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class BookingService {
-
+  private baseUrl = 'http://localhost:8080';
   constructor(private http: HttpClient) { }
 
-  inviaDati(formData: any): Observable<any> {
-    const bookingData = {
-      username: formData.nome,
-      idService: formData.servizio,
-      data: formData.data,
-      time: formData.orario
-    };
-
-    return this.http.post('http://localhost:4200/api/login', bookingData);
+  insertBooking(username: string, idService: number, date: string, time: string): Observable<any> {
+    const url = `${this.baseUrl}/api/booking/insert`;
+    const body = { username, idService, date, time };
+    return this.http.post(url, body);
   }
 }

@@ -30,6 +30,7 @@ import { UsernameComponent } from './componenti/form/username/username.component
 import { PasswordComponent } from './componenti/form/password/password.component';
 import { EmailComponent } from './componenti/form/email/email.component';
 import {MatDialogModule} from '@angular/material/dialog';
+import {MatTableModule} from '@angular/material/table';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -38,6 +39,9 @@ import { RouterModule } from '@angular/router';
 import {NgOptimizedImage, registerLocaleData} from '@angular/common';
 import localeIt from '@angular/common/locales/it';
 import { ReactiveFormsModule} from "@angular/forms";
+import { PrenotazioniComponent } from './componenti/prenotazioni/prenotazioni.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatRadioModule} from "@angular/material/radio";
 
 
 registerLocaleData(localeIt, 'it');
@@ -56,29 +60,33 @@ registerLocaleData(localeIt, 'it');
     UsernameComponent,
     PasswordComponent,
     EmailComponent,
+    PrenotazioniComponent,
 
 
   ],
-  imports: [
-    RouterModule,
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    MatButtonModule,
-    MatCardModule,
-    MatIconModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    MatInputModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatToolbarModule,
-    MatTooltipModule,
-    MatGridListModule,
-    MatDialogModule,
-    ReactiveFormsModule,
-    NgOptimizedImage
-  ],
+    imports: [
+        RouterModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        MatButtonModule,
+        MatCardModule,
+        MatIconModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        MatInputModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatToolbarModule,
+        MatTooltipModule,
+        MatGridListModule,
+        MatDialogModule,
+        ReactiveFormsModule,
+        NgOptimizedImage,
+        MatTableModule,
+        MatCheckboxModule,
+        MatRadioModule,
+    ],
   providers: [
     provideClientHydration(),
     { provide: LOCALE_ID, useValue: 'it' }
