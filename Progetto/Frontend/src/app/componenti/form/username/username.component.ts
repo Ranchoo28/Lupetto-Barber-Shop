@@ -8,12 +8,12 @@ import {FormControl, Validators} from "@angular/forms";
 })
 export class UsernameComponent {
 
-
   label ="Nome Utente"
+
   usernameInvalidMessage =`
   L'username deve essere compreso tra 3 e 30 caratteri
   e può contenere solo lettere, numeri, underscore e trattini \n
-  (ES: MarioRossi_123))`;
+  ( ES: MarioRossi_123 )`;
 
   // Crea un FormControl con i validatori appropriati.
   usernameCheck = new FormControl('', [

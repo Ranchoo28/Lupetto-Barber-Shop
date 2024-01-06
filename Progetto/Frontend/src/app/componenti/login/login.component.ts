@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
+import {AuthenticationService} from "../../services/authentication.service";
 
 @Component({
   selector: 'app-login',
@@ -7,6 +8,14 @@ import {FormControl, FormGroup} from "@angular/forms";
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
+
+  constructor(private authService: AuthenticationService){
+
+  }
+
+  loginInvalidMessage =`
+  Username o password errati
+  `
 
   usernameCheck: FormControl = new FormControl('');
   passwordCheck: FormControl = new FormControl('');
@@ -29,7 +38,12 @@ export class LoginComponent {
 
   onLogin(){
     if(this.loginForm.valid){
-      console.log(this.loginForm.value);
+      const email = this.loginForm.value.username;
+      const password = this.loginForm.value.password;
+      this.authService.login(email, password).subscribe(data => {
+        console.log(data);
+      })
+      this.loginForm.reset();
     }
     else{
       console.log("Form non valido");

@@ -5,3 +5,12 @@ input[type=password]::-ms-clear
 {
   display: none;
 }
+
+
+a{
+  text-align: center;
+}
+
+button{
+  max-width: 100%;
+}

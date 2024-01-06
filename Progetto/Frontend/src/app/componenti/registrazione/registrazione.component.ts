@@ -8,6 +8,8 @@ import {FormControl, FormGroup} from "@angular/forms";
 })
 export class RegistrazioneComponent {
 
+  repeatPasswordInvalidMessage =`
+  Le password non coincidono`;
 
   usernameCheck: FormControl = new FormControl('');
   passwordCheck: FormControl = new FormControl('');
@@ -29,9 +31,11 @@ export class RegistrazioneComponent {
   onPasswordControlLoaded(control: FormControl): void {
     this.registrationForm.setControl('password', control);
   }
+
   onRepeatPasswordControlLoaded(control: FormControl): void {
     this.registrationForm.setControl('repeatPassword', control);
   }
+
   onRegistration(){
     if(this.registrationForm.valid){
       console.log(this.registrationForm.value);

@@ -7,22 +7,12 @@ input[type=password]::-ms-clear
 }
 
 
-/* Personalizzazione del Tooltip */
-.mat-tooltip {
-  background-color: #f44336; /* Colore di sfondo rosso */
-  color: white;             /* Testo bianco */
-  font-size: 1rem;          /* Dimensione del font */
-  border-radius: 4px;       /* Bordi arrotondati */
+a{
+  text-align: center;
 }
 
-/* Animazioni per il Tooltip */
-.mat-tooltip-handset .mat-tooltip {
-  opacity: 0; /* Inizia con opacità 0 */
-  transition: opacity 0.3s ease-in-out; /* Transizione di opacità */
+button{
+  max-width: 100%;
 }
 
-/* Quando il tooltip è attivo */
-.mat-tooltip-handset .mat-tooltip.mat-tooltip-shown {
-  opacity: 1; /* Opacità completa quando è visibile */
-}
 

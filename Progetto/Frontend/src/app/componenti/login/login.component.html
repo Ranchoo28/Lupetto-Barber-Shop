@@ -7,29 +7,36 @@
       <div class="col-lg-6">
         <mat-card>
           <mat-card-content [formGroup]="loginForm" (ngSubmit)="onLogin()">
-
             <div class="row">
               <app-username (usernameControlOut)="onUsernameControlLoaded($event)"></app-username>
             </div>
-
             <div class="row">
               <app-password (passwordControlOut)="onPasswordControlLoaded($event)"></app-password>
+
+              <!-- TODO SE IL LOGIN FALLISCE
+              <mat-error *ngIf="">
+                {{ loginInvalidMessage }}
+              </mat-error>
+              <br><br>
+              -->
+
             </div>
             <div class="row">
               <div class="col-lg-2"></div>
               <div class="col-lg-8">
-                <button mat-raised-button color="primary" style="width: 100%" [disabled]="loginForm.invalid" (click)="onLogin()">Accedi</button>
+                <div class="row">
+                  <button mat-raised-button color="primary" [disabled]="loginForm.invalid" (click)="onLogin()">Accedi</button>
+                </div>
                 <br><br>
-                <a mat-button [routerLink]="['/registrazione']" color="accent" style="text-align: center" >Non sei ancora registrato? Registrati!</a>
-
+                <div class="row">
+                  <a mat-button [routerLink]="['/registrazione']" color="accent" >Non sei ancora registrato? Registrati!</a>
+                </div>
               </div>
               <div class="col-lg-2"></div>
             </div>
-
           </mat-card-content>
         </mat-card>
       </div>
-
       <div class="col-lg-3"></div>
     </div>
   </div>

@@ -15,13 +15,20 @@
             </div>
             <div class="row">
               <app-password (passwordControlOut)="onRepeatPasswordControlLoaded($event)"></app-password>
+              <mat-error>
+
+              </mat-error>
             </div>
             <div class="row">
               <div class="col-lg-2"></div>
               <div class="col-lg-8">
-                <button mat-raised-button color="primary" style="width: 100%" [disabled]="registrationForm.invalid" (click)="onRegistration()">Registrati</button>
+                <div class="row">
+                  <button mat-raised-button color="primary" [disabled]="registrationForm.invalid" (click)="onRegistration()">Registrati</button>
+                </div>
                 <br><br>
-                <a mat-button [routerLink]="['/login']" color="accent" style="text-align: center" >Sei già registrato? Effettua il Log In</a>
+                <div class="row">
+                  <a mat-button [routerLink]="['/login']" color="accent">Sei già registrato? Effettua il Log In</a>
+                </div>
 
               </div>
               <div class="col-lg-2"></div>
