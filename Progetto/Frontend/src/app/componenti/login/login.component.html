@@ -9,17 +9,11 @@
           <mat-card-content [formGroup]="loginForm" (ngSubmit)="onLogin()">
 
             <div class="row">
-              <app-username [usernameControl]="usernameControl"></app-username>
+              <app-username [usernameControl]="usernameCheck"></app-username>
             </div>
 
             <div class="row">
-              <mat-form-field class="example-full-width" appearance="outline">
-                <mat-label>Password</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" formControlName="password">
-                <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
-              </mat-form-field>
+              <app-password [passwordControl]="passwordCheck"></app-password>
             </div>
             <div class="row">
               <div class="col-lg-2"></div>

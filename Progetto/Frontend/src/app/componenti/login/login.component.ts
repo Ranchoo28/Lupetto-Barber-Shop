@@ -10,21 +10,21 @@ export class LoginComponent {
   hide = true;
 
 
-  usernameControl = new FormControl('', [
+  usernameCheck = new FormControl('', [
     Validators.required,
     Validators.minLength(3),
     Validators.maxLength(20),
     Validators.pattern('[a-zA-Z0-9_-]+') // Assicurati che il pattern sia corretto
   ]);
 
-  passwordControl = new FormControl('', [
+  passwordCheck = new FormControl('', [
     Validators.required,
     Validators.minLength(6)
   ]);
 
   loginForm: FormGroup = new FormGroup({
-    username: this.usernameControl,
-    password: this.passwordControl
+    username: this.usernameCheck,
+    password: this.passwordCheck
   });
 
 
