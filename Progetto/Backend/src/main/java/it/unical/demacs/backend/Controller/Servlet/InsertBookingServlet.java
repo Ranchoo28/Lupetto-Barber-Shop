@@ -15,6 +15,7 @@ import java.sql.Time;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @WebServlet("/api/booking/insert")
+
 public class InsertBookingServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {

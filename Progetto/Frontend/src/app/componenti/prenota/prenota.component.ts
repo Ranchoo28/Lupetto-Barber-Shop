@@ -1,15 +1,19 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
+import { HttpClient } from '@angular/common/http';
+import {BookingService} from "../services/booking-service.service";
+import {coerceStringArray} from "@angular/cdk/coercion";
+
 
 @Component({
   selector: 'app-prenota',
   templateUrl: './prenota.component.html',
   styleUrl: './prenota.component.css'
 })
-export class PrenotaComponent implements OnInit{
+export class PrenotaComponent implements OnInit {
   timeSlots: string[] = this.generateTimeSlots();
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private bookingService: BookingService) {
   }
 
   ngOnInit(): void {
@@ -28,13 +32,13 @@ export class PrenotaComponent implements OnInit{
   });
 
   myFilter = (d: Date | null): boolean => {
-  const date = d || new Date();
-  const now = new Date();
-  const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-  const endOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 2, 0);
-  const day = date.getDay();
-  return date >= startOfMonth && date <= endOfNextMonth && day !== 0 && day !== 1;
-}
+    const date = d || new Date();
+    const now = new Date();
+    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
+    const endOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 2, 0);
+    const day = date.getDay();
+    return date >= startOfMonth && date <= endOfNextMonth && day !== 0 && day !== 1;
+  }
 
   generateTimeSlots(): string[] {
     let slots: string[] = [];
@@ -46,10 +50,14 @@ export class PrenotaComponent implements OnInit{
   }
 
   inviaDati() {
-    console.log("dati inviati");
-    console.log(this.prenotaForm.value);
+    console.log(this.prenotaForm.value.nome,this.prenotaForm.value.cognome)
+    if (this.prenotaForm.valid) {
+      this.bookingService.inviaDati(this.prenotaForm.value)
+        .subscribe(response => {
+          console.log(response);
+        }, error => {
+          console.error(error);
+        });
+    }
   }
-
-
-
 }
