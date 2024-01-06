@@ -18,10 +18,10 @@ public class User {
     private String surname;
     private String email;
     private char role;
-    @Getter
-    private ArrayList<Booking> bookings=new ArrayList<>();
 
-    public void addBooking(Booking booking) {
+    //private ArrayList<Booking> bookings=new ArrayList<>();
+
+    /*public void addBooking(Booking booking) {
         bookings.add(booking);
     }
     public void deleteBooking(Long idBooking) {
@@ -34,7 +34,7 @@ public class User {
                 deleted=true;
             }
         }
-    }
+    }*/
 
 
 }

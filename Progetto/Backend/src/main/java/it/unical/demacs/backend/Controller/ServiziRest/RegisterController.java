@@ -17,7 +17,7 @@ public class RegisterController {
         if (DatabaseHandler.getInstance().getUtenteDao().findByEmail(user.getEmail()).join().getEmail() != null) {
             return ResponseEntity.badRequest().body("Email already exists");
         }
-        DatabaseHandler.getInstance().getUtenteDao().saveOrUpdate(user);
+        DatabaseHandler.getInstance().getUtenteDao().insert(user);
         return ResponseEntity.ok("User registered successfully");
     }
 }

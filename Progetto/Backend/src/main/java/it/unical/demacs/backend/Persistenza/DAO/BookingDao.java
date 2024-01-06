@@ -12,5 +12,5 @@ public interface BookingDao {
     CompletableFuture<Boolean> update(Booking booking);
     CompletableFuture<Boolean> delete(Long id);
 
-    CompletableFuture<Boolean> isValid(Long bookingId);
+    CompletableFuture<Boolean> isValid(Long bookingId, Long idUser);
 }

@@ -18,11 +18,12 @@ public class DeleteBookingServlet extends HttpServlet {
         Long bookingId= Long.valueOf(request.getParameter("idBooking"));
         String username=request.getParameter("username");
         User user=DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
-        boolean isValid = DatabaseHandler.getInstance().getBookingDao().isValid(bookingId).join();
+        boolean isValid = DatabaseHandler.getInstance().getBookingDao().isValid(bookingId, user.getIdUser()).join();
+        System.out.println("isValid: "+isValid);
         if (isValid) {
             try {
                 if (DatabaseHandler.getInstance().getBookingDao().delete(bookingId).join()) {
-                    user.deleteBooking(bookingId);
+                    //user.deleteBooking(bookingId);
                     response.setStatus(HttpServletResponse.SC_OK);
                     response.getWriter().write("Successful cancellation of the reservation");
                 } else {

@@ -16,7 +16,7 @@ public class UserProxy extends User {
         this.con = con;
     }
 
-    public ArrayList<Booking> getPrenotazioni() {
+    /*public ArrayList<Booking> getPrenotazioni() {
         if (super.getBookings() == null) {
            String query = "SELECT * FROM bookings as b, users as u WHERE u.id_user = ? and b.id_user = u.id_user";
               try (
@@ -41,5 +41,5 @@ public class UserProxy extends User {
               }
         }
         return super.getBookings();
-    }
+    }*/
 }

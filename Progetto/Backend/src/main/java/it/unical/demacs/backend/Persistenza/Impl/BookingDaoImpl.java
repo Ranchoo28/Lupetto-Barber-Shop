@@ -100,11 +100,11 @@ public class BookingDaoImpl implements BookingDao {
 
     @Override
     @Async
-    public CompletableFuture<Boolean> delete(Long id) {
+    public CompletableFuture<Boolean> delete(Long idBooking) {
         String query = "DELETE FROM bookings WHERE id_booking = ?";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
-            st.setLong(1, id);
+            st.setLong(1, idBooking);
             int rowsAffected = st.executeUpdate();
             st.close();
 
@@ -116,12 +116,13 @@ public class BookingDaoImpl implements BookingDao {
 
     @Override
     @Async
-    public CompletableFuture<Boolean> isValid(Long bookingId) {
-        String query = "COUNT(*) FROM bookings WHERE id_booking = ? && is_expired=false";
+    public CompletableFuture<Boolean> isValid(Long bookingId, Long idUser) {
+        String query = "SELECT COUNT(*) FROM bookings WHERE id_booking = ? and data > CURRENT_DATE and ora > CURRENT_TIME and id_user= ?";
         boolean res=false;
         try (
                 PreparedStatement st = this.con.prepareStatement(query)) {
             st.setLong(1, bookingId);
+            st.setLong(2, idUser);
             try (ResultSet rs = st.executeQuery()) {
                 res=rs.next();
             }

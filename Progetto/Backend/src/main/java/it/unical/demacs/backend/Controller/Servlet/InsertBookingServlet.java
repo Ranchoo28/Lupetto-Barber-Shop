@@ -26,7 +26,7 @@ public class InsertBookingServlet extends HttpServlet {
         try {
             Booking booking=new Booking(user.getIdUser(), idService, date, time);
             if (DatabaseHandler.getInstance().getBookingDao().insert(booking).join()) {
-                user.addBooking(booking);
+                //user.addBooking(booking);
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().write("Successful insert of the booking");
             } else {

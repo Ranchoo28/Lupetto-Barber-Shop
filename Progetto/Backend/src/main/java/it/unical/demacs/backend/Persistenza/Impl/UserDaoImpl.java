@@ -1,6 +1,7 @@
 package it.unical.demacs.backend.Persistenza.Impl;
 
 import it.unical.demacs.backend.Persistenza.DAO.UserDao;
+import it.unical.demacs.backend.Persistenza.Model.Booking;
 import it.unical.demacs.backend.Persistenza.Model.User;
 import java.sql.*;
 import java.util.ArrayList;
@@ -107,9 +108,32 @@ public class UserDaoImpl implements UserDao {
         return CompletableFuture.completedFuture(user);
     }
 
+    public CompletableFuture<ArrayList<Booking>> findBookings(Long id)
+    {
+        ArrayList<Booking> bookings = new ArrayList<>();
+        String query = "SELECT * FROM bookings WHERE id_user = ?";
+        try {
+            PreparedStatement st = this.con.prepareStatement(query);
+            st.setLong(1, id);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Booking booking = new Booking();
+                booking.setIdBooking(rs.getLong(1));
+                booking.setIdUser(rs.getLong(2));
+                booking.setIdService(rs.getLong(3));
+                booking.setDate(rs.getDate(4));
+                booking.setTime(rs.getTime(5));
+                bookings.add(booking);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return CompletableFuture.completedFuture(bookings);
+    }
+
     @Override
     @Async
-    public CompletableFuture<Void> saveOrUpdate(User user) {
+    public CompletableFuture<Boolean> insert(User user) {
         String query = "INSERT INTO users (username, password, name, surname, email, role) VALUES (?, ?, ?, ?, ?,?)";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
@@ -119,24 +143,53 @@ public class UserDaoImpl implements UserDao {
             st.setString(4, user.getSurname());
             st.setString(5, user.getEmail());
             st.setString(6, String.valueOf(user.getRole()));
-            st.executeUpdate();
+            int rowsAffected = st.executeUpdate();
+            st.close();
+
+            return CompletableFuture.completedFuture(rowsAffected > 0);
         } catch (SQLException e) {
             e.fillInStackTrace();
         }
-        return CompletableFuture.completedFuture(null);
+        return CompletableFuture.completedFuture(false);
     }
 
     @Override
     @Async
-    public CompletableFuture<Void> delete(Long id) {
+    public CompletableFuture<Boolean> update(User user) {
+        String query = "UPDATE users SET username=?, password=?, name=?, surname=?, email=?, role=? WHERE id_user=?";
+        try {
+            PreparedStatement st = this.con.prepareStatement(query);
+            st.setString(1, user.getUsername());
+            st.setString(2, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
+            st.setString(3, user.getName());
+            st.setString(4, user.getSurname());
+            st.setString(5, user.getEmail());
+            st.setString(6, String.valueOf(user.getRole()));
+            st.setLong(7, user.getIdUser());
+            int rowsAffected = st.executeUpdate();
+            st.close();
+
+            return CompletableFuture.completedFuture(rowsAffected > 0);
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        }
+        return CompletableFuture.completedFuture(false);
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<Boolean> delete(Long id) {
         String query = "DELETE FROM users WHERE id_user = ?";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
             st.setLong(1, id);
             st.executeUpdate();
+            int rowsAffected = st.executeUpdate();
             st.close();
+
+            return CompletableFuture.completedFuture(rowsAffected > 0);
         } catch (SQLException ignored) {}
 
-        return CompletableFuture.completedFuture(null);
+        return CompletableFuture.completedFuture(false);
     }
 }

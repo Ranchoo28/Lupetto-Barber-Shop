@@ -14,7 +14,7 @@ public class UserBookingController {
     public ResponseEntity<?> getBooking(@RequestParam String username) {
         User user=DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
         if (user!=null) {
-            return ResponseEntity.ok(user.getBookings());
+            return ResponseEntity.ok(DatabaseHandler.getInstance().getUtenteDao().findBookings(user.getIdUser()).join());
         } else {
             return ResponseEntity.badRequest().body("A person with this username doesn't exists");
         }
