@@ -23,8 +23,7 @@ export class GalleriaComponent implements OnInit{
       if (this.currentImageIndex >= this.images.length) {
         this.currentImageIndex = 0;
       }
-    }, 2000); // Ca
+    }, 3000);
   }
-
 
 }

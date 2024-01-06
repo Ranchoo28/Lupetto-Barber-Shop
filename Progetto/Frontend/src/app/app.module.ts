@@ -29,6 +29,7 @@ import { RegistrazioneComponent } from './componenti/registrazione/registrazione
 import { UsernameComponent } from './componenti/form/username/username.component';
 import { PasswordComponent } from './componenti/form/password/password.component';
 import { EmailComponent } from './componenti/form/email/email.component';
+import {MatDialogModule} from '@angular/material/dialog';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -56,6 +57,7 @@ registerLocaleData(localeIt, 'it');
     PasswordComponent,
     EmailComponent,
 
+
   ],
   imports: [
     RouterModule,
@@ -73,6 +75,7 @@ registerLocaleData(localeIt, 'it');
     MatToolbarModule,
     MatTooltipModule,
     MatGridListModule,
+    MatDialogModule,
     ReactiveFormsModule,
     NgOptimizedImage
   ],
