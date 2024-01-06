@@ -9,11 +9,11 @@
           <mat-card-content [formGroup]="loginForm" (ngSubmit)="onLogin()">
 
             <div class="row">
-              <app-username [usernameControl]="usernameCheck"></app-username>
+              <app-username (usernameControlOut)="onUsernameControlLoaded($event)"></app-username>
             </div>
 
             <div class="row">
-              <app-password [passwordControl]="passwordCheck"></app-password>
+              <app-password (passwordControlOut)="onPasswordControlLoaded($event)"></app-password>
             </div>
             <div class="row">
               <div class="col-lg-2"></div>

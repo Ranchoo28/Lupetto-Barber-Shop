@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-login',
@@ -7,26 +7,28 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
   styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  hide = true;
 
+  usernameControl: FormControl = new FormControl('');
+  passwordCheck: FormControl = new FormControl('');
+  loginForm!: FormGroup;
 
-  usernameCheck = new FormControl('', [
-    Validators.required,
-    Validators.minLength(3),
-    Validators.maxLength(20),
-    Validators.pattern('[a-zA-Z0-9_-]+') // Assicurati che il pattern sia corretto
-  ]);
+  ngOnInit(): void {
+    this.initForm();
+  }
 
-  passwordCheck = new FormControl('', [
-    Validators.required,
-    Validators.minLength(6)
-  ]);
+  onUsernameControlLoaded(control: FormControl): void {
+    this.usernameControl = control;
+  }
 
-  loginForm: FormGroup = new FormGroup({
-    username: this.usernameCheck,
-    password: this.passwordCheck
-  });
-
+  onPasswordControlLoaded(control: FormControl): void {
+    this.passwordCheck = control;
+  }
+  initForm(): void {
+    this.loginForm = new FormGroup({
+      username: this.usernameControl,
+      password: this.passwordCheck
+    });
+  }
 
   onLogin(){
     if(this.loginForm.valid){

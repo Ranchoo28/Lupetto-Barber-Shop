@@ -1,5 +1,5 @@
-import {Component, Input} from '@angular/core';
-import {FormControl} from "@angular/forms";
+import {Component, EventEmitter, Output} from '@angular/core';
+import {FormControl, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-password',
@@ -16,6 +16,18 @@ export class PasswordComponent {
   e può contenere lettere, numeri e caratteri speciali \n \n
   ( !@#$%&*()_+{}[].? )  `;
 
-  @Input() passwordControl : FormControl = new FormControl('');
+
+  @Output() passwordControlOut: EventEmitter<FormControl> = new EventEmitter();
+
+  passwordCheck = new FormControl('', [
+    Validators.required,
+    Validators.minLength(6),
+    Validators.maxLength(30),
+    Validators.pattern('[a-zA-Z0-9!@#$%&*()_+{}[].?]+')
+  ]);
+
+  ngOnInit() {
+    this.passwordControlOut.emit(this.passwordCheck);
+  }
 
 }

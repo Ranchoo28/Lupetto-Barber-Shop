@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import {Component, EventEmitter, Output} from '@angular/core';
 import {FormControl, Validators} from "@angular/forms";
 
 @Component({
@@ -14,7 +14,20 @@ export class UsernameComponent {
   e può contenere solo lettere, numeri, underscore e trattini \n
   (ES: MarioRossi_123))`;
 
-  @Input() usernameControl : FormControl = new FormControl('');
+  // Crea un FormControl con i validatori appropriati.
+  usernameCheck = new FormControl('', [
+    Validators.required,
+    Validators.minLength(3),
+    Validators.maxLength(20),
+    Validators.pattern('[a-zA-Z0-9_-]+')
+  ]);
 
+  // Usa EventEmitter per comunicare il FormControl al parent component.
+  @Output() usernameControlOut: EventEmitter<FormControl> = new EventEmitter()
+
+  // Emetti il FormControl appena il componente è pronto, ad esempio nel metodo ngOnInit.
+  ngOnInit(): void {
+    this.usernameControlOut.emit(this.usernameCheck);
+  }
 
 }
