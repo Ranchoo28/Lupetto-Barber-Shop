@@ -59,16 +59,6 @@ public class HandleBookingService {
         }
     }
 
-    public ResponseEntity<?> getBooking(String username)
-    {
-        User user=DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
-        if (user!=null) {
-            return ResponseEntity.ok(DatabaseHandler.getInstance().getUtenteDao().findBookings(user.getIdUser()).join());
-        } else {
-            return ResponseEntity.badRequest().body("A person with this username doesn't exists");
-        }
-    }
-
     public ResponseEntity<?> updateBooking(Booking booking, String username)
     {
         User user=DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
@@ -78,6 +68,16 @@ public class HandleBookingService {
             } else {
                 return ResponseEntity.badRequest().body("Invalid booking ID provided");
             }
+        } else {
+            return ResponseEntity.badRequest().body("A person with this username doesn't exists");
+        }
+    }
+
+    public ResponseEntity<?> getBooking(String username)
+    {
+        User user=DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
+        if (user!=null) {
+            return ResponseEntity.ok(DatabaseHandler.getInstance().getUtenteDao().findBookings(user.getIdUser()).join());
         } else {
             return ResponseEntity.badRequest().body("A person with this username doesn't exists");
         }

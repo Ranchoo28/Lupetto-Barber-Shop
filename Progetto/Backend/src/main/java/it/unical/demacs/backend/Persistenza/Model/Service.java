@@ -13,5 +13,5 @@ public class Service {
     private String name;
     private String description;
     private String category;
-    private Double price;
+    private double price;
 }
