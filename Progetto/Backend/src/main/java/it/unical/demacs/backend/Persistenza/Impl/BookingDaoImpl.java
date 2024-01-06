@@ -90,7 +90,6 @@ public class BookingDaoImpl implements BookingDao {
             st.setLong(4, booking.getIdBooking());
             int rowsAffected = st.executeUpdate();
             st.close();
-
             return CompletableFuture.completedFuture(rowsAffected > 0);
         } catch (SQLException e) {
             e.fillInStackTrace();
