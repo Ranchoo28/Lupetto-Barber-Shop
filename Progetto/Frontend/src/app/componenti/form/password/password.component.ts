@@ -12,7 +12,7 @@ export class PasswordComponent {
   label ="Password"
   passwordInvalidMessage =`
   La password deve essere compresa tra 6 e 30 caratteri
-  e può contenere lettere, numeri e caratteri speciali \n \n
+  e deve contenere lettere, numeri e caratteri speciali \n \n
   ( !@#$%&*()_+{}[].? )  `;
 
   // Crea un FormControl con i validatori appropriati.
@@ -20,7 +20,7 @@ export class PasswordComponent {
     Validators.required,
     Validators.minLength(6),
     Validators.maxLength(30),
-    Validators.pattern('[a-zA-Z0-9!@#$%&*()_\+.?]+')
+    Validators.pattern('[a-zA-Z0-9!@#$%&*()_\+.?\\[\\] ]+')
   ]);
 
   // Usa EventEmitter per comunicare il FormControl al parent component.

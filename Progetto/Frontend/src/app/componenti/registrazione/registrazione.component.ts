@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-registrazione',
@@ -15,22 +15,6 @@ export class RegistrazioneComponent {
   registrationForm!: FormGroup;
 
   ngOnInit(): void {
-    this.initForm();
-  }
-
-  onUsernameControlLoaded(control: FormControl): void {
-    this.usernameCheck = control;
-  }
-
-  onPasswordControlLoaded(control: FormControl): void {
-    this.passwordCheck = control;
-  }
-
-  onRepeatPasswordControlLoaded(control: FormControl): void {
-    this.repeatPasswordCheck = control;
-  }
-
-  initForm(): void {
     this.registrationForm = new FormGroup({
       username: this.usernameCheck,
       password: this.passwordCheck,
@@ -38,6 +22,16 @@ export class RegistrazioneComponent {
     });
   }
 
+  onUsernameControlLoaded(control: FormControl): void {
+    this.registrationForm.setControl('username', control);
+  }
+
+  onPasswordControlLoaded(control: FormControl): void {
+    this.registrationForm.setControl('password', control);
+  }
+  onRepeatPasswordControlLoaded(control: FormControl): void {
+    this.registrationForm.setControl('repeatPassword', control);
+  }
   onRegistration(){
     if(this.registrationForm.valid){
       console.log(this.registrationForm.value);
