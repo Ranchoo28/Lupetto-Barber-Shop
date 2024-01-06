@@ -11,7 +11,8 @@ import { NotfoundComponent } from "./componenti/notfound/notfound.component";
 import { LoginComponent } from "./componenti/login/login.component";
 import {RegistrazioneComponent} from "./componenti/registrazione/registrazione.component";
 import {PrenotazioniComponent} from "./componenti/prenotazioni/prenotazioni.component";
-import {AuthGuard} from "./componenti/services/auth-guard.service";
+import {AuthGuard} from "./services/auth-guard.service";
+
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },

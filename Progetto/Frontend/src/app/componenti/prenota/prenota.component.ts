@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 import { HttpClient } from '@angular/common/http';
-import {BookingService} from "../services/booking-service.service";
 import {coerceStringArray} from "@angular/cdk/coercion";
 
 
