@@ -1,17 +1,31 @@
 package it.unical.demacs.backend.Controller.ServiziRest;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.parameters.P;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+@Component
 @Controller
+
 public class ContactController {
+    @Value("${contacts.number}")
+    private String number;
+
+    @Value("${contacts.email}")
+    private String email;
+
+    @Value("${contacts.address}")
+    private String address;
+
     @GetMapping("/contatti")
     public String getContatti(Model model) {
-        model.addAttribute("title", "Contatti Parrucchiere");
-        model.addAttribute("telefono", "1234567890");
-        model.addAttribute("email", "info@parrucchiere.it");
-        model.addAttribute("indirizzo", "Via Roma, 1, 12345 Città, Provincia");
+        model.addAttribute("title", "Contatti");
+        model.addAttribute("number", number);
+        model.addAttribute("email", email);
+        model.addAttribute("address", address);
         return "contatti";
     }
 }
