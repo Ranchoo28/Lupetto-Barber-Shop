@@ -9,32 +9,42 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 export class RegistrazioneComponent {
 
 
-  usernameCheck = new FormControl('', [
-    Validators.required,
-    Validators.minLength(3),
-    Validators.maxLength(20),
-    Validators.pattern('[a-zA-Z0-9_-]+') // Assicurati che il pattern sia corretto
-  ]);
+  usernameCheck: FormControl = new FormControl('');
+  passwordCheck: FormControl = new FormControl('');
+  repeatPasswordCheck: FormControl = new FormControl('');
+  registrationForm!: FormGroup;
 
-  passwordCheck = new FormControl('', [
-    Validators.required,
-    Validators.minLength(6),
-    Validators.maxLength(30),
-    Validators.pattern('[a-zA-Z0-9!@#$%&*()_+{}[].?]+')
-  ]);
+  ngOnInit(): void {
+    this.initForm();
+  }
 
-  repeatPasswordCheck = new FormControl('', [
-    Validators.required,
-    Validators.minLength(6),
-    Validators.maxLength(30),
-    Validators.pattern('[a-zA-Z0-9!@#$%&*()_+{}[].?]+')
-  ]);
+  onUsernameControlLoaded(control: FormControl): void {
+    this.usernameCheck = control;
+  }
 
-  registrationForm: FormGroup = new FormGroup({
-    username: this.usernameCheck,
-    password: this.passwordCheck,
-    repeatPassword: this.repeatPasswordCheck
-  });
+  onPasswordControlLoaded(control: FormControl): void {
+    this.passwordCheck = control;
+  }
 
+  onRepeatPasswordControlLoaded(control: FormControl): void {
+    this.repeatPasswordCheck = control;
+  }
+
+  initForm(): void {
+    this.registrationForm = new FormGroup({
+      username: this.usernameCheck,
+      password: this.passwordCheck,
+      repeatPassword: this.repeatPasswordCheck
+    });
+  }
+
+  onRegistration(){
+    if(this.registrationForm.valid){
+      console.log(this.registrationForm.value);
+    }
+    else{
+      console.log("Form non valido");
+    }
+  }
 
 }

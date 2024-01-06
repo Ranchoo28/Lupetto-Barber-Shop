@@ -8,28 +8,13 @@
         <mat-card>
           <mat-card-content>
             <div class="row">
-              <mat-form-field class="form-field" appearance="outline">
-                <mat-label>Nome Utente</mat-label>
-                <input matInput type="text" name="username" id="usernameField">
-              </mat-form-field>
+              <app-username (usernameControlOut)="onUsernameControlLoaded($event)"></app-username>
             </div>
             <div class="row">
-              <mat-form-field class="example-full-width" appearance="outline">
-                <mat-label>Password</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" name="password" id="passwordField">
-                <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
-              </mat-form-field>
+              <app-password (passwordControlOut)="onPasswordControlLoaded($event)"></app-password>
             </div>
             <div class="row">
-              <mat-form-field class="example-full-width" appearance="outline">
-                <mat-label>Ripeti Password</mat-label>
-                <input matInput [type]="hide ? 'password' : 'text'" name="password" id="ripetipasswordField">
-                <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                  <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                </button>
-              </mat-form-field>
+              <app-password (passwordControlOut)="onRepeatPasswordControlLoaded($event)"></app-password>
             </div>
             <div class="row">
               <div class="col-lg-2"></div>

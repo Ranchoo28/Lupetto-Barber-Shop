@@ -8,26 +8,23 @@ import {FormControl, FormGroup} from "@angular/forms";
 })
 export class LoginComponent {
 
-  usernameControl: FormControl = new FormControl('');
+  usernameCheck: FormControl = new FormControl('');
   passwordCheck: FormControl = new FormControl('');
   loginForm!: FormGroup;
 
   ngOnInit(): void {
-    this.initForm();
-  }
-
-  onUsernameControlLoaded(control: FormControl): void {
-    this.usernameControl = control;
-  }
-
-  onPasswordControlLoaded(control: FormControl): void {
-    this.passwordCheck = control;
-  }
-  initForm(): void {
     this.loginForm = new FormGroup({
-      username: this.usernameControl,
+      username: this.usernameCheck,
       password: this.passwordCheck
     });
+  }
+
+  onUsernameControlLoaded(control: FormControl) {
+    this.loginForm.setControl('username', control);
+  }
+
+  onPasswordControlLoaded(control: FormControl) {
+    this.loginForm.setControl('password', control);
   }
 
   onLogin(){
@@ -38,6 +35,8 @@ export class LoginComponent {
       console.log("Form non valido");
     }
   }
+
+
 
 
 
