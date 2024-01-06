@@ -6,7 +6,6 @@ import { HomeComponent} from "./componenti/home/home.component";
 import { ProdottiComponent } from './componenti/prodotti/prodotti.component';
 import { PrenotaComponent } from './componenti/prenota/prenota.component';
 import { GalleriaComponent} from "./componenti/galleria/galleria.component";
-import { ContattiComponent} from "./componenti/contatti/contatti.component";
 import { NotfoundComponent } from "./componenti/notfound/notfound.component";
 import { LoginComponent } from "./componenti/login/login.component";
 import {RegistrazioneComponent} from "./componenti/registrazione/registrazione.component";
@@ -20,7 +19,6 @@ const routes: Routes = [
   { path: 'prenota', component: PrenotaComponent, canActivate: [AuthGuard]},
   { path: 'prenotazioni', component: PrenotazioniComponent, canActivate: [AuthGuard] },
   { path: 'galleria', component: GalleriaComponent },
-  { path: 'contatti', component: ContattiComponent },
   { path: 'login', component: LoginComponent},
   { path: 'registrazione', component: RegistrazioneComponent },
   { path: 'pagina_non_trovata', component: NotfoundComponent },
