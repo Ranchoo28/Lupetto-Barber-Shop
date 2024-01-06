@@ -1,16 +1,12 @@
 import {Component, OnInit} from '@angular/core';
 import {FormBuilder, Validators} from "@angular/forms";
 
-
 @Component({
   selector: 'app-prenota',
   templateUrl: './prenota.component.html',
   styleUrl: './prenota.component.css'
 })
 export class PrenotaComponent implements OnInit{
-  today = new Date();
-  currentMonth = this.today.getMonth();
-  currentYear = this.today.getFullYear();
   timeSlots: string[] = this.generateTimeSlots();
 
   constructor(private fb: FormBuilder) {
@@ -22,6 +18,7 @@ export class PrenotaComponent implements OnInit{
 
   prenotaForm = this.fb.group({
     nome: ['', Validators.required],
+    cognome: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
     telefono: ['', Validators.required],
     servizio: ['', Validators.required],

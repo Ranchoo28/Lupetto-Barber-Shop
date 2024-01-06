@@ -2,13 +2,11 @@ mat-card {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 auto;
-
 
 }
 
 mat-card img {
-  width: 50%; /* Imposta la larghezza desiderata */
-  height: 50%; /* Imposta l'altezza desiderata */
+  width: 60%; /* Imposta la larghezza desiderata */
+  height: 60%; /* Imposta l'altezza desiderata */
 
 }
