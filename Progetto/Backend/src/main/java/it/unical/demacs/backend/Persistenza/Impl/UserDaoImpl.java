@@ -136,7 +136,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Async
     public CompletableFuture<Boolean> insert(User user) {
-        String query = "INSERT INTO users (username, password, name, surname, email, role) VALUES (?, ?, ?, ?, ?,?)";
+        String query = "INSERT INTO users (username, password, name, surname, email, role) VALUES (?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
             st.setString(1, user.getUsername());

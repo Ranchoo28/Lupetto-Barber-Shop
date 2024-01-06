@@ -35,6 +35,7 @@ import {MatTableModule} from '@angular/material/table';
 // Routing
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
+import { HttpClientModule } from "@angular/common/http";
 
 import {NgOptimizedImage, registerLocaleData} from '@angular/common';
 import localeIt from '@angular/common/locales/it';
@@ -86,6 +87,7 @@ registerLocaleData(localeIt, 'it');
         MatTableModule,
         MatCheckboxModule,
         MatRadioModule,
+        HttpClientModule
     ],
   providers: [
     provideClientHydration(),

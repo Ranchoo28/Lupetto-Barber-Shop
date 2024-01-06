@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {AuthenticationService} from "../../services/authentication.service";
+
 
 @Component({
   selector: 'app-login',
@@ -40,15 +41,32 @@ export class LoginComponent {
     if(this.loginForm.valid){
       const email = this.loginForm.value.username;
       const password = this.loginForm.value.password;
-      this.authService.login(email, password).subscribe(data => {
-        console.log(data);
-      })
+
+      if( this.authService.login(email, password)){
+        console.log("Login effettuato");
+      }
+      else{
+        console.log("Login non effettuato");
+      }
       this.loginForm.reset();
     }
     else{
       console.log("Form non valido");
     }
   }
+
+  /*
+  registerFake(){
+    this.authService.register('pippo','Password1!', 'Nome', 'Cognome', 'email@example.com', 'USER').subscribe(
+      data => {
+        console.log(data);
+      },
+      error => {
+        console.error('Errore durante la registrazione', error);
+      }
+    );
+  }
+  */
 
 
 
