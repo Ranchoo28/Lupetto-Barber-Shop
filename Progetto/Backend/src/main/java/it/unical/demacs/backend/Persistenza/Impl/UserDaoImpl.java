@@ -2,6 +2,7 @@ package it.unical.demacs.backend.Persistenza.Impl;
 
 import it.unical.demacs.backend.Persistenza.DAO.UserDao;
 import it.unical.demacs.backend.Persistenza.Model.Booking;
+import it.unical.demacs.backend.Persistenza.Model.Role;
 import it.unical.demacs.backend.Persistenza.Model.User;
 import java.sql.*;
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class UserDaoImpl implements UserDao {
                 user.setName(rs.getString(4));
                 user.setSurname(rs.getString(5));
                 user.setEmail(rs.getString(6));
-                user.setRole(rs.getString(7).charAt(0));
+                user.setRole(Role.valueOf(rs.getString(7)));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -58,7 +59,7 @@ public class UserDaoImpl implements UserDao {
                     user.setName(rs.getString(4));
                     user.setSurname(rs.getString(5));
                     user.setEmail(rs.getString(6));
-                    user.setRole(rs.getString(7).charAt(0));
+                    user.setRole(Role.valueOf(rs.getString(7)));
                 }
             }
         } catch (SQLException e) {
@@ -83,6 +84,7 @@ public class UserDaoImpl implements UserDao {
                 user.setName(rs.getString(4));
                 user.setSurname(rs.getString(5));
                 user.setEmail(rs.getString(6));
+                user.setRole(Role.valueOf(rs.getString(7)));
             }
         } catch (SQLException e) {
             e.printStackTrace();

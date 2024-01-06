@@ -23,17 +23,15 @@ public class User implements UserDetails {
     private String name;
     private String surname;
     private String email;
-    private char role;
+    private Role role;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        return List.of(new SimpleGrantedAuthority(role.name()));
     }
 
     @Override
-    public boolean isAccountNonExpired() {
-        return Objects.equals(new SimpleGrantedAuthority(String.valueOf(role)), new SimpleGrantedAuthority("u"));
-    }
+    public boolean isAccountNonExpired() { return true; }
 
     @Override
     public boolean isAccountNonLocked() {
