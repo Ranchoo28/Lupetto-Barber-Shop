@@ -11,12 +11,11 @@ import java.util.ArrayList;
 public class ProductsService {
     public ResponseEntity<?> getProducts() {
         ArrayList<Product> products = DatabaseHandler.getInstance().getProductDao().findAll().join();
+        DatabaseHandler.getInstance().closeConnection();
         if(products.isEmpty()){
-            DatabaseHandler.getInstance().closeConnection();
             return ResponseEntity.badRequest().body("No products found");
         }
         else{
-            DatabaseHandler.getInstance().closeConnection();
             return ResponseEntity.ok(products);
         }
     }

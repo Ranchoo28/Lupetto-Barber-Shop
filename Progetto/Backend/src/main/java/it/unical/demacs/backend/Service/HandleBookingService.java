@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Time;
+import java.util.ArrayList;
 
 @Service
 public class HandleBookingService {
@@ -23,7 +24,9 @@ public class HandleBookingService {
         User user= DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
         try {
             Booking booking=new Booking(user.getIdUser(), idService, date, time);
-            if (DatabaseHandler.getInstance().getBookingDao().insert(booking).join()) {
+            boolean res= DatabaseHandler.getInstance().getBookingDao().insert(booking).join();
+            DatabaseHandler.getInstance().closeConnection();
+            if (res) {
                 response.setStatus(HttpServletResponse.SC_OK);
                 response.getWriter().write("Successful insert of the booking");
             } else {
@@ -40,10 +43,11 @@ public class HandleBookingService {
         String username=request.getParameter("username");
         User user=DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
         boolean isValid = DatabaseHandler.getInstance().getBookingDao().isValid(bookingId, user.getIdUser()).join();
-        System.out.println("isValid: "+isValid);
         if (isValid) {
             try {
-                if (DatabaseHandler.getInstance().getBookingDao().delete(bookingId).join()) {
+                boolean res= DatabaseHandler.getInstance().getBookingDao().delete(bookingId).join();
+                DatabaseHandler.getInstance().closeConnection();
+                if (res) {
                     response.setStatus(HttpServletResponse.SC_OK);
                     response.getWriter().write("Successful cancellation of the reservation");
                 } else {
@@ -64,7 +68,9 @@ public class HandleBookingService {
         User user=DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
         if (user!=null) {
             if(DatabaseHandler.getInstance().getBookingDao().isValid(booking.getIdBooking(), user.getIdUser()).join()) {
-                return ResponseEntity.ok(DatabaseHandler.getInstance().getBookingDao().update(booking).join());
+                boolean res= DatabaseHandler.getInstance().getBookingDao().update(booking).join();
+                DatabaseHandler.getInstance().closeConnection();
+                return ResponseEntity.ok(res);
             } else {
                 return ResponseEntity.badRequest().body("Invalid booking ID provided");
             }
@@ -77,7 +83,9 @@ public class HandleBookingService {
     {
         User user=DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
         if (user!=null) {
-            return ResponseEntity.ok(DatabaseHandler.getInstance().getUtenteDao().findBookings(user.getIdUser()).join());
+            ArrayList<Booking> booking= DatabaseHandler.getInstance().getUtenteDao().findBookings(user.getIdUser()).join();
+            DatabaseHandler.getInstance().closeConnection();
+            return ResponseEntity.ok(booking);
         } else {
             return ResponseEntity.badRequest().body("A person with this username doesn't exists");
         }

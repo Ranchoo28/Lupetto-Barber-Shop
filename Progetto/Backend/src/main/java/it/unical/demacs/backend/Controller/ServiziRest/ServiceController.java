@@ -6,6 +6,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
+
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequiredArgsConstructor
@@ -30,7 +32,7 @@ public class ServiceController {
     }
 
     @GetMapping("/api/service/get")
-    public ResponseEntity<?> getService(){
+    public ResponseEntity<?> getService() {
         return handleServicesService.getService();
     }
 }
