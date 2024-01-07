@@ -20,12 +20,12 @@ export class PasswordComponent {
   - Caratteri speciali:   !@#$%&*()_+-.? )\n
   ( ES: Password123! )`;
 
-  // Crea un FormControl con i validatori appropriati.
+
   passwordCheck = new FormControl('', [
     Validators.required,
     Validators.minLength(6),
     Validators.maxLength(30),
-    Validators.pattern('[a-zA-Z0-9!@#$%&*()_\+-.? ]+')
+    Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%&*()_+-.?]).*$')
   ]);
 
   // Usa EventEmitter per comunicare il FormControl al parent component.

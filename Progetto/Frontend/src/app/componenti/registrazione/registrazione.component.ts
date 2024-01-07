@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import {AbstractControl, FormControl, FormGroup, ValidationErrors} from "@angular/forms";
 
 @Component({
   selector: 'app-registrazione',
@@ -22,6 +22,20 @@ export class RegistrazioneComponent {
       password: this.passwordCheck,
       repeatPassword: this.repeatPasswordCheck
     });
+
+    this.registrationForm.setValidators(this.passwordMatchValidator);
+  }
+
+  passwordMatchValidator(control: AbstractControl): ValidationErrors | null {
+    const passwordControl = control.get('password');
+    const repeatPasswordControl = control.get('repeatPassword');
+
+    if (passwordControl && repeatPasswordControl) {
+      return passwordControl.value === repeatPasswordControl.value
+        ? null : { 'mismatch': true };
+    }
+
+    return null;
   }
 
   onUsernameControlLoaded(control: FormControl): void {

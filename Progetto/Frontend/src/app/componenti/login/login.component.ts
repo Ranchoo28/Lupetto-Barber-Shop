@@ -38,19 +38,20 @@ export class LoginComponent {
   }
 
   onLogin(){
-    if(this.loginForm.valid){
+    if (this.loginForm.valid) {
       const email = this.loginForm.value.username;
       const password = this.loginForm.value.password;
 
-      if( this.authService.login(email, password)){
+      let a = this.authService.login(email, password);
+      console.log(a);
+
+      if (this.authService.login(email, password)) {
         console.log("Login effettuato");
-      }
-      else{
+      } else {
         console.log("Login non effettuato");
       }
       this.loginForm.reset();
-    }
-    else{
+    } else {
       console.log("Form non valido");
     }
   }
@@ -67,9 +68,5 @@ export class LoginComponent {
     );
   }
   */
-
-
-
-
 
 }
