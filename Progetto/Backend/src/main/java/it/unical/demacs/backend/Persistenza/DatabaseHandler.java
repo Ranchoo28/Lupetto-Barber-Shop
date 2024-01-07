@@ -1,9 +1,11 @@
 package it.unical.demacs.backend.Persistenza;
 
 import it.unical.demacs.backend.Persistenza.DAO.BookingDao;
+import it.unical.demacs.backend.Persistenza.DAO.ProductDao;
 import it.unical.demacs.backend.Persistenza.DAO.ServiceDao;
 import it.unical.demacs.backend.Persistenza.DAO.UserDao;
 import it.unical.demacs.backend.Persistenza.Impl.BookingDaoImpl;
+import it.unical.demacs.backend.Persistenza.Impl.ProductDaoImpl;
 import it.unical.demacs.backend.Persistenza.Impl.ServiceDaoImpl;
 import it.unical.demacs.backend.Persistenza.Impl.UserDaoImpl;
 import org.springframework.scheduling.annotation.Async;
@@ -37,6 +39,16 @@ public class DatabaseHandler {
         return con;
     }
 
+    public void closeConnection() {
+        try {
+            if (con != null && !con.isClosed()) {
+                con.close();
+            }
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        }
+    }
+
     public UserDao getUtenteDao(){
         return new UserDaoImpl(getConnection());
     }
@@ -44,5 +56,7 @@ public class DatabaseHandler {
     public BookingDao getBookingDao() {return new BookingDaoImpl(getConnection());}
 
     public ServiceDao getServiceDao() { return new ServiceDaoImpl(getConnection());}
+
+    public ProductDao getProductDao() { return new ProductDaoImpl(getConnection());}
 
 }

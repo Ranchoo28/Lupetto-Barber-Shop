@@ -32,6 +32,7 @@ public class ProductDaoImpl implements ProductDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+
         return CompletableFuture.completedFuture(productsList);
     }
 
