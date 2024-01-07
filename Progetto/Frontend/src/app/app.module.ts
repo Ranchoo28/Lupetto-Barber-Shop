@@ -26,9 +26,6 @@ import { NotfoundComponent } from './componenti/notfound/notfound.component';
 import { ProdottiComponent } from './componenti/prodotti/prodotti.component';
 import { PrenotaComponent } from './componenti/prenota/prenota.component';
 import { RegistrazioneComponent } from './componenti/registrazione/registrazione.component';
-import { UsernameComponent } from './componenti/form/username/username.component';
-import { PasswordComponent } from './componenti/form/password/password.component';
-import { EmailComponent } from './componenti/form/email/email.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import {MatTableModule} from '@angular/material/table';
 
@@ -58,12 +55,7 @@ registerLocaleData(localeIt, 'it');
     NotfoundComponent,
     LoginComponent,
     RegistrazioneComponent,
-    UsernameComponent,
-    PasswordComponent,
-    EmailComponent,
     PrenotazioniComponent,
-
-
   ],
     imports: [
         RouterModule,

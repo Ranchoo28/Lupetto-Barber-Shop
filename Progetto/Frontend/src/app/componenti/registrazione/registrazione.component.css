@@ -1,4 +1,7 @@
 
+.full-width {
+  width: 100%;
+}
 
 input[type=password]::-ms-reveal,
 input[type=password]::-ms-clear
@@ -6,11 +9,16 @@ input[type=password]::-ms-clear
   display: none;
 }
 
-
 a{
   text-align: center;
 }
 
 button{
   max-width: 100%;
+}
+
+.mat-tooltip {
+  color: white;
+  font-size: 1rem;
+  border-radius: 4px;
 }

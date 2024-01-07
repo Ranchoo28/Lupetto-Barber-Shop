@@ -1,44 +1,101 @@
-<form class="example-form">
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-3"></div>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2"></div>
 
-      <div class="col-lg-6">
-        <mat-card>
-          <mat-card-content [formGroup]="registrationForm" (ngSubmit)="onRegistration()">
-            <div class="row">
-              <app-username (usernameControlOut)="onUsernameControlLoaded($event)"></app-username>
-            </div>
-            <div class="row">
-              <app-password (passwordControlOut)="onPasswordControlLoaded($event)"></app-password>
-            </div>
-            <div class="row">
-              <app-password (passwordControlOut)="onRepeatPasswordControlLoaded($event)"></app-password>
-              <mat-error>
+    <div class="col-lg-8">
+      <mat-card>
+        <mat-card-content [formGroup]="registrationForm" (ngSubmit)="onRegistration()">
 
-              </mat-error>
-            </div>
-            <div class="row">
-              <div class="col-lg-2"></div>
-              <div class="col-lg-8">
-                <div class="row">
-                  <button mat-raised-button color="primary" [disabled]="registrationForm.invalid" (click)="onRegistration()">Registrati</button>
-                </div>
-                <br><br>
-                <div class="row">
-                  <a mat-button [routerLink]="['/login']" color="accent">Sei già registrato? Effettua il Log In</a>
-                </div>
+          <div class="row">
+            <!-- ----------------- NOME ----------------- -->
+            <div class="col-lg-5">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Nome</mat-label>
+                <input matInput type="text" [formControl]="nomeCheck"
+                       [matTooltip]="nomeCheck.invalid ? nomeExample : ''">
+              </mat-form-field></div>
+            <div class="col-lg-2"></div>
+            <!-- ----------------- COGNOME ----------------- -->
+            <div class="col-lg-5">
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Cognome</mat-label>
+                <input matInput type="text" [formControl]="cognomeCheck"
+                       [matTooltip]="cognomeCheck.invalid ? cognomeExample : ''">
+              </mat-form-field></div>
+          </div>
 
+          <div class="row">
+            <!-- ----------------- USERNAME ----------------- -->
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Nome Utente</mat-label>
+              <input matInput type="text" [formControl]="usernameCheck"
+                     [matTooltip]="usernameCheck.invalid ? usernameExample : ''">
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <!-- ----------------- EMAIL ----------------- -->
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" [formControl]="emailCheck"
+                     [matTooltip]="emailCheck.invalid ? emailExample: ''">
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <!-- ----------------- PASSWORD ----------------- -->
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Password</mat-label>
+              <input matInput type="{{hide ? 'password' : 'text'}}" [formControl]="passwordCheck"
+                     matTooltip="{{passwordCheck.invalid ? passwordExample : ''}}">
+              <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+
+          </div>
+          <div class="row">
+            <!-- ----------------- PASSWORD CHECK ----------------- -->
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Password</mat-label>
+              <input matInput type="{{hide ? 'password' : 'text'}}" [formControl]="repeatPasswordCheck"
+                     matTooltip="{{passwordCheck.invalid ? passwordExample : ''}}">
+
+              <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+
+            <mat-error id="errorOutput">
+              <ul>
+                <span *ngIf="errors.length > 0">Rispetta i seguenti parametri:</span>
+                <li *ngFor="let error of errors">{{ error }}</li>
+              </ul>
+            </mat-error>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+              <div class="row">
+                <!-- ----------------- SUBMITTA LA REGISTRAZIONE ----------------- -->
+                <button mat-raised-button color="primary" [disabled]="registrationForm.invalid" (click)="onRegistration()">Registrati</button>
               </div>
-              <div class="col-lg-2"></div>
+              <br><br>
+              <div class="row">
+                <!-- ----------------- VAI A LOGGARTI ----------------- -->
+                <a mat-button [routerLink]="['/login']" color="accent">Sei già registrato? Effettua il Log In</a>
+              </div>
+
             </div>
+            <div class="col-lg-2"></div>
+          </div>
 
-          </mat-card-content>
-        </mat-card>
-      </div>
-
-      <div class="col-lg-3"></div>
+        </mat-card-content>
+      </mat-card>
     </div>
+
+    <div class="col-lg-2"></div>
   </div>
-</form>
+</div>
