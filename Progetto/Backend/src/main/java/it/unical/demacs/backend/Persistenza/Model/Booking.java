@@ -7,21 +7,17 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor
 @EqualsAndHashCode
+@NoArgsConstructor
 
 public class Booking {
     private Long idBooking;
     private Long idUser;
-    private Long idService;
-    private Date date;
-    private Time time;
+    private Long idBookingDate;
 
-    public Booking(Long idUser, Long idService, Date date, Time time)
+    public Booking(Long idUser, Long idBookingDate)
     {
-        this.idUser=idUser;
-        this.idService=idService;
-        this.date=date;
-        this.time=time;
+        this.idUser = idUser;
+        this.idBookingDate = idBookingDate;
     }
 }

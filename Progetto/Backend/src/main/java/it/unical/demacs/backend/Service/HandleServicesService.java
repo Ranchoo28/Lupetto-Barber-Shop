@@ -1,7 +1,6 @@
 package it.unical.demacs.backend.Service;
 
 import it.unical.demacs.backend.Persistenza.DatabaseHandler;
-import it.unical.demacs.backend.Persistenza.Model.Role;
 import it.unical.demacs.backend.Persistenza.Model.Service;
 import org.springframework.http.ResponseEntity;
 import java.util.ArrayList;
@@ -10,6 +9,7 @@ import java.util.ArrayList;
 @org.springframework.stereotype.Service
 public class HandleServicesService {
     public ResponseEntity<?> insertService(Service services, String username) {
+        /* TODO -> DA FIXARE IN BASE ALLE NUOVE TABELLE
         String role = String.valueOf(DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join().getRole());
         if(role.equals(Role.ADMIN.toString()) || role.equals(Role.HAIRDRESSER.toString())) {
             boolean res= DatabaseHandler.getInstance().getServiceDao().insert(services).join();
@@ -22,9 +22,13 @@ public class HandleServicesService {
         } else {
             return ResponseEntity.badRequest().body("You are not authorized to perform this action");
         }
+
+         */
+        return null;
     }
 
     public ResponseEntity<?> deleteService(Long idService, String username) {
+        /* TODO -> DA FIXARE IN BASE ALLE NUOVE TABELLE
         String role = String.valueOf(DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join().getRole());
         if(role.equals("ADMIN") || role.equals("HAIRDRESSER")) {
             boolean res= DatabaseHandler.getInstance().getServiceDao().delete(idService).join();
@@ -37,8 +41,11 @@ public class HandleServicesService {
         } else {
             return ResponseEntity.badRequest().body("You are not authorized to perform this action");
         }
+         */
+        return null;
     }
     public ResponseEntity<?> updateService(Service services, String username)  {
+        /* TODO -> DA FIXARE IN BASE ALLE NUOVE TABELLE
         String role = String.valueOf(DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join().getRole());
         if(role.equals("ADMIN") || role.equals("HAIRDRESSER")) {
             boolean res= DatabaseHandler.getInstance().getServiceDao().update(services).join();
@@ -51,6 +58,9 @@ public class HandleServicesService {
         } else {
             return ResponseEntity.badRequest().body("You are not authorized to perform this action");
         }
+
+         */
+        return null;
     }
     public ResponseEntity<?> getService()  {
         ArrayList<Service> services= DatabaseHandler.getInstance().getServiceDao().findAll().join();

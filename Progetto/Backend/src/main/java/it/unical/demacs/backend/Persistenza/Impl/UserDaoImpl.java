@@ -1,16 +1,13 @@
 package it.unical.demacs.backend.Persistenza.Impl;
 
 import it.unical.demacs.backend.Persistenza.DAO.UserDao;
-import it.unical.demacs.backend.Persistenza.Model.Booking;
-import it.unical.demacs.backend.Persistenza.Model.Role;
+import it.unical.demacs.backend.Persistenza.Model.BookingDate;
 import it.unical.demacs.backend.Persistenza.Model.User;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Repository;
-
 
 
 public class UserDaoImpl implements UserDao {
@@ -34,7 +31,6 @@ public class UserDaoImpl implements UserDao {
                 user.setName(rs.getString(4));
                 user.setSurname(rs.getString(5));
                 user.setEmail(rs.getString(6));
-                user.setRole(Role.valueOf(rs.getString(7)));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -59,7 +55,6 @@ public class UserDaoImpl implements UserDao {
                     user.setName(rs.getString(4));
                     user.setSurname(rs.getString(5));
                     user.setEmail(rs.getString(6));
-                    user.setRole(Role.valueOf(rs.getString(7)));
                 }
             }
         } catch (SQLException e) {
@@ -84,10 +79,10 @@ public class UserDaoImpl implements UserDao {
                 user.setName(rs.getString(4));
                 user.setSurname(rs.getString(5));
                 user.setEmail(rs.getString(6));
-                user.setRole(Role.valueOf(rs.getString(7)));
+                user.setNumber(rs.getString(7));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
         return CompletableFuture.completedFuture(user);
     }
@@ -105,30 +100,30 @@ public class UserDaoImpl implements UserDao {
                 user.setEmail(rs.getString(1));
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
         return CompletableFuture.completedFuture(user);
     }
 
-    public CompletableFuture<ArrayList<Booking>> findBookings(Long id)
+    public CompletableFuture<ArrayList<BookingDate>> findBookings(Long id)
     {
-        ArrayList<Booking> bookings = new ArrayList<>();
-        String query = "SELECT * FROM bookings WHERE id_user = ?";
+        ArrayList<BookingDate> bookings = new ArrayList<>();
+        String query = "SELECT * FROM bookingsdate WHERE id_user = ?";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
             st.setLong(1, id);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Booking booking = new Booking();
-                booking.setIdBooking(rs.getLong(1));
-                booking.setIdUser(rs.getLong(2));
-                booking.setIdService(rs.getLong(3));
-                booking.setDate(rs.getDate(4));
-                booking.setTime(rs.getTime(5));
+                BookingDate booking = new BookingDate();
+                booking.setIdBookingDate(rs.getLong(1));
+                booking.setIdService(rs.getLong(2));
+                booking.setDate(rs.getDate(3));
+                booking.setTime(rs.getTime(4));
+                booking.setIsValid(rs.getBoolean(5));
                 bookings.add(booking);
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.fillInStackTrace();
         }
         return CompletableFuture.completedFuture(bookings);
     }
@@ -144,7 +139,7 @@ public class UserDaoImpl implements UserDao {
             st.setString(3, user.getName());
             st.setString(4, user.getSurname());
             st.setString(5, user.getEmail());
-            st.setString(6, String.valueOf(user.getRole()));
+            st.setString(6, user.getNumber());
             int rowsAffected = st.executeUpdate();
             st.close();
 
@@ -166,7 +161,7 @@ public class UserDaoImpl implements UserDao {
             st.setString(3, user.getName());
             st.setString(4, user.getSurname());
             st.setString(5, user.getEmail());
-            st.setString(6, String.valueOf(user.getRole()));
+            st.setString(6, user.getNumber());
             st.setLong(7, user.getIdUser());
             int rowsAffected = st.executeUpdate();
             st.close();

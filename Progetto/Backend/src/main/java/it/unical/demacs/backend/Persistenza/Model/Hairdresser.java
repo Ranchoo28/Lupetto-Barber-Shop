@@ -5,10 +5,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 @Setter
@@ -16,37 +14,34 @@ import java.util.Objects;
 @NoArgsConstructor
 @EqualsAndHashCode
 
-public class User implements UserDetails {
-    private Long idUser;
+
+public class Hairdresser implements UserDetails {
+    private Long id_hairdresser;
     private String username;
     private String password;
-    private String name;
-    private String surname;
-    private String email;
-    private String number;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("USER"));
+        return List.of(new SimpleGrantedAuthority("HAIRDRESSER"));
     }
 
     @Override
-    public boolean isAccountNonExpired() { return true; }
+    public boolean isAccountNonExpired() {
+        return false;
+    }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return false;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return false;
     }
-
-
 }

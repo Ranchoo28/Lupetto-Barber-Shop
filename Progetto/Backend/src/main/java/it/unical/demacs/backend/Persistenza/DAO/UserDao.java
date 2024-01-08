@@ -1,6 +1,7 @@
 package it.unical.demacs.backend.Persistenza.DAO;
 
 import it.unical.demacs.backend.Persistenza.Model.Booking;
+import it.unical.demacs.backend.Persistenza.Model.BookingDate;
 import it.unical.demacs.backend.Persistenza.Model.User;
 
 import java.sql.SQLException;
@@ -12,7 +13,7 @@ public interface UserDao {
     public CompletableFuture<User> findByPrimaryKey(Long id) throws SQLException;
     public CompletableFuture<User> findByUsername(String username);
     public CompletableFuture<User> findByEmail(String email);
-    public CompletableFuture<ArrayList<Booking>> findBookings(Long id);
+    public CompletableFuture<ArrayList<BookingDate>> findBookings(Long id);
     public CompletableFuture<Boolean> insert(User user);
     public CompletableFuture<Boolean> update(User user);
     public CompletableFuture<Boolean> delete(Long id);

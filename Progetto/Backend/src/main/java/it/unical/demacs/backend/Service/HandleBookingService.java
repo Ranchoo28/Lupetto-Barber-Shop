@@ -2,6 +2,7 @@ package it.unical.demacs.backend.Service;
 
 import it.unical.demacs.backend.Persistenza.DatabaseHandler;
 import it.unical.demacs.backend.Persistenza.Model.Booking;
+import it.unical.demacs.backend.Persistenza.Model.BookingDate;
 import it.unical.demacs.backend.Persistenza.Model.User;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,7 +24,7 @@ public class HandleBookingService {
         Time time=Time.valueOf(request.getParameter("time"));
         User user= DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
         try {
-            Booking booking=new Booking(user.getIdUser(), idService, date, time);
+            Booking booking=new Booking(user.getIdUser(), 1L);
             boolean res= DatabaseHandler.getInstance().getBookingDao().insert(booking).join();
             DatabaseHandler.getInstance().closeConnection();
             if (res) {
@@ -83,7 +84,7 @@ public class HandleBookingService {
     {
         User user=DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
         if (user!=null) {
-            ArrayList<Booking> booking= DatabaseHandler.getInstance().getUtenteDao().findBookings(user.getIdUser()).join();
+            ArrayList<BookingDate> booking = DatabaseHandler.getInstance().getUtenteDao().findBookings(user.getIdUser()).join();
             DatabaseHandler.getInstance().closeConnection();
             return ResponseEntity.ok(booking);
         } else {
