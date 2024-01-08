@@ -19,6 +19,11 @@ export class RegistrazioneComponent {
   passwordExample =`Esempio: Password123!`;
   emailExample =`indirizzo@dominio.it`;
 
+  regexNome =`[a-zA-Z]+`;
+  regexCognome =`[a-zA-Z]+`;
+  regexUsername =`[a-zA-Z0-9_]+`;
+  regexEmail =`^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$`;
+
   hide = true;
 
   errors: string[] = [];
@@ -39,7 +44,7 @@ export class RegistrazioneComponent {
     Validators.required,
     Validators.minLength(2),
     Validators.maxLength(30),
-    Validators.pattern('[a-zA-Z0-9_-]+')
+    Validators.pattern('[a-zA-Z0-9_]+')
   ]);
   emailCheck = new FormControl('', [
     Validators.required,
@@ -98,27 +103,27 @@ export class RegistrazioneComponent {
     this.validateField('nome', {
       required: true,
       minLength: 2,
-      pattern: '[a-zA-Z]+'
+      pattern: this.regexNome
     });
   }
   CognomeCheck(): void {
     this.validateField('cognome', {
       required: true,
       minLength: 2,
-      pattern: '[a-zA-Z]+'
+      pattern: this.regexCognome
     });
   }
   UsernameCheck(): void {
     this.validateField('username', {
       required: true,
       minLength: 2,
-      pattern: '[a-zA-Z0-9_-]+'
+      pattern: this.regexUsername
     });
   }
   EmailCheck(): void {
     this.validateField('email', {
       required: true,
-      pattern: '^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$'
+      pattern: this.regexEmail
     });
   }
   PasswordCheck(): void {
@@ -127,7 +132,7 @@ export class RegistrazioneComponent {
     if (!value.match(/(?=.*[A-Z])/)) this.errors.push('La password deve contenere almeno una lettera maiuscola.');
     if (!value.match(/(?=.*[a-z])/)) this.errors.push('La password deve contenere almeno una lettera minuscola.');
     if (!value.match(/(?=.*[0-9])/)) this.errors.push('La password deve contenere almeno un numero.');
-    if (!value.match(/(?=.*[!@#$%&*()_+\-.?])/)) this.errors.push('La password deve contenere almeno un carattere speciale.');
+    if (!value.match(/(?=.*[!@#$%&*()_+\-.?])/)) this.errors.push('La password deve contenere almeno un carattere speciale: !@#$%&*()_+-.?');
     if (value.length < 6) this.errors.push('La password deve avere almeno 6 caratteri.');
 
     if (this.registrationForm.get('password')?.valid) {
@@ -151,6 +156,15 @@ export class RegistrazioneComponent {
     this.PasswordCheck();
     if(this.registrationForm.get('repeatPassword')?.enabled){
       this.RepeatPasswordCheck();
+    }
+  }
+
+  restrictInput(event: KeyboardEvent, regexPattern: string): void {
+    const inputChar = event.key;
+    const regex = new RegExp(regexPattern);
+
+    if (!regex.test(inputChar)) {
+      event.preventDefault();
     }
   }
 

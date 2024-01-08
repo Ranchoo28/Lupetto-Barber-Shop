@@ -17,9 +17,20 @@ export class LoginComponent {
   hide = true;
   loginErrorMessage = '';
 
+  regexUsername =`[a-zA-Z0-9_]+`;
+
   usernameCheck: FormControl = new FormControl('');
   passwordCheck: FormControl = new FormControl('');
   loginForm!: FormGroup;
+
+  restrictInput(event: KeyboardEvent, regexPattern: string): void {
+    const inputChar = event.key;
+    const regex = new RegExp(regexPattern);
+
+    if (!regex.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -27,7 +38,6 @@ export class LoginComponent {
       password: this.passwordCheck
     });
   }
-
 
   onLogin(){
     if (this.loginForm.valid) {

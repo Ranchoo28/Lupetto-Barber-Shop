@@ -9,18 +9,19 @@
 
           <div class="row">
             <!-- ----------------- NOME ----------------- -->
-            <div class="col-lg-5">
+            <div class="col-lg-6">
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Nome</mat-label>
                 <input matInput type="text" [formControl]="nomeCheck"
+                       (keydown)="restrictInput($event, regexNome)"
                        [matTooltip]="nomeCheck.invalid ? nomeExample : ''">
               </mat-form-field></div>
-            <div class="col-lg-2"></div>
             <!-- ----------------- COGNOME ----------------- -->
-            <div class="col-lg-5">
+            <div class="col-lg-6">
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Cognome</mat-label>
                 <input matInput type="text" [formControl]="cognomeCheck"
+                       (keydown)="restrictInput($event, regexCognome)"
                        [matTooltip]="cognomeCheck.invalid ? cognomeExample : ''">
               </mat-form-field></div>
           </div>
@@ -30,6 +31,7 @@
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Nome Utente</mat-label>
               <input matInput type="text" [formControl]="usernameCheck"
+                     (keydown)="restrictInput($event, regexUsername)"
                      [matTooltip]="usernameCheck.invalid ? usernameExample : ''">
             </mat-form-field>
           </div>
@@ -61,7 +63,6 @@
               <mat-label>Password</mat-label>
               <input matInput type="{{hide ? 'password' : 'text'}}" [formControl]="repeatPasswordCheck"
                      matTooltip="{{passwordCheck.invalid ? passwordExample : ''}}">
-
               <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
               </button>

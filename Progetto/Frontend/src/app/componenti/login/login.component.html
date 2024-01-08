@@ -9,7 +9,8 @@
             <!-- ----------------- USERNAME ----------------- -->
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Nome Utente</mat-label>
-              <input matInput type="text" [formControl]="usernameCheck">
+              <input matInput type="text" [formControl]="usernameCheck"
+                     (keydown)="restrictInput($event, regexUsername)">
             </mat-form-field>
           </div>
 
