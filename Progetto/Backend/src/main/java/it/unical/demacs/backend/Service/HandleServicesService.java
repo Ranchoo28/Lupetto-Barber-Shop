@@ -15,12 +15,13 @@ public class HandleServicesService {
             boolean res= DatabaseHandler.getInstance().getServiceDao().insert(services).join();
             DatabaseHandler.getInstance().closeConnection();
             if (res) {
-                return ResponseEntity.ok("Successful insert of the service");
+                return ResponseEntity.ok().body("{\"message\": \"Successful insert of the service\"}");
+
             } else {
-                return ResponseEntity.badRequest().body("Insert failed. Probably the service already exists");
+                return ResponseEntity.badRequest().body("{\"message\": \"Insert failed. Probably the service already exists\"}");
             }
         } else {
-            return ResponseEntity.badRequest().body("You are not authorized to perform this action");
+            return ResponseEntity.badRequest().body("{\"message\": \"You are not authorized to perform this action\"}");
         }
 
          */
@@ -34,12 +35,12 @@ public class HandleServicesService {
             boolean res= DatabaseHandler.getInstance().getServiceDao().delete(idService).join();
             DatabaseHandler.getInstance().closeConnection();
             if (res) {
-                return ResponseEntity.ok("Successful delete of the service");
+                return ResponseEntity.ok().body("{\"message\": \"Successful delete of the service\"}");
             } else {
-                return ResponseEntity.badRequest().body("Delete failed.");
+                 return ResponseEntity.badRequest().body("{\"message\": \"Delete failed\"}");
             }
         } else {
-            return ResponseEntity.badRequest().body("You are not authorized to perform this action");
+            return ResponseEntity.badRequest().body("{\"message\": \"You are not authorized to perform this action\"}");
         }
          */
         return null;
@@ -51,12 +52,12 @@ public class HandleServicesService {
             boolean res= DatabaseHandler.getInstance().getServiceDao().update(services).join();
             DatabaseHandler.getInstance().closeConnection();
             if (res) {
-                return ResponseEntity.ok("Successful update of the service");
+                return ResponseEntity.ok().body("{\"message\": \"Successful update of the service\"}");
             } else {
-                return ResponseEntity.badRequest().body("Update failed.");
+                 return ResponseEntity.badRequest().body("{\"message\": \"Update failed.\"}");
             }
         } else {
-            return ResponseEntity.badRequest().body("You are not authorized to perform this action");
+             return ResponseEntity.badRequest().body("{\"message\": \"You are not authorized to perform this action\"}");
         }
 
          */
@@ -66,7 +67,7 @@ public class HandleServicesService {
         ArrayList<Service> services= DatabaseHandler.getInstance().getServiceDao().findAll().join();
         DatabaseHandler.getInstance().closeConnection();
         if(services.isEmpty()){
-            return ResponseEntity.badRequest().body("No services found");
+            return ResponseEntity.badRequest().body("{\"message\": \"No services found\"}");
         } else {
             return ResponseEntity.ok(services);
         }

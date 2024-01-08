@@ -73,10 +73,10 @@ public class HandleBookingService {
                 DatabaseHandler.getInstance().closeConnection();
                 return ResponseEntity.ok(res);
             } else {
-                return ResponseEntity.badRequest().body("Invalid booking ID provided");
+                return ResponseEntity.badRequest().body("{\"message\": \"Invalid booking ID provided\"}");
             }
         } else {
-            return ResponseEntity.badRequest().body("A person with this username doesn't exists");
+            return ResponseEntity.badRequest().body("{\"message\": \"A person with this username doesn't exists\"}");
         }
     }
 
@@ -88,7 +88,7 @@ public class HandleBookingService {
             DatabaseHandler.getInstance().closeConnection();
             return ResponseEntity.ok(booking);
         } else {
-            return ResponseEntity.badRequest().body("A person with this username doesn't exists");
+            return ResponseEntity.badRequest().body("{\"message\": \"A person with this username doesn't exists\"}");
         }
     }
 
