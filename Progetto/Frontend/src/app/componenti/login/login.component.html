@@ -1,48 +1,48 @@
 
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-3"></div>
-      <div class="col-lg-6">
-        <mat-card>
-          <mat-card-content [formGroup]="loginForm" (ngSubmit)="onLogin()">
-            <div class="row">
-              <!--
-              <app-username (usernameControlOut)="onUsernameControlLoaded($event)"></app-username>
-            </div>
-            <div class="row">
-              <app-password (passwordControlOut)="onPasswordControlLoaded($event)"></app-password>
--->
-              <!-- TODO SE IL LOGIN FALLISCE
-              <mat-error *ngIf="">
-                {{ loginInvalidMessage }}
-              </mat-error>
-              <br><br>
-              -->
+<div class="container">
+  <div class="row">
+    <div class="col-lg-3"></div>
+    <div class="col-lg-6">
+      <mat-card>
+        <mat-card-content [formGroup]="loginForm" (ngSubmit)="onLogin()">
+          <div class="row">
+            <!-- ----------------- USERNAME ----------------- -->
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Nome Utente</mat-label>
+              <input matInput type="text" [formControl]="usernameCheck">
+            </mat-form-field>
+          </div>
 
-            </div>
-            <div class="row">
-              <div class="col-lg-2"></div>
-              <div class="col-lg-8">
-                <div class="row">
-                  <button mat-raised-button color="primary" [disabled]="loginForm.invalid" (click)="onLogin()">Accedi</button>
-                </div>
-                <br><br>
-                <div class="row">
-                  <a mat-button [routerLink]="['/registrazione']" color="accent" >Non sei ancora registrato? Registrati!</a>
-                </div>
+          <div class="row">
+            <!-- ----------------- PASSWORD ----------------- -->
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Password</mat-label>
+              <input matInput type="{{hide ? 'password' : 'text'}}" [formControl]="passwordCheck">
+              <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
+                <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+              </button>
+            </mat-form-field>
+          </div>
+            <mat-error id="errorOutput">
+              {{ loginErrorMessage }}
+            </mat-error>
+            <br><br>
+          <div class="row">
+            <div class="col-lg-2"></div>
+            <div class="col-lg-8">
+              <div class="row">
+                <button mat-raised-button color="primary" [disabled]="loginForm.invalid" (click)="onLogin()">Accedi</button>
               </div>
-              <div class="col-lg-2"></div>
+              <br><br>
+              <div class="row">
+                <a mat-button [routerLink]="['/registrazione']" color="accent" >Non sei ancora registrato? Registrati!</a>
+              </div>
             </div>
-          </mat-card-content>
-        </mat-card>
-      </div>
-      <div class="col-lg-3"></div>
+            <div class="col-lg-2"></div>
+          </div>
+        </mat-card-content>
+      </mat-card>
     </div>
-
-    <!--
-    <div class="row">
-      <button (click)="registerFake()">ciao</button>
-    </div>
-    -->
-
+    <div class="col-lg-3"></div>
   </div>
+</div>
