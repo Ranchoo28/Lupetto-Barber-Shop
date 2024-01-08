@@ -50,7 +50,8 @@ export class AuthenticationService {
       name: name,
       surname: surname,
       email: email,
-      // role: "USER" TODO
+      // role: "USER"
+      // TODO rimuovere role da register
     };
     console.log(user);
     return this.http.post(this.registerURL, user, this.httpOptions);
