@@ -14,6 +14,10 @@ import { MatNativeDateModule } from "@angular/material/core";
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatRadioModule } from "@angular/material/radio";
 
 // Components
 import { AppComponent } from './app.component';
@@ -26,8 +30,12 @@ import { NotfoundComponent } from './componenti/notfound/notfound.component';
 import { ProdottiComponent } from './componenti/prodotti/prodotti.component';
 import { PrenotaComponent } from './componenti/prenota/prenota.component';
 import { RegistrazioneComponent } from './componenti/registrazione/registrazione.component';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatTableModule} from '@angular/material/table';
+import {
+  CarouselCaptionComponent, CarouselComponent,
+  CarouselControlComponent,
+  CarouselIndicatorsComponent,
+  CarouselInnerComponent, CarouselItemComponent
+} from "@coreui/angular";
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
@@ -38,8 +46,7 @@ import {NgOptimizedImage, registerLocaleData} from '@angular/common';
 import localeIt from '@angular/common/locales/it';
 import { ReactiveFormsModule} from "@angular/forms";
 import { PrenotazioniComponent } from './componenti/prenotazioni/prenotazioni.component';
-import {MatCheckboxModule} from "@angular/material/checkbox";
-import {MatRadioModule} from "@angular/material/radio";
+
 
 
 registerLocaleData(localeIt, 'it');
@@ -57,30 +64,36 @@ registerLocaleData(localeIt, 'it');
     RegistrazioneComponent,
     PrenotazioniComponent,
   ],
-    imports: [
-        RouterModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        MatButtonModule,
-        MatCardModule,
-        MatIconModule,
-        MatFormFieldModule,
-        MatSelectModule,
-        MatInputModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatToolbarModule,
-        MatTooltipModule,
-        MatGridListModule,
-        MatDialogModule,
-        ReactiveFormsModule,
-        NgOptimizedImage,
-        MatTableModule,
-        MatCheckboxModule,
-        MatRadioModule,
-        HttpClientModule
-    ],
+  imports: [
+    RouterModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    MatButtonModule,
+    MatCardModule,
+    MatIconModule,
+    MatFormFieldModule,
+    MatSelectModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatGridListModule,
+    MatDialogModule,
+    ReactiveFormsModule,
+    NgOptimizedImage,
+    MatTableModule,
+    MatCheckboxModule,
+    MatRadioModule,
+    HttpClientModule,
+    CarouselControlComponent,
+    CarouselCaptionComponent,
+    CarouselInnerComponent,
+    CarouselIndicatorsComponent,
+    CarouselComponent,
+    CarouselItemComponent
+  ],
   providers: [
     provideClientHydration(),
     { provide: LOCALE_ID, useValue: 'it' }

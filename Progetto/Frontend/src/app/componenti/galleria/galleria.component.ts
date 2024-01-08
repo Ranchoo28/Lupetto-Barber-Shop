@@ -6,26 +6,15 @@ import { Component,OnInit } from '@angular/core';
   templateUrl: './galleria.component.html',
   styleUrl: './galleria.component.css'
 })
-export class GalleriaComponent implements OnInit{
-  images = [
-    {path: 'assets/images/taglio.png'},
-    {path: 'assets/images/taglio-donna1.png'},
-    {path: 'assets/images/taglio-uomo1.png'},
-    // {path: 'assets/images/text-logo.png'},
-  ]
-  currentImageIndex = 0;
 
-  ngOnInit(): void {
-    setInterval(() => {
-      this.currentImageIndex++;
-      if (this.currentImageIndex >= this.images.length) {
-        this.currentImageIndex = 0;
-      }
-    }, 3000);
-  }
+export class GalleriaComponent{
 
-  ngOnDestroy(): void {
-    clearInterval(this.currentImageIndex);
-  }
+  slides = [
+    { src: './assets/images/Tagli/taglio.png', title: 'Titolo 1', subtitle: 'Sottotitolo 1' },
+    { src: './assets/images/Tagli/taglio-donna1.png', title: 'Titolo 2', subtitle: 'Sottotitolo 2' },
+    { src: './assets/images/Tagli/taglio-uomo1.png', title: 'Titolo 2', subtitle: 'Sottotitolo 2' },
+    // ecc.
+  ];
 
 }
+

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
     <a class="navbar-brand" [routerLink]="['/']">
-      <img src="assets/images/text-logo.png" alt="" id="homeText" >
+      <img src="../../../assets/images/Logo/text-logo.png" alt="" id="homeText" >
     </a>
     <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#idNavBar" aria-controls="idNavBar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -12,25 +12,19 @@
         <li class="nav-item">
           <button mat-button [routerLink]="['prenotazioni']">
             Prenotazioni
-            <mat-icon fontIcon=""></mat-icon>
+            <mat-icon fontIcon="view_list"></mat-icon>
           </button>
         </li>
         <li class="nav-item">
           <button mat-button [routerLink]="['prenota']">
             Prenota
-            <mat-icon fontIcon="calendar_today"></mat-icon>
+            <mat-icon fontIcon="playlist_add"></mat-icon>
           </button>
         </li>
         <li>
           <button mat-button [routerLink]="['prodotti']">
             Prodotti
             <mat-icon fontIcon="inventory"></mat-icon>
-          </button>
-        </li>
-        <li>
-          <button mat-button [routerLink]="['galleria']">
-            Galleria
-            <mat-icon fontIcon="photo"></mat-icon>
           </button>
         </li>
         <li class="nav-item">
