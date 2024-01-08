@@ -15,8 +15,6 @@ export class GalleriaComponent implements OnInit{
   ]
   currentImageIndex = 0;
 
-
-
   ngOnInit(): void {
     setInterval(() => {
       this.currentImageIndex++;
@@ -24,6 +22,10 @@ export class GalleriaComponent implements OnInit{
         this.currentImageIndex = 0;
       }
     }, 3000);
+  }
+
+  ngOnDestroy(): void {
+    clearInterval(this.currentImageIndex);
   }
 
 }
