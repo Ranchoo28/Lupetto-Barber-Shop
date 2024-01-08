@@ -14,13 +14,23 @@ export class LoginComponent {
 
   }
 
-  loginInvalidMessage =`
-  Username o password errati
-  `
+  hide = true;
+  loginErrorMessage = '';
+
+  regexUsername =`[a-zA-Z0-9_]+`;
 
   usernameCheck: FormControl = new FormControl('');
   passwordCheck: FormControl = new FormControl('');
   loginForm!: FormGroup;
+
+  restrictInput(event: KeyboardEvent, regexPattern: string): void {
+    const inputChar = event.key;
+    const regex = new RegExp(regexPattern);
+
+    if (!regex.test(inputChar)) {
+      event.preventDefault();
+    }
+  }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
@@ -29,44 +39,28 @@ export class LoginComponent {
     });
   }
 
-  onUsernameControlLoaded(control: FormControl) {
-    this.loginForm.setControl('username', control);
-  }
-
-  onPasswordControlLoaded(control: FormControl) {
-    this.loginForm.setControl('password', control);
-  }
-
   onLogin(){
     if (this.loginForm.valid) {
-      const email = this.loginForm.value.username;
-      const password = this.loginForm.value.password;
+      const email = this.loginForm.get('username')?.value;
+      const password = this.loginForm.get('password')?.value;
 
-      let a = this.authService.login(email, password);
-      console.log(a);
-
-      if (this.authService.login(email, password)) {
-        console.log("Login effettuato");
-      } else {
-        console.log("Login non effettuato");
-      }
-      this.loginForm.reset();
+      this.authService.login(email, password).subscribe(
+        accessToken => {
+          console.log("Login effettuato", accessToken);
+          localStorage.setItem('access_token', accessToken.toString()); // TODO salvare il cookie
+          this.loginErrorMessage = '';
+        },
+        error => {
+          console.log("Login non effettuato", error);
+          this.loginErrorMessage = 'Login non riuscito. Email o Password errate.';
+        }
+      );
+      // Meglio non resettare il form così da poter correggere più facilmente errori
+      // this.loginForm.reset();
     } else {
       console.log("Form non valido");
+      this.loginErrorMessage = 'Form non valido. Si prega di controllare i dati inseriti.';
     }
   }
-
-  /*
-  registerFake(){
-    this.authService.register('pippo','Password1!', 'Nome', 'Cognome', 'email@example.com', 'USER').subscribe(
-      data => {
-        console.log(data);
-      },
-      error => {
-        console.error('Errore durante la registrazione', error);
-      }
-    );
-  }
-  */
 
 }
