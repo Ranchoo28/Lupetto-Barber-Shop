@@ -107,23 +107,20 @@ public class BookingDaoImpl implements BookingDao {
     }
 
     @Override
-    @Async
-    public CompletableFuture<Boolean> isValid(Long bookingId, Long idUser) {
-        /* TODO -> DA ADATTARE ALLE NUOVE TABELLE
-        String query = "SELECT COUNT(*) FROM bookings WHERE id_booking = ? and data > CURRENT_DATE and ora > CURRENT_TIME and id_user= ?";
-        boolean res=false;
+    public CompletableFuture<Boolean> isValid(Long id, Long idUser) {
+        String query = "SELECT COUNT(*) FROM bookings WHERE id_booking = ? and id_user = ?";
         try (
                 PreparedStatement st = this.con.prepareStatement(query)) {
-            st.setLong(1, bookingId);
+            st.setLong(1, id);
             st.setLong(2, idUser);
             try (ResultSet rs = st.executeQuery()) {
-                res=rs.next();
+                if (rs.next()) {
+                    return CompletableFuture.completedFuture(rs.getInt(1) > 0);
+                }
             }
         } catch (SQLException e) {
             e.fillInStackTrace();
         }
-
-         */
-        return CompletableFuture.completedFuture(null);
+        return CompletableFuture.completedFuture(false);
     }
 }

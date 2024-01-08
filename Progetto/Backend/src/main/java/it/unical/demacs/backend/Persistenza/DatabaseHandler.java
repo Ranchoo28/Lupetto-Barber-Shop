@@ -43,6 +43,17 @@ public class DatabaseHandler {
         }
     }
 
+    public void openConnection()
+    {
+        try {
+            if (con == null || con.isClosed()) {
+                con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Salone", "postgres", "postgres");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public UserDao getUtenteDao(){
         return new UserDaoImpl(getConnection());
     }

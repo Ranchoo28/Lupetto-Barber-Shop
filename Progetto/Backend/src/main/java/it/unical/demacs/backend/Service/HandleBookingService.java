@@ -18,36 +18,39 @@ import java.util.ArrayList;
 public class HandleBookingService {
 
     public void insertBooking(HttpServletRequest request, HttpServletResponse response) {
-        String username= request.getParameter("username");
-        Long idService=Long.valueOf(request.getParameter("idService"));
-        Date date= Date.valueOf(request.getParameter("data"));
-        Time time=Time.valueOf(request.getParameter("time"));
-        User user= DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
         try {
-            Booking booking=new Booking(user.getIdUser(), 1L);
-            boolean res= DatabaseHandler.getInstance().getBookingDao().insert(booking).join();
-            DatabaseHandler.getInstance().closeConnection();
-            if (res) {
-                response.setStatus(HttpServletResponse.SC_OK);
-                response.getWriter().write("Successful insert of the booking");
-            } else {
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                response.getWriter().write("Insert failed");
+            DatabaseHandler.getInstance().openConnection();
+            String username = request.getParameter("username");
+            Long idBookingDate = Long.valueOf(request.getParameter("idBookingDate"));
+            User user = DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
+            try {
+                Booking booking = new Booking(user.getIdUser(), idBookingDate);
+                boolean res = DatabaseHandler.getInstance().getBookingDao().insert(booking).join();
+                if (res) {
+                    response.setStatus(HttpServletResponse.SC_OK);
+                    response.getWriter().write("Successful insert of the booking");
+                } else {
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    response.getWriter().write("Insert failed");
+                }
+            } catch (NumberFormatException | IOException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
-        } catch (NumberFormatException | IOException e) {
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }finally {
+            DatabaseHandler.getInstance().closeConnection();
         }
     }
 
     public void deleteBooking(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        try{
+            DatabaseHandler.getInstance().openConnection();
         Long bookingId= Long.valueOf(request.getParameter("idBooking"));
         String username=request.getParameter("username");
         User user=DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
-        boolean isValid = DatabaseHandler.getInstance().getBookingDao().isValid(bookingId, user.getIdUser()).join();
+        boolean isValid =DatabaseHandler.getInstance().getBookingDao().isValid(bookingId, user.getIdUser()).join();
         if (isValid) {
             try {
                 boolean res= DatabaseHandler.getInstance().getBookingDao().delete(bookingId).join();
-                DatabaseHandler.getInstance().closeConnection();
                 if (res) {
                     response.setStatus(HttpServletResponse.SC_OK);
                     response.getWriter().write("Successful cancellation of the reservation");
@@ -62,33 +65,44 @@ public class HandleBookingService {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.getWriter().write("Invalid booking ID provided");
         }
+        }finally {
+            DatabaseHandler.getInstance().closeConnection();
+        }
     }
 
     public ResponseEntity<?> updateBooking(Booking booking, String username)
     {
-        User user=DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
-        if (user!=null) {
-            if(DatabaseHandler.getInstance().getBookingDao().isValid(booking.getIdBooking(), user.getIdUser()).join()) {
-                boolean res= DatabaseHandler.getInstance().getBookingDao().update(booking).join();
-                DatabaseHandler.getInstance().closeConnection();
-                return ResponseEntity.ok(res);
+        try {
+            DatabaseHandler.getInstance().openConnection();
+            User user = DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
+            if (user != null) {
+                if (DatabaseHandler.getInstance().getBookingDao().isValid(booking.getIdBooking(), user.getIdUser()).join()) {
+                    boolean res = DatabaseHandler.getInstance().getBookingDao().update(booking).join();
+                    return ResponseEntity.ok(res);
+                } else {
+                    return ResponseEntity.badRequest().body("{\"message\": \"Invalid booking ID provided\"}");
+                }
             } else {
-                return ResponseEntity.badRequest().body("{\"message\": \"Invalid booking ID provided\"}");
+                return ResponseEntity.badRequest().body("{\"message\": \"A person with this username doesn't exists\"}");
             }
-        } else {
-            return ResponseEntity.badRequest().body("{\"message\": \"A person with this username doesn't exists\"}");
+        }finally {
+            DatabaseHandler.getInstance().closeConnection();
         }
     }
 
     public ResponseEntity<?> getBooking(String username)
     {
-        User user=DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
-        if (user!=null) {
-            ArrayList<BookingDate> booking = DatabaseHandler.getInstance().getUtenteDao().findBookings(user.getIdUser()).join();
+        try {
+            DatabaseHandler.getInstance().openConnection();
+            User user = DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
+            if (user != null) {
+                ArrayList<BookingDate> booking = DatabaseHandler.getInstance().getUtenteDao().findBookings(user.getIdUser()).join();
+                return ResponseEntity.ok(booking);
+            } else {
+                return ResponseEntity.badRequest().body("{\"message\": \"A person with this username doesn't exists\"}");
+            }
+        }finally {
             DatabaseHandler.getInstance().closeConnection();
-            return ResponseEntity.ok(booking);
-        } else {
-            return ResponseEntity.badRequest().body("{\"message\": \"A person with this username doesn't exists\"}");
         }
     }
 
