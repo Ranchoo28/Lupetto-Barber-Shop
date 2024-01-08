@@ -50,4 +50,5 @@ public class DatabaseHandler {
     public ServiceDao getServiceDao() { return new ServiceDaoImpl(getConnection());}
     public ProductDao getProductDao() { return new ProductDaoImpl(getConnection());}
     public HairdresserDao getHairdresserDao() { return new HairdresserDaoImpl(getConnection());}
+    public BookingDateDao getBookingDateDao() { return new BookingDateImpl(getConnection());}
 }
