@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="61e610bd-bc75-403f-b53a-49b9f4ea3773" name="Changes" comment="Ilaria ha dimenticato tutti gli Async (è scema)." />
+    <list default="true" id="61e610bd-bc75-403f-b53a-49b9f4ea3773" name="Changes" comment="Ilaria ha dimenticato tutti gli Async (è scema).">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/it/unical/demacs/backend/Persistenza/Model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/it/unical/demacs/backend/Persistenza/Model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Frontend/src/app/app-routing.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Frontend/src/app/app-routing.module.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -56,6 +61,7 @@
       <workItem from="1704537101478" duration="128000" />
       <workItem from="1704537247216" duration="35000" />
       <workItem from="1704551021271" duration="8000" />
+      <workItem from="1704645447641" duration="102000" />
     </task>
     <task id="LOCAL-00001" summary="Ilaria ha dimenticato tutti gli Async (è scema).">
       <option name="closed" value="true" />
