@@ -13,7 +13,7 @@ public class ProductsService {
         ArrayList<Product> products = DatabaseHandler.getInstance().getProductDao().findAll().join();
         DatabaseHandler.getInstance().closeConnection();
         if(products.isEmpty()){
-            return ResponseEntity.badRequest().body("No products found");
+            return ResponseEntity.badRequest().body("{\"message\": \"No products found\"}");
         }
         else{
             return ResponseEntity.ok(products);

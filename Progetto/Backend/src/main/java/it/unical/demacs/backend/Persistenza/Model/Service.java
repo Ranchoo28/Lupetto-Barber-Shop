@@ -14,4 +14,11 @@ public class Service {
     private String description;
     private String category;
     private double price;
+
+    public Service(String name, String description, String category, double price) {
+    	this.name = name;
+    	this.description = description;
+    	this.category = category;
+    	this.price = price;
+    }
 }

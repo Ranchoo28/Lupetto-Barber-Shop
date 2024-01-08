@@ -14,4 +14,11 @@ public class Product {
     private String description;
     private String category;
     private Double price;
+
+    public Product(String name, String description, String category, Double price) {
+    	this.name = name;
+    	this.description = description;
+    	this.category = category;
+    	this.price = price;
+    }
 }

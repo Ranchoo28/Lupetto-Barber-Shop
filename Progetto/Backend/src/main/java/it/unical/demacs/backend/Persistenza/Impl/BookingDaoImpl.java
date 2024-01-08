@@ -25,9 +25,7 @@ public class BookingDaoImpl implements BookingDao {
                 Booking booking = new Booking();
                 booking.setIdBooking(rs.getLong(1));
                 booking.setIdUser(rs.getLong(2));
-                booking.setIdService(rs.getLong(3));
-                booking.setDate(rs.getDate(4));
-                booking.setTime(rs.getTime(5));
+                booking.setIdBookingDate(rs.getLong(3));
                 bookingList.add(booking);
             }
         } catch (SQLException e) {
@@ -48,9 +46,7 @@ public class BookingDaoImpl implements BookingDao {
                 if (rs.next()) {
                     booking.setIdBooking(rs.getLong(1));
                     booking.setIdUser(rs.getLong(2));
-                    booking.setIdService(rs.getLong(3));
-                    booking.setDate(rs.getDate(4));
-                    booking.setTime(rs.getTime(5));
+                    booking.setIdBookingDate(rs.getLong(3));
                 }
             }
         } catch (SQLException e) {
@@ -62,13 +58,11 @@ public class BookingDaoImpl implements BookingDao {
     @Override
     @Async
     public CompletableFuture<Boolean> insert(Booking booking) {
-        String query = "INSERT INTO bookings (id_user, id_service, data, ora) VALUES ( ?, ?, ?, ?)";
+        String query = "INSERT INTO bookings ( id_user, id_bookingdate) VALUES (?, ?)";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
             st.setLong(1, booking.getIdUser());
-            st.setLong(2, booking.getIdService());
-            st.setDate(3, booking.getDate());
-            st.setTime(4, booking.getTime());
+            st.setLong(2, booking.getIdBookingDate());
             int rowsAffected = st.executeUpdate();
             st.close();
 
@@ -81,13 +75,12 @@ public class BookingDaoImpl implements BookingDao {
 
     @Override
     public CompletableFuture<Boolean> update(Booking booking) {
-        String query = "UPDATE bookings SET id_service=?, data=?, ora=? WHERE id_booking=?";
+        String query = "UPDATE bookings SET id_booking=?, id_user=?, id_bookingdate=? WHERE id_booking=?";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
-            st.setLong(1, booking.getIdService());
-            st.setDate(2, booking.getDate());
-            st.setTime(3, booking.getTime());
-            st.setLong(4, booking.getIdBooking());
+            st.setLong(1, booking.getIdBooking());
+            st.setLong(2, booking.getIdUser());
+            st.setLong(3, booking.getIdBookingDate());
             int rowsAffected = st.executeUpdate();
             st.close();
             return CompletableFuture.completedFuture(rowsAffected > 0);
@@ -116,6 +109,7 @@ public class BookingDaoImpl implements BookingDao {
     @Override
     @Async
     public CompletableFuture<Boolean> isValid(Long bookingId, Long idUser) {
+        /* TODO -> DA ADATTARE ALLE NUOVE TABELLE
         String query = "SELECT COUNT(*) FROM bookings WHERE id_booking = ? and data > CURRENT_DATE and ora > CURRENT_TIME and id_user= ?";
         boolean res=false;
         try (
@@ -128,6 +122,8 @@ public class BookingDaoImpl implements BookingDao {
         } catch (SQLException e) {
             e.fillInStackTrace();
         }
-        return CompletableFuture.completedFuture(res);
+
+         */
+        return CompletableFuture.completedFuture(null);
     }
 }
