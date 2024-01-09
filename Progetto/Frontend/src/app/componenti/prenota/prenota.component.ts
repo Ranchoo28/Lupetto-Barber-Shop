@@ -2,7 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators} from "@angular/forms";
 import {BookingService} from "../../services/booking.service";
 import {catchError, of, tap} from "rxjs";
-import {ServiceService} from "../../service.service";
+import {ServiceService} from "../../services/service.service";
+import {BookingDateService} from "../../services/booking-data.service";
 
 
 @Component({
@@ -11,32 +12,10 @@ import {ServiceService} from "../../service.service";
   styleUrl: './prenota.component.css'
 })
 export class PrenotaComponent implements OnInit{
-
-  constructor(private bookingService: BookingService, private serviceService: ServiceService) {
-  }
-
-
-  // vettore servizi
   servizi: string[] = [];
-
-  ottieniOrariPrenotabiliUomo(): string[] {
-    let slots: string[] = [];
-    for (let i = 8; i <= 19; i++) {
-      slots.push(i + ':00');
-      slots.push(i + ':30');
-    }
-    return slots;
-  }
-  ottieniOrariPrenotabiliDonna(): string[] {
-    let slots: string[] = [];
-    for (let i = 8; i <= 19; i++) {
-      slots.push(i + ':00');
-    }
-    return slots;
-  }
-
-  //vettore orari
   orari: string[] = [];
+  bookingDates: any[] = [];
+  idService!: number;
 
   sessoCheck = new FormControl('', [
     Validators.required
@@ -54,7 +33,8 @@ export class PrenotaComponent implements OnInit{
 
   prenotaForm!: FormGroup;
 
-
+  constructor(private bookingService: BookingService, private serviceService: ServiceService,private bookingDateService: BookingDateService) {
+  }
   ngOnInit(): void {
     this.prenotaForm = new FormGroup({
       sessoCheck: this.sessoCheck,
@@ -75,21 +55,45 @@ export class PrenotaComponent implements OnInit{
         this.servizi = response.map((service: any) => service.name);
       });
     });
+
+    this.servizioCheck.valueChanges.subscribe((newServiceValue) => {
+      this.bookingDateService.getBookingDateByService(2).subscribe((response) => {
+        // Gestisci la risposta qui
+        console.log(response);
+        this.bookingDates = response.map((bookingDate: any) => {
+          const parts = bookingDate.date.split('-');
+          const date = new Date(parts[0], parts[1] - 1, parts[2]);
+          return date.toISOString().split('T')[0]; // Restituisce la data nel formato 'yyyy-mm-dd'
+        });
+      });
+    });
+  }
+  effettuaPrenotazione() {
+
   }
 
-
-
+  ottieniOrariPrenotabiliUomo(): string[] {
+    let slots: string[] = [];
+    for (let i = 8; i <= 19; i++) {
+      slots.push(i + ':00');
+      slots.push(i + ':30');
+    }
+    return slots;
+  }
+  ottieniOrariPrenotabiliDonna(): string[] {
+    let slots: string[] = [];
+    for (let i = 8; i <= 19; i++) {
+      slots.push(i + ':00');
+    }
+    return slots;
+  }
 
   dateFilter = (d: Date | null): boolean => {
-    const day = (d || new Date()).getDay();
-    // Prevent Saturday and Sunday from being selected.
-    return day !== 0 && day !== 1;
+    const date = (d || new Date()).toISOString().split('T')[0];
+    // Abilita solo le date che sono nell'array bookingDates
+    return this.bookingDates.includes(date);
   };
 
-  effettuaPrenotazione() {
-    if (this.prenotaForm.valid) {
 
-    }
-  }
 
 }

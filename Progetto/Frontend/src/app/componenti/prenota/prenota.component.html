@@ -10,8 +10,8 @@
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Sesso</mat-label>
                 <mat-select [formControl]="sessoCheck">
-                  <mat-option value="M">Maschio</mat-option>
-                  <mat-option value="F">Femmina</mat-option>
+                  <mat-option value="M">Uomo</mat-option>
+                  <mat-option value="F">Donna</mat-option>
                 </mat-select>
               </mat-form-field>
           </div>
@@ -35,7 +35,7 @@
                 <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" [formControl]="dataCheck">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker [touchUi]="true" #picker></mat-datepicker>
-              </mat-form-field>
+                              </mat-form-field>
             </div>
 
             <div class="col-lg-4">
