@@ -117,7 +117,7 @@ public class UserDaoImpl implements UserDao {
                 BookingDate booking = new BookingDate();
                 booking.setIdBookingDate(rs.getLong(1));
                 booking.setIdService(rs.getLong(2));
-                booking.setDate(rs.getDate(3));
+                booking.setDate(rs.getDate(3).toLocalDate());
                 booking.setTime(rs.getTime(4));
                 booking.setIsValid(rs.getBoolean(5));
                 bookings.add(booking);
