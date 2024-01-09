@@ -52,7 +52,7 @@ export class LoginComponent {
         },
         error => {
           console.log("Login non effettuato", error);
-          this.loginErrorMessage = 'Login non riuscito. Email o Password errate.';
+          this.loginErrorMessage = 'Login non riuscito. Email o Password errati.';
         }
       );
       // Meglio non resettare il form così da poter correggere più facilmente errori

@@ -1,65 +1,62 @@
-<mat-card [formGroup]="prenotaForm" style="text-align: center; margin: 20px; border-radius: 25px; border: 4px solid black">
-  <mat-card-title class="title">Prenota un Appuntamento</mat-card-title>
-  <div>
-    <mat-form-field class="form-field">
-      <mat-label>Nome</mat-label>
-      <input matInput formControlName="nome">
-    </mat-form-field>
-    <mat-form-field class="form-field">
-      <mat-label>Cognome</mat-label>
-      <input matInput formControlName="cognome">
-    </mat-form-field>
+
+
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2"></div>
+
+    <div class="col-lg-8">
+      <mat-card>
+        <mat-card-content [formGroup]="prenotaForm">
+
+          <div class="row">
+            <!-- ----------------- SERVIZIO ----------------- -->
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Servizio</mat-label>
+              <mat-select [formControl]="servizioCheck">
+                <mat-option *ngFor="let servizio of servizi" [value]="servizio">
+                  {{servizio}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-8">
+              <!-- ----------------- DATA ----------------- -->
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Data</mat-label>
+                <input matInput [matDatepicker]="picker" [formControl]="dataCheck">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+
+            <div class="col-lg-4">
+              <!-- ----------------- ORA ----------------- -->
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Ora</mat-label>
+                <mat-select [formControl]="orarioCheck">
+                  <mat-option *ngFor="let ora of orari" [value]="ora">
+                    {{ora}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="row">
+            <!-- ----------------- SUBMITTA LA PRENOTAZIONE ----------------- -->
+            <button mat-raised-button color="primary" [disabled]="prenotaForm.invalid" (click)="effettuaPrenotazione()">Prenota appuntamento</button>
+          </div>
+
+
+        </mat-card-content>
+      </mat-card>
+    </div>
+
+    <div class="col-lg-2"></div>
   </div>
-  <div>
-    <mat-form-field class="form-field">
-      <mat-label>Email</mat-label>
-      <input matInput formControlName="email" type="email">
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field class="form-field">
-      <mat-label>Telefono</mat-label>
-      <input matInput formControlName="telefono" type="tel">
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field class="form-field">
-      <mat-label>Scegli il Servizio</mat-label>
-      <mat-select formControlName="servizio">
-        <!-- Aggiungi qui le tue opzioni -->
-        <mat-option value="Taglio">Taglio</mat-option>
-        <mat-option value="Colore">Colore</mat-option>
-        <mat-option value="Piega">Piega</mat-option>
-        <mat-option value="Shampoo">Shampoo</mat-option>
-        <mat-option value="Shampoo e taglio">Shampoo e taglio</mat-option>
-        <mat-option value="Barba">Barba</mat-option>
-        <!-- ecc... -->
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field class="form-field">
-      <mat-label>Seleziona una data</mat-label>
-      <input matInput formControlName="data" [matDatepickerFilter]="myFilter" [matDatepicker]="picker">
-      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
-      <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
 </div>
-  <div>
-    <mat-form-field class="form-field">
-      <mat-label>Orario</mat-label>
-      <mat-select formControlName="orario">
-        <mat-option *ngFor="let time of timeSlots" [value]="time">{{time}}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div>
-    <mat-form-field class="form-field">
-      <mat-label>Note</mat-label>
-      <textarea matInput formControlName="note"></textarea>
-    </mat-form-field>
-  </div>
-  <div>
-    <button mat-raised-button color="primary" [disabled]="prenotaForm.invalid" (click)="inviaDati()">Prenota</button>
-  </div>
-</mat-card>

@@ -5,7 +5,7 @@
 
     <div class="col-lg-8">
       <mat-card>
-        <mat-card-content [formGroup]="registrationForm" (ngSubmit)="onRegistration()">
+        <mat-card-content [formGroup]="registrationForm">
 
           <div class="row">
             <!-- ----------------- NOME ----------------- -->
@@ -27,22 +27,23 @@
           </div>
 
           <div class="row">
-            <!-- ----------------- USERNAME ----------------- -->
-            <mat-form-field class="full-width" appearance="outline">
-              <mat-label>Nome Utente</mat-label>
-              <input matInput type="text" [formControl]="usernameCheck"
-                     (keydown)="restrictInput($event, regexUsername)"
-                     [matTooltip]="usernameCheck.invalid ? usernameExample : ''">
-            </mat-form-field>
-          </div>
+            <div class="col-lg-7">
+              <!-- ----------------- EMAIL ----------------- -->
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Email</mat-label>
+                <input matInput type="email" [formControl]="emailCheck"
+                       [matTooltip]="emailCheck.invalid ? emailExample: ''">
+              </mat-form-field>
+            </div>
 
-          <div class="row">
-            <!-- ----------------- EMAIL ----------------- -->
-            <mat-form-field class="full-width" appearance="outline">
-              <mat-label>Email</mat-label>
-              <input matInput type="email" [formControl]="emailCheck"
-                     [matTooltip]="emailCheck.invalid ? emailExample: ''">
-            </mat-form-field>
+            <div class="col-lg-5">
+              <!-- ----------------- TELEFONO ----------------- -->
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Telefono</mat-label>
+                <input matInput type="tel" [formControl]="telefonoCheck"
+                       [matTooltip]="telefonoCheck.invalid ? telefonoExample : ''">
+              </mat-form-field>
+            </div>
           </div>
 
           <div class="row">
@@ -55,8 +56,8 @@
                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
               </button>
             </mat-form-field>
-
           </div>
+
           <div class="row">
             <!-- ----------------- PASSWORD CHECK ----------------- -->
             <mat-form-field class="full-width" appearance="outline">
@@ -81,7 +82,7 @@
             <div class="col-lg-8">
               <div class="row">
                 <!-- ----------------- SUBMITTA LA REGISTRAZIONE ----------------- -->
-                <button mat-raised-button color="primary" [disabled]="registrationForm.invalid" (click)="onRegistration()">Registrati</button>
+                <button mat-raised-button color="primary" [disabled]="registrationForm.invalid" (click)="registraUtente()">Registrati</button>
               </div>
               <br><br>
               <div class="row">

@@ -15,14 +15,14 @@ export class RegistrazioneComponent {
 
   nomeExample =`Esempio: Mario`;
   cognomeExample =`Esempio: Rossi`;
-  usernameExample =`Esempio: MarioRossi_55`;
-  passwordExample =`Esempio: Password123!`;
   emailExample =`indirizzo@dominio.it`;
+  telefonoExample =`Esempio: 333 444 5555`;
+  passwordExample =`Esempio: Password123!`;
 
   regexNome =`[a-zA-Z]+`;
   regexCognome =`[a-zA-Z]+`;
-  regexUsername =`[a-zA-Z0-9_]+`;
   regexEmail =`^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$`;
+  regexPassword =`^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%&*()_+-.?]).*$`;
 
   hide = true;
 
@@ -32,29 +32,28 @@ export class RegistrazioneComponent {
     Validators.required,
     Validators.minLength(2),
     Validators.maxLength(20),
-    Validators.pattern('[a-zA-Z]+')
+    Validators.pattern(this.regexNome)
   ]);
   cognomeCheck = new FormControl('', [
     Validators.required,
     Validators.minLength(2),
     Validators.maxLength(20),
-    Validators.pattern('[a-zA-Z]+')
-  ]);
-  usernameCheck = new FormControl('', [
-    Validators.required,
-    Validators.minLength(2),
-    Validators.maxLength(30),
-    Validators.pattern('[a-zA-Z0-9_]+')
+    Validators.pattern(this.regexCognome)
   ]);
   emailCheck = new FormControl('', [
     Validators.required,
-    Validators.pattern('^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$')
+    Validators.pattern(this.regexEmail)
+  ]);
+  telefonoCheck = new FormControl('', [
+    Validators.required,
+    Validators.minLength(10),
+    Validators.maxLength(10),
   ]);
   passwordCheck = new FormControl('', [
     Validators.required,
     Validators.minLength(6),
     Validators.maxLength(30),
-    Validators.pattern('^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%&*()_+-.?]).*$')
+    Validators.pattern(this.regexPassword)
   ]);
   repeatPasswordCheck = new FormControl('', [
     Validators.required,
@@ -113,17 +112,17 @@ export class RegistrazioneComponent {
       pattern: this.regexCognome
     });
   }
-  UsernameCheck(): void {
-    this.validateField('username', {
-      required: true,
-      minLength: 2,
-      pattern: this.regexUsername
-    });
-  }
   EmailCheck(): void {
     this.validateField('email', {
       required: true,
       pattern: this.regexEmail
+    });
+  }
+  TelefonoCheck(): void {
+    this.validateField('telefono', {
+      required: true,
+      minLength: 10,
+      maxLength: 10
     });
   }
   PasswordCheck(): void {
@@ -147,18 +146,6 @@ export class RegistrazioneComponent {
     }
   }
 
-  formCheck(): void {
-    this.errors = [];
-    this.NomeCheck();
-    this.CognomeCheck();
-    this.UsernameCheck();
-    this.EmailCheck();
-    this.PasswordCheck();
-    if(this.registrationForm.get('repeatPassword')?.enabled){
-      this.RepeatPasswordCheck();
-    }
-  }
-
   restrictInput(event: KeyboardEvent, regexPattern: string): void {
     const inputChar = event.key;
     const regex = new RegExp(regexPattern);
@@ -172,8 +159,8 @@ export class RegistrazioneComponent {
     this.registrationForm = new FormGroup({
       nome: this.nomeCheck,
       cognome: this.cognomeCheck,
-      username: this.usernameCheck,
       email: this.emailCheck,
+      telefono: this.telefonoCheck,
       password: this.passwordCheck,
       repeatPassword: this.repeatPasswordCheck
     });
@@ -181,18 +168,24 @@ export class RegistrazioneComponent {
   }
 
   ngAfterContentChecked(): void {
-    this.formCheck();
+    this.errors = [];
+    this.NomeCheck();
+    this.CognomeCheck();
+    this.EmailCheck();
+    this.PasswordCheck();
+    if(this.registrationForm.get('repeatPassword')?.enabled){
+      this.RepeatPasswordCheck();
+    }
   }
 
-  onRegistration() {
+  registraUtente() {
     if (this.registrationForm.valid) {
       this.authService.register(
-        this.registrationForm.get('username')?.value,
+        this.registrationForm.get('email')?.value,
         this.registrationForm.get('password')?.value,
         this.registrationForm.get('nome')?.value,
         this.registrationForm.get('cognome')?.value,
-        this.registrationForm.get('email')?.value,
-        "USER"
+        this.registrationForm.get('telefono')?.value
       ).pipe(
         tap((data) => {
           console.log(data);
