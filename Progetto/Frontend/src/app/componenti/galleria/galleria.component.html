@@ -14,7 +14,7 @@
   <!-- Slides Dinamiche -->
   <div class="carousel-inner">
     <div class="carousel-item" *ngFor="let slide of slides; let i = index" [class.active]="i === 0">
-      <img [src]="slide.src" class="d-block w-100" [alt]="slide.title">
+      <img [src]="'./assets/images/Carousel/' + slide.src" class="d-block w-100" [alt]="slide.title">
       <div class="carousel-caption d-none d-md-block">
         <h5>{{ slide.title }}</h5>
         <p>{{ slide.subtitle }}</p>

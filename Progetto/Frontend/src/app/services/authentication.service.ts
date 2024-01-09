@@ -43,15 +43,13 @@ export class AuthenticationService {
     return this.http.post(this.loginURL, loginRequest, this.httpOptions)
   }
 
-  register(username: string, password: string, name: string, surname: string, email: string, role: string) {
+  register(_email: string, _password: string, _name: string, _surname: string, _telefono: string) {
     const user = {
-      username: username,
-      password: password,
-      name: name,
-      surname: surname,
-      email: email,
-      // role: "USER"
-      // TODO rimuovere role da register
+      email: _email,
+      password: _password,
+      name: _name,
+      surname: _surname,
+      telefono: _telefono,
     };
     console.log(user);
     return this.http.post(this.registerURL, user, this.httpOptions);

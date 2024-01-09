@@ -1,7 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, Validators} from "@angular/forms";
-import { HttpClient } from '@angular/common/http';
-import {coerceStringArray} from "@angular/cdk/coercion";
+import {Component} from '@angular/core';
+import { FormControl, FormGroup, Validators} from "@angular/forms";
+import {BookingService} from "../../services/booking.service";
+import {catchError, of, tap} from "rxjs";
 
 
 @Component({
@@ -9,36 +9,20 @@ import {coerceStringArray} from "@angular/cdk/coercion";
   templateUrl: './prenota.component.html',
   styleUrl: './prenota.component.css'
 })
-export class PrenotaComponent implements OnInit {
-  timeSlots: string[] = this.generateTimeSlots();
+export class PrenotaComponent{
 
-  constructor(private fb: FormBuilder) {
+  constructor(private bookingService: BookingService) {
   }
 
-  ngOnInit(): void {
-  }
+  noteExample =`Esempio: Capelli capelli ricci, scuri ecc.`;
+  regexNome =`[a-zA-Z]+`;
+  regexCognome =`[a-zA-Z]+`;
+  regexEmail =`^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$`;
 
-  prenotaForm = this.fb.group({
-    nome: ['', Validators.required],
-    cognome: ['', Validators.required],
-    email: ['', [Validators.required, Validators.email]],
-    telefono: ['', Validators.required],
-    servizio: ['', Validators.required],
-    data: ['', Validators.required],
-    orario: ['', Validators.required],
-    note: ['']
-  });
+  // vettore servizi
+  servizi: string[] = ['Taglio e piega', 'Colore', 'Trattamento', 'Colore e trattamento', 'Taglio e piega + colore', 'Taglio e piega + trattamento', 'Taglio e piega + colore e trattamento'];
 
-  myFilter = (d: Date | null): boolean => {
-    const date = d || new Date();
-    const now = new Date();
-    const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-    const endOfNextMonth = new Date(now.getFullYear(), now.getMonth() + 2, 0);
-    const day = date.getDay();
-    return date >= startOfMonth && date <= endOfNextMonth && day !== 0 && day !== 1;
-  }
-
-  generateTimeSlots(): string[] {
+  ottieniOrariPrenotabili(): string[] {
     let slots: string[] = [];
     for (let i = 8; i <= 19; i++) {
       slots.push(i + ':00');
@@ -47,15 +31,80 @@ export class PrenotaComponent implements OnInit {
     return slots;
   }
 
-  inviaDati() {
-    console.log(this.prenotaForm.value.nome,this.prenotaForm.value.cognome)
-    // if (this.prenotaForm.valid) {
-    //   this.bookingService.inviaDati(this.prenotaForm.value)
-    //     .subscribe(response => {
-    //       console.log(response);
-    //     }, error => {
-    //       console.error(error);
-    //     });
-    // }
+  //vettore orari
+  orari: string[] = this.ottieniOrariPrenotabili();
+
+  nomeCheck = new FormControl('', [
+    Validators.required,
+    Validators.minLength(2),
+    Validators.maxLength(20),
+    Validators.pattern(this.regexNome)
+  ]);
+  cognomeCheck = new FormControl('', [
+    Validators.required,
+    Validators.minLength(2),
+    Validators.maxLength(20),
+    Validators.pattern(this.regexCognome)
+  ]);
+  emailCheck = new FormControl('', [
+    Validators.required,
+    Validators.pattern(this.regexEmail)
+  ]);
+  telefonoCheck = new FormControl('', [
+    Validators.required,
+    Validators.minLength(10),
+    Validators.maxLength(10),
+  ]);
+  servizioCheck = new FormControl('', [
+    Validators.required
+  ]);
+  dataCheck = new FormControl('', [
+    Validators.required
+  ]);
+  orarioCheck = new FormControl('', [
+    Validators.required
+  ]);
+
+
+  prenotaForm!: FormGroup;
+
+
+  ngOnInit(): void {
+    this.prenotaForm = new FormGroup({
+      nome: this.nomeCheck,
+      cognome: this.cognomeCheck,
+      email: this.emailCheck,
+      telefono: this.telefonoCheck,
+      servizio: this.servizioCheck,
+      data: this.dataCheck,
+      orario: this.orarioCheck,
+    });
   }
+
+  effettuaPrenotazione() {
+    if (this.prenotaForm.valid) {
+      this.bookingService.prenotaAppuntamento(
+        // TODO cookie di autenticazione o email
+        "email/username?",
+        this.prenotaForm.get('servizio')?.value,
+        this.prenotaForm.get('data')?.value,
+        this.prenotaForm.get('ora')?.value,
+      ).pipe(
+        tap((data) => {
+          console.log(data);
+          this.prenotaForm.reset();
+          console.log("Prenotazione effettuata con successo");
+          // TODO
+          // window.location.href = "/paginaConferma";
+        }),
+        catchError((error) => {
+          console.error(error);
+          return of(null); // Gestisce l'errore restituendo un observable
+        })
+      ).subscribe();
+    } else {
+      alert("Errore nella prenotazione, riprova");
+    }
+  }
+
 }
