@@ -25,6 +25,4 @@ public class ScheduledService {
         String query = "SELECT public.isvalidcheck();";
         jdbcTemplate.execute(query);
     }
-
-
 }

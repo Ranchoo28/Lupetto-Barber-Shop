@@ -31,11 +31,11 @@ public class AuthenticationService {
             User user = userDao.findByEmail(request.getEmail()).join();
             Hairdresser hairdresser = hairdresserDao.findByEmail(request.getEmail()).join();
 
-            if (user.getUsername() == null && hairdresser.getUsername() == null) {
+            if (user.getEmail() == null && hairdresser.getEmail() == null) {
                 return ResponseEntity.badRequest().body("{\"message\": \"A person with this username doesn't exists\"}");
             }
 
-            boolean isHairdresser = (user.getUsername() == null);
+            boolean isHairdresser = (user.getEmail() == null);
 
             String passwordToCheck = isHairdresser ? hairdresser.getPassword() : user.getPassword();
 

@@ -109,14 +109,16 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Async
     public CompletableFuture<Boolean> insert(User user) {
-        String query = "INSERT INTO users (email, password, name, surname, number) VALUES (?, ?, ?, ?, ?,?)";
+        System.out.println(user.getNumber());
+        String query = "INSERT INTO users (email, password, name, surname, tel_number) VALUES (?, ?, ?, ?, ?)";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
             st.setString(1, user.getEmail());
-            st.setString(2, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(13)));
+            st.setString(2, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
             st.setString(3, user.getName());
             st.setString(4, user.getSurname());
-            st.setString(6, user.getNumber());
+            st.setString(5, user.getNumber());
+            System.out.println(st);
             int rowsAffected = st.executeUpdate();
             st.close();
 
