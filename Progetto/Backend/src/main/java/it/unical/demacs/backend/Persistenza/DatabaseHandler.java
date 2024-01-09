@@ -43,6 +43,17 @@ public class DatabaseHandler {
         }
     }
 
+    public void openConnection()
+    {
+        try {
+            if (con == null || con.isClosed()) {
+                con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/Salone", "postgres", "postgres");
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public UserDao getUtenteDao(){
         return new UserDaoImpl(getConnection());
     }
@@ -50,4 +61,5 @@ public class DatabaseHandler {
     public ServiceDao getServiceDao() { return new ServiceDaoImpl(getConnection());}
     public ProductDao getProductDao() { return new ProductDaoImpl(getConnection());}
     public HairdresserDao getHairdresserDao() { return new HairdresserDaoImpl(getConnection());}
+    public BookingDateDao getBookingDateDao() { return new BookingDateImpl(getConnection());}
 }

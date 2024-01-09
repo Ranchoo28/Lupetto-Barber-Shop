@@ -10,13 +10,17 @@ import java.util.ArrayList;
 @Service
 public class ProductsService {
     public ResponseEntity<?> getProducts() {
-        ArrayList<Product> products = DatabaseHandler.getInstance().getProductDao().findAll().join();
-        DatabaseHandler.getInstance().closeConnection();
-        if(products.isEmpty()){
-            return ResponseEntity.badRequest().body("{\"message\": \"No products found\"}");
+        try {
+            DatabaseHandler.getInstance().openConnection();
+            ArrayList<Product> products = DatabaseHandler.getInstance().getProductDao().findAll().join();
+            if (products.isEmpty()) {
+                return ResponseEntity.badRequest().body("{\"message\": \"No products found\"}");
+            } else {
+                return ResponseEntity.ok(products);
+            }
         }
-        else{
-            return ResponseEntity.ok(products);
+        finally {
+            DatabaseHandler.getInstance().closeConnection();
         }
     }
 }

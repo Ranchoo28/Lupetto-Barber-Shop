@@ -37,7 +37,21 @@ public class HairdresserDaoImpl implements HairdresserDao {
 
     @Override
     public CompletableFuture<Hairdresser> findByPrimaryKey(Long id) {
-        return null;
+        Hairdresser hairdresser = new Hairdresser();
+        String query = "SELECT * FROM hairdressers WHERE id_hairdresser = ?";
+        try {
+            PreparedStatement st = this.con.prepareStatement(query);
+            st.setLong(1, id);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                hairdresser.setId_hairdresser(rs.getLong(1));
+                hairdresser.setUsername(rs.getString(2));
+                hairdresser.setPassword(rs.getString(3));
+            }
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        }
+        return CompletableFuture.completedFuture(hairdresser);
     }
 
     @Override
@@ -62,37 +76,19 @@ public class HairdresserDaoImpl implements HairdresserDao {
     }
 
     @Override
-    public CompletableFuture<Boolean> addService(Long idService) {
+    public CompletableFuture<Boolean> insert(Hairdresser hairdresser) {
         return null;
     }
 
     @Override
-    public CompletableFuture<Boolean> removeService(Long idHairdresser, Long idService) {
+    public CompletableFuture<Boolean> delete(Long id) {
         return null;
     }
 
     @Override
-    public CompletableFuture<Boolean> insertUser(Long idHairdresser) {
+    public CompletableFuture<Boolean> update(Hairdresser hairdresser) {
         return null;
     }
 
-    @Override
-    public CompletableFuture<Boolean> modifyBooking(Long idHairdresser, Long idBooking) {
-        return null;
-    }
 
-    @Override
-    public CompletableFuture<Boolean> removeBooking(Long idHairdresser, Long idBooking) {
-        return null;
-    }
-
-    @Override
-    public CompletableFuture<Boolean> insertProducts(Long idHairdresser, Long idProduct) {
-        return null;
-    }
-
-    @Override
-    public CompletableFuture<Boolean> removeProducts(Long idHairdresser, Long idProduct) {
-        return null;
-    }
 }

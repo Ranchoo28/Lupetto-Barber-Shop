@@ -35,4 +35,9 @@ public class ServiceController {
     public ResponseEntity<?> getService() {
         return handleServicesService.getService();
     }
+
+    @GetMapping("/api/service/getBySex")
+    public ResponseEntity<?> getService(@RequestParam String sex) {
+        return handleServicesService.getService(sex);
+    }
 }
