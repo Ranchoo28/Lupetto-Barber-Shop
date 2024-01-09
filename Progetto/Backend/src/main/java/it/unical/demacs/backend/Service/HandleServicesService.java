@@ -30,10 +30,10 @@ public class HandleServicesService {
         }
     }
 
-    public ResponseEntity<?> deleteService(Long idService, String username) {
+    public ResponseEntity<?> deleteService(Long idService, String email) {
         try {
             DatabaseHandler.getInstance().openConnection();
-            Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByEmail(username).join();
+            Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByEmail(email).join();
             if (hairdresser.getId_hairdresser() != null) {
                 boolean res = DatabaseHandler.getInstance().getServiceDao().delete(idService).join();
                 if (res) {

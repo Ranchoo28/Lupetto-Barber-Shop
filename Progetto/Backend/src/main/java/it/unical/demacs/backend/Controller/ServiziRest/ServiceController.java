@@ -17,18 +17,18 @@ public class ServiceController {
     private final HandleServicesService handleServicesService;
 
     @PostMapping("/api/service/insert")
-    public ResponseEntity<?> insert(@RequestBody Service services, @RequestParam String username){
-        return handleServicesService.insertService(services, username);
+    public ResponseEntity<?> insert(@RequestBody Service services, @RequestParam String email){
+        return handleServicesService.insertService(services, email);
     }
 
     @GetMapping("/api/service/delete")
-    public ResponseEntity<?> delete(@RequestParam Long idService, @RequestParam String username){
-        return handleServicesService.deleteService(idService, username);
+    public ResponseEntity<?> delete(@RequestParam Long idService, @RequestParam String email){
+        return handleServicesService.deleteService(idService, email);
     }
 
     @PostMapping("/api/service/update")
-    public ResponseEntity<?> update(@RequestBody Service services, @RequestParam String username){
-        return handleServicesService.updateService(services, username);
+    public ResponseEntity<?> update(@RequestBody Service services, @RequestParam String email){
+        return handleServicesService.updateService(services, email);
     }
 
     @GetMapping("/api/service/get")
