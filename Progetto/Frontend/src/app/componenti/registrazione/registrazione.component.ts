@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
 import { AuthenticationService } from "../../services/authentication.service";
 import {catchError, of, tap} from "rxjs";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-registrazione',
@@ -10,7 +11,7 @@ import {catchError, of, tap} from "rxjs";
 })
 export class RegistrazioneComponent {
 
-  constructor(private authService: AuthenticationService) {
+  constructor(private authService: AuthenticationService, private router: Router) {
   }
 
   nomeExample =`Esempio: Mario`;
@@ -190,9 +191,9 @@ export class RegistrazioneComponent {
         tap((data) => {
           console.log(data);
           this.registrationForm.reset();
+          alert("Registrazione effettuata con successo")
           console.log("Registrazione effettuata con successo");
-          // TODO
-          // window.location.href = "/home";
+          this.router.navigate(['/login']);
         }),
         catchError((error) => {
           console.error(error);
