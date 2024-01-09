@@ -11,7 +11,6 @@ import java.util.concurrent.CompletableFuture;
 public interface UserDao {
     public CompletableFuture<ArrayList<User>> findAll();
     public CompletableFuture<User> findByPrimaryKey(Long id) throws SQLException;
-    public CompletableFuture<User> findByUsername(String username);
     public CompletableFuture<User> findByEmail(String email);
     public CompletableFuture<ArrayList<BookingDate>> findBookings(Long id);
     public CompletableFuture<Boolean> insert(User user);

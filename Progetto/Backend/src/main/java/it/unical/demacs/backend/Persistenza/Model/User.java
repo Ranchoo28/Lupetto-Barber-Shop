@@ -18,17 +18,19 @@ import java.util.Objects;
 
 public class User implements UserDetails {
     private Long idUser;
-    private String username;
+    private String email;
     private String password;
     private String name;
     private String surname;
-    private String email;
     private String number;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("USER"));
     }
+
+    @Override
+    public String getUsername() { return null; }
 
     @Override
     public boolean isAccountNonExpired() { return true; }

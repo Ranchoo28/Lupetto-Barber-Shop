@@ -28,8 +28,8 @@ public class AuthenticationService {
             UserDao userDao = DatabaseHandler.getInstance().getUtenteDao();
             HairdresserDao hairdresserDao = DatabaseHandler.getInstance().getHairdresserDao();
 
-            User user = userDao.findByUsername(request.getUsername()).join();
-            Hairdresser hairdresser = hairdresserDao.findByUsername(request.getUsername()).join();
+            User user = userDao.findByEmail(request.getEmail()).join();
+            Hairdresser hairdresser = hairdresserDao.findByEmail(request.getEmail()).join();
 
             if (user.getUsername() == null && hairdresser.getUsername() == null) {
                 return ResponseEntity.badRequest().body("{\"message\": \"A person with this username doesn't exists\"}");
@@ -58,15 +58,10 @@ public class AuthenticationService {
             UserDao utenteDao = DatabaseHandler.getInstance().getUtenteDao();
             HairdresserDao hairdresserDao = DatabaseHandler.getInstance().getHairdresserDao();
 
-            if (utenteDao.findByUsername(user.getUsername()).join().getUsername() != null ||
-                    hairdresserDao.findByUsername(user.getUsername()).join().getUsername() != null) {
-                return ResponseEntity.badRequest().body("{\"message\": \"A person with this username already exists\"}");
+            if (utenteDao.findByEmail(user.getEmail()).join().getEmail() != null ||
+                    hairdresserDao.findByEmail(user.getEmail()).join().getEmail() != null) {
+                return ResponseEntity.badRequest().body("{\"message\": \"A person with this email already exists\"}");
             }
-
-            if (utenteDao.findByEmail(user.getEmail()).join().getEmail() != null) {
-                return ResponseEntity.badRequest().body("{\"message\": \"A person with this email already exist\"}");
-            }
-
             utenteDao.insert(user);
             return ResponseEntity.ok().body("{\"message\": \"User registered successfully\"}");
         }

@@ -26,11 +26,10 @@ public class UserDaoImpl implements UserDao {
             while (rs.next()) {
                 User user = new User();
                 user.setIdUser(rs.getLong(1));
-                user.setUsername(rs.getString(2));
+                user.setEmail(rs.getString(1));
                 user.setPassword(rs.getString(3));
                 user.setName(rs.getString(4));
                 user.setSurname(rs.getString(5));
-                user.setEmail(rs.getString(6));
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -50,54 +49,33 @@ public class UserDaoImpl implements UserDao {
             try (ResultSet rs = st.executeQuery()) {
                 if (rs.next()) {
                     user.setIdUser(rs.getLong(1));
-                    user.setUsername(rs.getString(2));
+                    user.setEmail(rs.getString(1));
                     user.setPassword(rs.getString(3));
                     user.setName(rs.getString(4));
-                    user.setSurname(rs.getString(5));
-                    user.setEmail(rs.getString(6));
-                }
+                    user.setSurname(rs.getString(5));                }
             }
         } catch (SQLException e) {
             e.fillInStackTrace();
         }
         return CompletableFuture.completedFuture(user);
     }
-
-    @Override
-    @Async
-    public CompletableFuture<User> findByUsername(String username) {
-        User user = new User();
-        String query = "SELECT * FROM users WHERE username = ?";
-        try {
-            PreparedStatement st = this.con.prepareStatement(query);
-            st.setString(1, username);
-            ResultSet rs = st.executeQuery();
-            if (rs.next()) {
-                user.setIdUser(rs.getLong(1));
-                user.setUsername(rs.getString(2));
-                user.setPassword(rs.getString(3));
-                user.setName(rs.getString(4));
-                user.setSurname(rs.getString(5));
-                user.setEmail(rs.getString(6));
-                user.setNumber(rs.getString(7));
-            }
-        } catch (SQLException e) {
-            e.fillInStackTrace();
-        }
-        return CompletableFuture.completedFuture(user);
-    }
-
+    
     @Override
     @Async
     public CompletableFuture<User> findByEmail(String email) {
         User user = new User();
-        String query = "SELECT email FROM users WHERE email = ?";
+        String query = "SELECT * FROM users WHERE email = ?";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
             st.setString(1, email);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                user.setEmail(rs.getString(1));
+              user.setIdUser(rs.getLong(1));
+              user.setEmail(rs.getString(2));
+              user.setPassword(rs.getString(3));
+              user.setName(rs.getString(4));
+              user.setSurname(rs.getString(5));
+              user.setNumber(rs.getString(6));
             }
         } catch (SQLException e) {
             e.fillInStackTrace();
@@ -131,14 +109,13 @@ public class UserDaoImpl implements UserDao {
     @Override
     @Async
     public CompletableFuture<Boolean> insert(User user) {
-        String query = "INSERT INTO users (username, password, name, surname, email, role) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO users (email, password, name, surname, number) VALUES (?, ?, ?, ?, ?,?)";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
-            st.setString(1, user.getUsername());
-            st.setString(2, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
+            st.setString(1, user.getEmail());
+            st.setString(2, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(13)));
             st.setString(3, user.getName());
             st.setString(4, user.getSurname());
-            st.setString(5, user.getEmail());
             st.setString(6, user.getNumber());
             int rowsAffected = st.executeUpdate();
             st.close();
@@ -156,13 +133,12 @@ public class UserDaoImpl implements UserDao {
         String query = "UPDATE users SET username=?, password=?, name=?, surname=?, email=?, role=? WHERE id_user=?";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
-            st.setString(1, user.getUsername());
+            st.setString(1, user.getEmail());
             st.setString(2, BCrypt.hashpw(user.getPassword(), BCrypt.gensalt(12)));
             st.setString(3, user.getName());
             st.setString(4, user.getSurname());
-            st.setString(5, user.getEmail());
-            st.setString(6, user.getNumber());
-            st.setLong(7, user.getIdUser());
+            st.setString(5, user.getNumber());
+            st.setLong(6, user.getIdUser());
             int rowsAffected = st.executeUpdate();
             st.close();
 

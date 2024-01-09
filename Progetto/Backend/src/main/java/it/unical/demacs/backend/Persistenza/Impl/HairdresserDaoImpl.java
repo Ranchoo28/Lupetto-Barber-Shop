@@ -25,7 +25,7 @@ public class HairdresserDaoImpl implements HairdresserDao {
             while (rs.next()) {
                 Hairdresser hairdresser = new Hairdresser();
                 hairdresser.setId_hairdresser(rs.getLong(1));
-                hairdresser.setUsername(rs.getString(2));
+                hairdresser.setEmail(rs.getString(2));
                 hairdresser.setPassword(rs.getString(3));
                 hairdressers.add(hairdresser);
             }
@@ -45,7 +45,7 @@ public class HairdresserDaoImpl implements HairdresserDao {
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
                 hairdresser.setId_hairdresser(rs.getLong(1));
-                hairdresser.setUsername(rs.getString(2));
+                hairdresser.setEmail(rs.getString(2));
                 hairdresser.setPassword(rs.getString(3));
             }
         } catch (SQLException e) {
@@ -56,16 +56,16 @@ public class HairdresserDaoImpl implements HairdresserDao {
 
     @Override
     @Async
-    public CompletableFuture<Hairdresser> findByUsername(String username) {
+    public CompletableFuture<Hairdresser> findByEmail(String email) {
         Hairdresser hairdresser = new Hairdresser();
-        String query = "SELECT * FROM hairdressers WHERE username = ?";
+        String query = "SELECT * FROM hairdressers WHERE email = ?";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
-            st.setString(1, username);
+            st.setString(1, email);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
               hairdresser.setId_hairdresser(rs.getLong(1));
-              hairdresser.setUsername(rs.getString(2));
+              hairdresser.setEmail(rs.getString(2));
               hairdresser.setPassword(rs.getString(3));
 
             }
