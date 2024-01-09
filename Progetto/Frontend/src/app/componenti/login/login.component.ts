@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthenticationService} from "../../services/authentication.service";
 
 
@@ -11,37 +11,33 @@ import {AuthenticationService} from "../../services/authentication.service";
 export class LoginComponent {
 
   constructor(private authService: AuthenticationService){
-
   }
 
   hide = true;
   loginErrorMessage = '';
 
-  regexUsername =`[a-zA-Z0-9_]+`;
+  regexEmail =`^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$`;
 
-  usernameCheck: FormControl = new FormControl('');
-  passwordCheck: FormControl = new FormControl('');
+  emailCheck = new FormControl('', [
+    Validators.required,
+    Validators.pattern(this.regexEmail)
+  ]);
+  passwordCheck: FormControl = new FormControl('', [
+    Validators.required,
+  ]);
   loginForm!: FormGroup;
 
-  restrictInput(event: KeyboardEvent, regexPattern: string): void {
-    const inputChar = event.key;
-    const regex = new RegExp(regexPattern);
-
-    if (!regex.test(inputChar)) {
-      event.preventDefault();
-    }
-  }
 
   ngOnInit(): void {
     this.loginForm = new FormGroup({
-      username: this.usernameCheck,
+      email: this.emailCheck,
       password: this.passwordCheck
     });
   }
 
   onLogin(){
     if (this.loginForm.valid) {
-      const email = this.loginForm.get('username')?.value;
+      const email = this.loginForm.get('email')?.value;
       const password = this.loginForm.get('password')?.value;
 
       this.authService.login(email, password).subscribe(

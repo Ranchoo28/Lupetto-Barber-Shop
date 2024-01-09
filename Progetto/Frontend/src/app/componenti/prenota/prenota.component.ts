@@ -14,10 +14,6 @@ export class PrenotaComponent{
   constructor(private bookingService: BookingService) {
   }
 
-  noteExample =`Esempio: Capelli capelli ricci, scuri ecc.`;
-  regexNome =`[a-zA-Z]+`;
-  regexCognome =`[a-zA-Z]+`;
-  regexEmail =`^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$`;
 
   // vettore servizi
   servizi: string[] = ['Taglio e piega', 'Colore', 'Trattamento', 'Colore e trattamento', 'Taglio e piega + colore', 'Taglio e piega + trattamento', 'Taglio e piega + colore e trattamento'];
@@ -34,27 +30,6 @@ export class PrenotaComponent{
   //vettore orari
   orari: string[] = this.ottieniOrariPrenotabili();
 
-  nomeCheck = new FormControl('', [
-    Validators.required,
-    Validators.minLength(2),
-    Validators.maxLength(20),
-    Validators.pattern(this.regexNome)
-  ]);
-  cognomeCheck = new FormControl('', [
-    Validators.required,
-    Validators.minLength(2),
-    Validators.maxLength(20),
-    Validators.pattern(this.regexCognome)
-  ]);
-  emailCheck = new FormControl('', [
-    Validators.required,
-    Validators.pattern(this.regexEmail)
-  ]);
-  telefonoCheck = new FormControl('', [
-    Validators.required,
-    Validators.minLength(10),
-    Validators.maxLength(10),
-  ]);
   servizioCheck = new FormControl('', [
     Validators.required
   ]);
@@ -71,24 +46,30 @@ export class PrenotaComponent{
 
   ngOnInit(): void {
     this.prenotaForm = new FormGroup({
-      nome: this.nomeCheck,
-      cognome: this.cognomeCheck,
-      email: this.emailCheck,
-      telefono: this.telefonoCheck,
       servizio: this.servizioCheck,
       data: this.dataCheck,
       orario: this.orarioCheck,
     });
   }
 
+  dateFilter = (d: Date | null): boolean => {
+    const day = (d || new Date()).getDay();
+    // Prevent Saturday and Sunday from being selected.
+    return day !== 0 && day !== 1;
+  };
+
   effettuaPrenotazione() {
     if (this.prenotaForm.valid) {
+
+      const dataUTC = new Date(this.prenotaForm.get('data')?.value);
+      const dataLocale = dataUTC.toLocaleDateString('en-CA');
+
       this.bookingService.prenotaAppuntamento(
         // TODO cookie di autenticazione o email
-        "email/username?",
+        "email? boh",
         this.prenotaForm.get('servizio')?.value,
-        this.prenotaForm.get('data')?.value,
-        this.prenotaForm.get('ora')?.value,
+        dataLocale,
+        this.prenotaForm.get('orario')?.value,
       ).pipe(
         tap((data) => {
           console.log(data);

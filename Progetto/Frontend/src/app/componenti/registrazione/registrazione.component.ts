@@ -195,11 +195,10 @@ export class RegistrazioneComponent {
           // window.location.href = "/home";
         }),
         catchError((error) => {
-          // Gestione degli errori qui
           console.error(error);
           return of(null); // Gestisce l'errore restituendo un observable
         })
-      ).subscribe(); // Ancora necessario per attivare il flusso
+      ).subscribe();
     } else {
       console.log("Form non valido");
     }

@@ -6,11 +6,10 @@
       <mat-card>
         <mat-card-content [formGroup]="loginForm" (ngSubmit)="onLogin()">
           <div class="row">
-            <!-- ----------------- USERNAME ----------------- -->
+            <!-- ----------------- EMAIL ----------------- -->
             <mat-form-field class="full-width" appearance="outline">
-              <mat-label>Nome Utente</mat-label>
-              <input matInput type="text" [formControl]="usernameCheck"
-                     (keydown)="restrictInput($event, regexUsername)">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" [formControl]="emailCheck">
             </mat-form-field>
           </div>
 

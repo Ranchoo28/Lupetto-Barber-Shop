@@ -17,13 +17,13 @@ export class BookingService {
 
   constructor(private http: HttpClient) { }
 
-  prenotaAppuntamento(_email: string, _idService: number, _date: string, _time: string): Observable<any> {
+  prenotaAppuntamento(_email: string, _idService: number, _date: string, _ora: string): Observable<any> {
     const url = this.insertURL;
     const prenotazione = {
       email: _email,
       idService: _idService,
       date: _date,
-      time: _time,
+      ora: _ora,
     };
     console.log(prenotazione);
     return this.http.post(url, prenotazione, this.httpOptions);

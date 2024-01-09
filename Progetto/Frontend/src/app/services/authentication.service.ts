@@ -19,40 +19,41 @@ export class AuthenticationService {
 
   constructor(private http:HttpClient,  private cookieService: CookieService) { }
 
-  setCookie(username: string) {
-    this.cookieService.set('username', username);
+  setCookie(email: string) {
+    this.cookieService.set('email', email);
   }
 
   getCookie(): string {
-    return this.cookieService.get('username');
+    return this.cookieService.get('email');
   }
 
   deleteCookie() {
-    this.cookieService.delete('username');
+    this.cookieService.delete('email');
   }
 
   isUserLoggedIn(): boolean {
-    return this.cookieService.check('username');
+    return this.cookieService.check('email');
   }
 
-  login(username: string, password: string){
+  login(_email: string, _password: string){
     const loginRequest = {
-      username: username,
-      password: password,
+      email: _email,
+      password: _password,
     }
+    console.log(loginRequest);
     return this.http.post(this.loginURL, loginRequest, this.httpOptions)
   }
 
   register(_email: string, _password: string, _name: string, _surname: string, _telefono: string) {
-    const user = {
+    const registrationRequest = {
       email: _email,
       password: _password,
       name: _name,
       surname: _surname,
       telefono: _telefono,
     };
-    console.log(user);
-    return this.http.post(this.registerURL, user, this.httpOptions);
+    console.log(registrationRequest);
+    return this.http.post(this.registerURL, registrationRequest, this.httpOptions);
   }
 
 }
