@@ -44,13 +44,13 @@ export class AuthenticationService {
     return this.http.post(this.loginURL, loginRequest, this.httpOptions)
   }
 
-  register(_email: string, _password: string, _name: string, _surname: string, _telefono: string) {
+  register(_email: string, _password: string, _name: string, _surname: string, _number: string) {
     const registrationRequest = {
       email: _email,
       password: _password,
       name: _name,
       surname: _surname,
-      telefono: _telefono,
+      number: _number,
     };
     console.log(registrationRequest);
     return this.http.post(this.registerURL, registrationRequest, this.httpOptions);
