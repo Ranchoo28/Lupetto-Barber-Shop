@@ -11,10 +11,10 @@ import java.util.ArrayList;
 
 @Service
 public class HandleBookingDateService {
-    public ResponseEntity<?> insertBookingDate(BookingDate bookingDate, String username) {
+    public ResponseEntity<?> insertBookingDate(BookingDate bookingDate, String email) {
         try {
             DatabaseHandler.getInstance().openConnection();
-            Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByUsername(username).join();
+            Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByEmail(email).join();
             if (hairdresser.getId_hairdresser() != null) {
                 boolean res = DatabaseHandler.getInstance().getBookingDateDao().insert(bookingDate).join();
                 if (res) {
@@ -31,11 +31,11 @@ public class HandleBookingDateService {
         }
     }
 
-    public ResponseEntity<?> deleteBookingDate(Long id, String username)
+    public ResponseEntity<?> deleteBookingDate(Long id, String email)
     {
         try {
             DatabaseHandler.getInstance().openConnection();
-            Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByUsername(username).join();
+            Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByEmail(email).join();
             if (hairdresser.getId_hairdresser() != null) {
                 boolean res = DatabaseHandler.getInstance().getBookingDateDao().delete(id).join();
                 if (res) {
@@ -52,11 +52,11 @@ public class HandleBookingDateService {
         }
     }
 
-    public ResponseEntity<?> updateBookingDate(BookingDate bookingDate, String username)
+    public ResponseEntity<?> updateBookingDate(BookingDate bookingDate, String email)
     {
         try {
             DatabaseHandler.getInstance().openConnection();
-            Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByUsername(username).join();
+            Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByEmail(email).join();
             if (hairdresser.getId_hairdresser() != null) {
                 boolean res = DatabaseHandler.getInstance().getBookingDateDao().update(bookingDate).join();
                 if (res) {

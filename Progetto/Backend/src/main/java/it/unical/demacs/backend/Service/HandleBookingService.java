@@ -20,9 +20,9 @@ public class HandleBookingService {
     public void insertBooking(HttpServletRequest request, HttpServletResponse response) {
         try {
             DatabaseHandler.getInstance().openConnection();
-            String username = request.getParameter("username");
+            String email = request.getParameter("email");
             Long idBookingDate = Long.valueOf(request.getParameter("idBookingDate"));
-            User user = DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
+            User user = DatabaseHandler.getInstance().getUtenteDao().findByEmail(email).join();
             try {
                 Booking booking = new Booking(user.getIdUser(), idBookingDate);
                 boolean res = DatabaseHandler.getInstance().getBookingDao().insert(booking).join();
@@ -45,8 +45,8 @@ public class HandleBookingService {
         try{
             DatabaseHandler.getInstance().openConnection();
         Long bookingId= Long.valueOf(request.getParameter("idBooking"));
-        String username=request.getParameter("username");
-        User user=DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
+        String email=request.getParameter("email");
+        User user=DatabaseHandler.getInstance().getUtenteDao().findByEmail(email).join();
         boolean isValid =DatabaseHandler.getInstance().getBookingDao().isValid(bookingId, user.getIdUser()).join();
         if (isValid) {
             try {
@@ -70,11 +70,11 @@ public class HandleBookingService {
         }
     }
 
-    public ResponseEntity<?> updateBooking(Booking booking, String username)
+    public ResponseEntity<?> updateBooking(Booking booking, String email)
     {
         try {
             DatabaseHandler.getInstance().openConnection();
-            User user = DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
+            User user = DatabaseHandler.getInstance().getUtenteDao().findByEmail(email).join();
             if (user != null) {
                 if (DatabaseHandler.getInstance().getBookingDao().isValid(booking.getIdBooking(), user.getIdUser()).join()) {
                     boolean res = DatabaseHandler.getInstance().getBookingDao().update(booking).join();
@@ -90,11 +90,11 @@ public class HandleBookingService {
         }
     }
 
-    public ResponseEntity<?> getBooking(String username)
+    public ResponseEntity<?> getBooking(String email)
     {
         try {
             DatabaseHandler.getInstance().openConnection();
-            User user = DatabaseHandler.getInstance().getUtenteDao().findByUsername(username).join();
+            User user = DatabaseHandler.getInstance().getUtenteDao().findByEmail(email).join();
             if (user != null) {
                 ArrayList<BookingDate> booking = DatabaseHandler.getInstance().getUtenteDao().findBookings(user.getIdUser()).join();
                 return ResponseEntity.ok(booking);

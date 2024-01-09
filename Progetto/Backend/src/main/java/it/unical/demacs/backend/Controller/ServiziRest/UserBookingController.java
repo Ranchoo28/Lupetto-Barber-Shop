@@ -17,12 +17,12 @@ public class UserBookingController {
     private final HandleBookingService handleBookingService;
 
     @GetMapping("/api/user/booking")
-    public ResponseEntity<?> getBooking(@RequestParam String username) {
-        return handleBookingService.getBooking(username);
+    public ResponseEntity<?> getBooking(@RequestParam String email) {
+        return handleBookingService.getBooking(email);
     }
 
     @PostMapping("/api/user/update-booking")
-    public ResponseEntity<?> updateBooking(@RequestBody Booking booking, @RequestParam String username){
-        return handleBookingService.updateBooking(booking, username);
+    public ResponseEntity<?> updateBooking(@RequestBody Booking booking, @RequestParam String email){
+        return handleBookingService.updateBooking(booking, email);
     }
 }
