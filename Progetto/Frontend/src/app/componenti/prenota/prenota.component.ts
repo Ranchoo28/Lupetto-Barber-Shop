@@ -19,7 +19,7 @@ export class PrenotaComponent implements OnInit{
   // vettore servizi
   servizi: string[] = [];
 
-  ottieniOrariPrenotabili(): string[] {
+  ottieniOrariPrenotabiliUomo(): string[] {
     let slots: string[] = [];
     for (let i = 8; i <= 19; i++) {
       slots.push(i + ':00');
@@ -27,9 +27,16 @@ export class PrenotaComponent implements OnInit{
     }
     return slots;
   }
+  ottieniOrariPrenotabiliDonna(): string[] {
+    let slots: string[] = [];
+    for (let i = 8; i <= 19; i++) {
+      slots.push(i + ':00');
+    }
+    return slots;
+  }
 
   //vettore orari
-  orari: string[] = this.ottieniOrariPrenotabili();
+  orari: string[] = [];
 
   sessoCheck = new FormControl('', [
     Validators.required
@@ -57,6 +64,11 @@ export class PrenotaComponent implements OnInit{
     });
 
     this.sessoCheck.valueChanges.subscribe((newSexValue) => {
+      if (newSexValue == 'M'){
+        this.orari = this.ottieniOrariPrenotabiliUomo();
+      }else {
+        this.orari = this.ottieniOrariPrenotabiliDonna();
+      }
       this.serviceService.getServiceBySex(newSexValue!).subscribe((response) => {
         // Gestisci la risposta qui
         console.log(response);
