@@ -17,13 +17,16 @@ import java.util.List;
 
 public class Hairdresser implements UserDetails {
     private Long id_hairdresser;
-    private String username;
+    private String email;
     private String password;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("HAIRDRESSER"));
     }
+
+    @Override
+    public String getUsername() { return null; }
 
     @Override
     public boolean isAccountNonExpired() {

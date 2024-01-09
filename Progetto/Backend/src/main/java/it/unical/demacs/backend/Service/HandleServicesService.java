@@ -12,7 +12,7 @@ public class HandleServicesService {
     public ResponseEntity<?> insertService(Service services, String username) {
         try {
             DatabaseHandler.getInstance().openConnection();
-            Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByUsername(username).join();
+            Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByEmail(username).join();
             if (hairdresser.getId_hairdresser() != null) {
                 boolean res = DatabaseHandler.getInstance().getServiceDao().insert(services).join();
                 if (res) {
@@ -30,10 +30,10 @@ public class HandleServicesService {
         }
     }
 
-    public ResponseEntity<?> deleteService(Long idService, String username) {
+    public ResponseEntity<?> deleteService(Long idService, String email) {
         try {
             DatabaseHandler.getInstance().openConnection();
-            Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByUsername(username).join();
+            Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByEmail(email).join();
             if (hairdresser.getId_hairdresser() != null) {
                 boolean res = DatabaseHandler.getInstance().getServiceDao().delete(idService).join();
                 if (res) {
@@ -49,10 +49,10 @@ public class HandleServicesService {
             DatabaseHandler.getInstance().closeConnection();
         }
     }
-    public ResponseEntity<?> updateService(Service services, String username)  {
+    public ResponseEntity<?> updateService(Service services, String email)  {
         try {
             DatabaseHandler.getInstance().openConnection();
-            Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByUsername(username).join();
+            Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByEmail(email).join();
             if (hairdresser.getId_hairdresser() != null) {
                 boolean res = DatabaseHandler.getInstance().getServiceDao().update(services).join();
                 if (res) {

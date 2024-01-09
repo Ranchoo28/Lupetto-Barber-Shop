@@ -5,6 +5,7 @@ import it.unical.demacs.backend.Persistenza.Impl.*;
 import org.springframework.scheduling.annotation.Async;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.concurrent.CompletableFuture;
 
@@ -62,4 +63,5 @@ public class DatabaseHandler {
     public ProductDao getProductDao() { return new ProductDaoImpl(getConnection());}
     public HairdresserDao getHairdresserDao() { return new HairdresserDaoImpl(getConnection());}
     public BookingDateDao getBookingDateDao() { return new BookingDateImpl(getConnection());}
+
 }
