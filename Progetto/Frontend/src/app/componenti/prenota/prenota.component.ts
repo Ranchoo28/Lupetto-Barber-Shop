@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import { FormControl, FormGroup, Validators} from "@angular/forms";
 import {BookingService} from "../../services/booking.service";
-import {catchError, of, tap} from "rxjs";
+import {catchError, of, switchMap, tap} from "rxjs";
 import {ServiceService} from "../../services/service.service";
 import {BookingDateService} from "../../services/booking-data.service";
 
@@ -12,7 +12,7 @@ import {BookingDateService} from "../../services/booking-data.service";
   styleUrl: './prenota.component.css'
 })
 export class PrenotaComponent implements OnInit{
-  servizi: string[] = [];
+  servizi: any;
   orari: string[] = [];
   bookingDates: any[] = [];
   idService!: number;
@@ -52,21 +52,29 @@ export class PrenotaComponent implements OnInit{
       this.serviceService.getServiceBySex(newSexValue!).subscribe((response) => {
         // Gestisci la risposta qui
         console.log(response);
-        this.servizi = response.map((service: any) => service.name);
-      });
-    });
-
-    this.servizioCheck.valueChanges.subscribe((newServiceValue) => {
-      this.bookingDateService.getBookingDateByService(2).subscribe((response) => {
-        // Gestisci la risposta qui
-        console.log(response);
-        this.bookingDates = response.map((bookingDate: any) => {
-          const parts = bookingDate.date.split('-');
-          const date = new Date(parts[0], parts[1] - 1, parts[2]);
-          return date.toISOString().split('T')[0]; // Restituisce la data nel formato 'yyyy-mm-dd'
+        this.servizi = response.map((service: any) => {
+          return {
+            id: service.idService,
+            name: service.name
+          };
         });
       });
     });
+
+    this.prenotaForm.get('servizio')!.valueChanges.pipe(
+      switchMap((value) => {
+        return this.bookingDateService.getBookingDateByService(Number(value))
+      })
+    ).subscribe((response) => {
+      // Gestisci la risposta qui
+      console.log(response);
+      this.bookingDates = response.map((bookingDate: any) => {
+        const parts = bookingDate.date.split('-');
+        const date = new Date(parts[0], parts[1] - 1, parts[2]);
+        return date.toISOString().split('T')[0]; // Restituisce la data nel formato 'yyyy-mm-dd'
+      });
+    });
+
   }
   effettuaPrenotazione() {
 
