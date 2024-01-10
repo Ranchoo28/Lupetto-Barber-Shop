@@ -44,9 +44,6 @@ export class PrenotaComponent implements OnInit{
     });
 
     this.sessoCheck.valueChanges.subscribe((newSexValue) => {
-      this.dataCheck.reset();
-      this.orarioCheck.reset();
-      this.servizioCheck.reset();
       this.serviceService.getServiceBySex(newSexValue!).subscribe((response) => {
         // Gestisci la risposta qui
         console.log(response);
