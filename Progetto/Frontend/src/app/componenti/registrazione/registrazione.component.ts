@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
 import { AuthenticationService } from "../../services/authentication.service";
 import {catchError, of, tap} from "rxjs";
 import {Router} from "@angular/router";
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-registrazione',
   templateUrl: './registrazione.component.html',
   styleUrl: './registrazione.component.css'
 })
-export class RegistrazioneComponent {
+export class RegistrazioneComponent implements OnInit{
 
   constructor(private authService: AuthenticationService, private router: Router) {
   }
@@ -191,7 +192,10 @@ export class RegistrazioneComponent {
         tap((data) => {
           console.log(data);
           this.registrationForm.reset();
-          alert("Registrazione effettuata con successo")
+          swal("Registrazione effettuata con successo", {
+            icon: "success",
+            timer: 1000
+          });
           console.log("Registrazione effettuata con successo");
           this.router.navigate(['/login']);
         }),
@@ -204,5 +208,6 @@ export class RegistrazioneComponent {
       console.log("Form non valido");
     }
   }
+
 
 }

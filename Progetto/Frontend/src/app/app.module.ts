@@ -40,12 +40,13 @@ import {
 // Routing
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from "@angular/common/http";
+import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 
 import {NgOptimizedImage, registerLocaleData} from '@angular/common';
 import localeIt from '@angular/common/locales/it';
 import { ReactiveFormsModule} from "@angular/forms";
 import { PrenotazioniComponent } from './componenti/prenotazioni/prenotazioni.component';
+import {AuthInterceptorService} from "./services/auth-interceptor.service";
 
 
 
@@ -96,7 +97,8 @@ registerLocaleData(localeIt, 'it');
   ],
   providers: [
     provideClientHydration(),
-    { provide: LOCALE_ID, useValue: 'it' }
+    { provide: LOCALE_ID, useValue: 'it' },
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true}
   ],
   bootstrap: [AppComponent]
 })

@@ -11,6 +11,7 @@ import { LoginComponent } from "./componenti/login/login.component";
 import {RegistrazioneComponent} from "./componenti/registrazione/registrazione.component";
 import {PrenotazioniComponent} from "./componenti/prenotazioni/prenotazioni.component";
 import {AuthGuard} from "./services/auth-guard.service";
+import { UnAuthGuard } from "./services/unauth-guard.service";
 
 
 const routes: Routes = [
@@ -19,8 +20,8 @@ const routes: Routes = [
   { path: 'prenota', component: PrenotaComponent, canActivate: [AuthGuard]},
   { path: 'prenotazioni', component: PrenotazioniComponent, canActivate: [AuthGuard] },
   { path: 'galleria', component: GalleriaComponent },
-  { path: 'login', component: LoginComponent},
-  { path: 'registrazione', component: RegistrazioneComponent },
+  { path: 'login', component: LoginComponent, canActivate: [UnAuthGuard] },
+  { path: 'registrazione', component: RegistrazioneComponent, canActivate: [UnAuthGuard]  },
   { path: 'pagina_non_trovata', component: NotfoundComponent },
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: '**', redirectTo: '/pagina_non_trovata' }
@@ -28,7 +29,8 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [AuthGuard, UnAuthGuard]
 })
 
 

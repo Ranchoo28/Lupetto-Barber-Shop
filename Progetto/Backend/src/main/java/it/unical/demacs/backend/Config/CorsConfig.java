@@ -11,8 +11,7 @@ public class CorsConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // Specifica il percorso a cui applicare le politiche CORS (Cross-Origin Resource Sharing)
-                .allowedOrigins("http://localhost:4200") // Specifica l'origine del frontend
-                .allowedOrigins("127.0.0.1:8080")
+                .allowedOrigins("http://localhost:4200", "http://127.0.0.1:8080")
                 .allowedMethods("GET", "POST", "PUT", "DELETE","HEAD","OPTIONS") // Specifica i metodi HTTP consentiti
                 .allowedHeaders("*") // Specifica gli header consentiti
                 .allowCredentials(true); // Specifica se è consentito l'invio di credenziali (cookie)
