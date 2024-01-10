@@ -22,13 +22,29 @@ public class HandleBookingService {
             DatabaseHandler.getInstance().openConnection();
             String email = request.getParameter("email");
             Long idBookingDate = Long.valueOf(request.getParameter("idBookingDate"));
+            BookingDate bookingDate =DatabaseHandler.getInstance().getBookingDateDao().findByPrimaryKey(idBookingDate).join();
+            if(!bookingDate.getIsValid())
+            {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Invalid booking date ID provided");
+                return;
+            }
             User user = DatabaseHandler.getInstance().getUtenteDao().findByEmail(email).join();
             try {
                 Booking booking = new Booking(user.getIdUser(), idBookingDate);
                 boolean res = DatabaseHandler.getInstance().getBookingDao().insert(booking).join();
                 if (res) {
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    response.getWriter().write("Successful insert of the booking");
+                    res=DatabaseHandler.getInstance().getBookingDateDao().updateIsValid(idBookingDate, false).join();
+                    if(res)
+                    {
+                        response.setStatus(HttpServletResponse.SC_OK);
+                        response.getWriter().write("Successful insert of the booking");
+                    }
+                    else
+                    {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write("Insert failed");
+                    }
                 } else {
                     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     response.getWriter().write("Insert failed");
@@ -36,7 +52,9 @@ public class HandleBookingService {
             } catch (NumberFormatException | IOException e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
-        }finally {
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
             DatabaseHandler.getInstance().closeConnection();
         }
     }

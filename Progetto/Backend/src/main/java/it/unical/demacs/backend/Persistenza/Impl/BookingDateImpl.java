@@ -171,4 +171,22 @@ public class BookingDateImpl implements BookingDateDao {
         return CompletableFuture.completedFuture(false);
     }
 
+    @Override
+    public CompletableFuture<Boolean> updateIsValid(Long idBookingDate, boolean b) {
+        String query = "UPDATE bookingsdate SET isvalid=? WHERE id_bookingdate=?";
+        try (
+                PreparedStatement st = this.con.prepareStatement(query)) {
+            st.setBoolean(1, b);
+            st.setLong(2, idBookingDate);
+
+            int rowsAffected = st.executeUpdate();
+            st.close();
+
+            return CompletableFuture.completedFuture(rowsAffected > 0);
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        }
+        return CompletableFuture.completedFuture(false);
+    }
+
 }
