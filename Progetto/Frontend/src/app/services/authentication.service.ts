@@ -29,12 +29,12 @@ export class AuthenticationService {
     const expiresAt = moment().add(expiresIn,'second');
 
     localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()) );
+    localStorage.setItem("tokenExpiration", JSON.stringify(expiresAt.valueOf()) );
   }
 
   logout() {
     localStorage.removeItem("accessToken");
-    localStorage.removeItem("expires_at");
+    localStorage.removeItem("tokenExpiration");
   }
 
   public isLoggedIn() {
@@ -46,7 +46,7 @@ export class AuthenticationService {
   }
 
   getExpiration() {
-    const expiration = localStorage.getItem("expires_at");
+    const expiration = localStorage.getItem("tokenExpiration");
     if (!expiration) {
       return moment(0);
     }
@@ -63,7 +63,10 @@ export class AuthenticationService {
     console.log(loginRequest);
     return this.http.post(this.loginURL, loginRequest, this.httpOptions)
       .pipe(
-        tap((res: any) => this.setSession(res.accessToken)), shareReplay());
+        tap((res: any) => {
+          console.log(res);
+          this.setSession(res.accessToken)
+        }), shareReplay());
   }
 
 

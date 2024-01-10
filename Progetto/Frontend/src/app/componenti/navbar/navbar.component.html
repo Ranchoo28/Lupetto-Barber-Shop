@@ -9,36 +9,55 @@
     <div class="navbar-collapse collapse" id="idNavBar">
 
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-        <li class="nav-item">
+
+        <!-- ----------------- ELENCO PRENOTAZIONI ----------------- -->
+        <li class="nav-item" *ngIf="authService.isLoggedIn();">
           <button mat-button [routerLink]="['prenotazioni']">
-            Prenotazioni
+            Appuntamenti prenotati
             <mat-icon fontIcon="view_list"></mat-icon>
           </button>
         </li>
-        <li class="nav-item">
+
+        <!-- ----------------- PRENOTA ----------------- -->
+        <li class="nav-item" *ngIf="authService.isLoggedIn();">
           <button mat-button [routerLink]="['prenota']">
-            Prenota
+            Prenota ora
             <mat-icon fontIcon="playlist_add"></mat-icon>
           </button>
         </li>
+
+        <!-- ----------------- PRODOTTI ----------------- -->
         <li>
           <button mat-button [routerLink]="['prodotti']">
             Prodotti
             <mat-icon fontIcon="inventory"></mat-icon>
           </button>
         </li>
+
+        <!-- ----------------- CONTATTI ----------------- -->
         <li class="nav-item">
           <a mat-button href="/contatti">
             Contatti
             <mat-icon fontIcon="contacts"></mat-icon>
           </a>
         </li>
-        <li class="nav-item">
+
+        <!-- ----------------- LOGOUT ----------------- -->
+        <li class="nav-item" *ngIf="authService.isLoggedOut();">
           <button mat-raised-button [routerLink]="['login']" color="primary">
             Accedi
             <mat-icon fontIcon="person"></mat-icon>
           </button>
         </li>
+
+        <!-- ----------------- LOGOUT ----------------- -->
+        <li class="nav-item" *ngIf="authService.isLoggedIn();">
+          <button mat-raised-button [routerLink]="['home']" (click)="logout()" color="primary">
+            Logout
+            <mat-icon fontIcon="logout"></mat-icon>
+          </button>
+        </li>
+
       </ul>
     </div>
   </div>

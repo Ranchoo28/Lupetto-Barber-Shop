@@ -48,7 +48,7 @@ export class LoginComponent implements OnInit{
           this.loginForm.reset();
           swal("Login effettuato con successo", {
             icon: "success",
-            timer: 1800
+            timer: 1000
           });
           this.router.navigate(['/home']);
         }),

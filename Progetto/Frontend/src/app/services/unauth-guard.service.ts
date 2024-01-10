@@ -14,7 +14,7 @@ export class UnAuthGuard implements CanActivate {
     if (this.authService.isLoggedOut()) {
       return true;
     }
-    this.router.navigate(['/home']);
+    //this.router.navigate(['/home']);
     return false;
   }
 }

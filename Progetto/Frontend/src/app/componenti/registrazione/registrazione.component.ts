@@ -194,7 +194,7 @@ export class RegistrazioneComponent implements OnInit{
           this.registrationForm.reset();
           swal("Registrazione effettuata con successo", {
             icon: "success",
-            timer: 1800
+            timer: 1000
           });
           console.log("Registrazione effettuata con successo");
           this.router.navigate(['/login']);
