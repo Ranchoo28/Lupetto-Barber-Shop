@@ -80,19 +80,15 @@ export class RegistrazioneComponent implements OnInit{
 
   validateField(nomeCampo: string, regole: any): void {
     const field = this.registrationForm.get(nomeCampo);
-    if (!field) return; // Esci se il campo non esiste
+    if (!field) return;
 
-    // Controllo required
     if (regole.required && field.errors?.['required']) {
       this.errors.push(`Il campo ${nomeCampo} è obbligatorio`);
     }
     else{
-      // Controllo minLength
       if (regole.minLength && field.value.length < regole.minLength) {
         this.errors.push(`Il ${nomeCampo} deve contenere almeno ${regole.minLength} caratteri`);
       }
-
-      // Controllo regex
       if (regole.pattern && !new RegExp(regole.pattern).test(field.value)) {
         this.errors.push(`Il formato del campo ${nomeCampo} non è valido`);
       }
@@ -200,8 +196,13 @@ export class RegistrazioneComponent implements OnInit{
           this.router.navigate(['/login']);
         }),
         catchError((error) => {
-          console.error(error);
-          return of(null); // Gestisce l'errore restituendo un observable
+          if(error.error.errorCode == "EMAIL_CONFLICT") {
+            swal(`Errore: Email già in uso`, {
+              icon: "error",
+              timer: 2000
+            });
+          }
+          return of(null);
         })
       ).subscribe();
     } else {

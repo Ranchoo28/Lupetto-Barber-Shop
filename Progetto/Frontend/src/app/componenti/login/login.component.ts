@@ -53,8 +53,13 @@ export class LoginComponent implements OnInit{
           this.router.navigate(['/home']);
         }),
         catchError((error) => {
-          console.error(error);
-          return of(null); // Gestisce l'errore restituendo un observable
+            if(error.error.errorCode == "INVALID_CREDENTIALS") {
+              swal(`Errore: Email o Password errati`, {
+                icon: "error",
+                timer: 2000
+              });
+            }
+          return of(null);
         })
       ).subscribe();
     } else {

@@ -8,6 +8,7 @@ import it.unical.demacs.backend.Persistenza.Model.User;
 import it.unical.demacs.backend.Service.Request.AuthenticationRequest;
 import it.unical.demacs.backend.Service.Request.JwtAuthResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCrypt;
@@ -32,7 +33,7 @@ public class AuthenticationService {
             Hairdresser hairdresser = hairdresserDao.findByEmail(request.getEmail()).join();
 
             if (user.getEmail() == null && hairdresser.getEmail() == null) {
-                return ResponseEntity.badRequest().body("{\"message\": \"A person with this username doesn't exists\"}");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Wrong password\", \"errorCode\": \"INVALID_CREDENTIALS\"}");
             }
 
             boolean isHairdresser = (user.getEmail() == null);
@@ -44,7 +45,7 @@ public class AuthenticationService {
                 System.out.println(entity);
                 return ResponseEntity.ok(new JwtAuthResponse(jwtService.generateToken(entity)));
             } else {
-                return ResponseEntity.badRequest().body("{\"message\": \"Wrong password\"}");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Wrong password\", \"errorCode\": \"INVALID_CREDENTIALS\"}");
             }
         }
         finally {
@@ -60,7 +61,7 @@ public class AuthenticationService {
 
             if (utenteDao.findByEmail(user.getEmail()).join().getEmail() != null ||
                     hairdresserDao.findByEmail(user.getEmail()).join().getEmail() != null) {
-                return ResponseEntity.badRequest().body("{\"message\": \"A person with this email already exists\"}");
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"message\": \"A person with this email already exists\", \"errorCode\": \"EMAIL_CONFLICT\"}");
             }
             utenteDao.insert(user);
             return ResponseEntity.ok().body("{\"message\": \"User registered successfully\"}");
