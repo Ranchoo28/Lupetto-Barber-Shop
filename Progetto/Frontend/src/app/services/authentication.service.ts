@@ -1,5 +1,5 @@
 // authentication.service.ts
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from "@angular/common/http";
 import moment from 'moment';
 import {shareReplay, tap} from "rxjs";
@@ -21,15 +21,26 @@ export class AuthenticationService {
   constructor(private http:HttpClient) { }
 
   isUserLoggedIn(): boolean {
-    return localStorage.getItem('accessToken') !== null;
+    if (typeof window !== 'undefined' && window.localStorage) {
+      return moment().isBefore(this.getExpiration());
+    } else {
+      return false;
+    }
+  }
+
+  getJwtExpiration(token: string): Date {
+    const tokenParts = token.split('.');
+    const encodedPayload = tokenParts[1];
+    const decodedPayload = atob(encodedPayload);
+    const payloadObj = JSON.parse(decodedPayload);
+    return new Date(payloadObj.exp * 1000);
   }
 
   private setSession(accessToken: string) {
-    const expiresIn = 3600; // 1 ora di scadenza, modificare secondo necessità
-    const expiresAt = moment().add(expiresIn,'second');
+    const expirationDate = this.getJwtExpiration(accessToken);
 
     localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem("tokenExpiration", JSON.stringify(expiresAt.valueOf()) );
+    localStorage.setItem("tokenExpiration", expirationDate.valueOf().toString());
   }
 
   logout() {
@@ -46,12 +57,17 @@ export class AuthenticationService {
   }
 
   getExpiration() {
-    const expiration = localStorage.getItem("tokenExpiration");
-    if (!expiration) {
-      return moment(0);
+    if (typeof window !== 'undefined' && window.localStorage) {
+      const expiration = localStorage.getItem("tokenExpiration");
+      if (!expiration) {
+        return moment(0);
+      }
+      const expiresAt = JSON.parse(expiration);
+      return moment(expiresAt);
     }
-    const expiresAt = JSON.parse(expiration);
-    return moment(expiresAt);
+    else{
+      return null;
+    }
   }
 
 
@@ -60,11 +76,9 @@ export class AuthenticationService {
       email: _email,
       password: _password,
     }
-    console.log(loginRequest);
     return this.http.post(this.loginURL, loginRequest, this.httpOptions)
       .pipe(
         tap((res: any) => {
-          console.log(res);
           this.setSession(res.accessToken)
         }), shareReplay());
   }
@@ -78,7 +92,6 @@ export class AuthenticationService {
       surname: _surname,
       number: _number,
     };
-    console.log(registrationRequest);
     return this.http.post(this.registerURL, registrationRequest, this.httpOptions);
   }
 

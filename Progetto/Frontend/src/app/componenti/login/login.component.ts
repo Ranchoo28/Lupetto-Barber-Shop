@@ -44,7 +44,7 @@ export class LoginComponent implements OnInit{
         this.loginForm.get('password')?.value
       ).pipe(
         tap((data) => {
-          console.log("Login effettuato", data);
+          console.log("Login effettuato");
           this.loginForm.reset();
           swal("Login effettuato con successo", {
             icon: "success",
