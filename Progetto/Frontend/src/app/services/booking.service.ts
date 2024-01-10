@@ -1,23 +1,35 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams} from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookingService {
-  private baseUrl = 'http://localhost:8080';
+  // ATTENZIONE!!!
+  // O si usa http://localhost:4200 con il reverse proxy di Angular
+  // oppure si usa http://localhost:8080 ma DOVETE AGGIUSTARE IL CORS!!!
+  private baseUrl = 'http://localhost:4200';
   httpOptions = {
     headers: new HttpHeaders({
-      'Accept': 'application/json',
+      // Se vuoi usare Accept e accettare JSON, prima accertati che da backend invii JSON!!!
+      //'Accept': 'application/json',
       'Content-Type': 'application/json'
     })
   };
 
   constructor(private http: HttpClient) { }
 
-  insertBooking(booking: any, email: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/api/booking/insert`, booking, {params: {email: email}});
+  insertBooking(idBookingDate: number, email: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/api/booking/insert`, null, {
+      params: {
+        email: email,
+        idBookingDate: idBookingDate.toString()
+      },
+      // ATTENZIONE!!!
+      // Viene aggiunto il responseType text perché il backend non invia JSON!!!
+      responseType: 'text'
+    });
   }
 
   deleteBooking(idBooking: number, email: string): Observable<any> {
