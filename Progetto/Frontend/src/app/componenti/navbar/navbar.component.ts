@@ -15,11 +15,13 @@ export class NavbarComponent {
 
   logout() {
     this.authService.logout();
-    swal(`Logout effettuato con successo. \n
+    console.log("Logout effettuato");
+    swal(`Logout effettuato con successo.
                   A presto !`, {
       icon: "success",
       timer: 1000
     });
+
   }
 
 
