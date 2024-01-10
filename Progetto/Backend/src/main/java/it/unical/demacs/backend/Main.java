@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.time.Duration;
 import java.util.concurrent.ExecutionException;
 
-import it.unical.demacs.backend.Service.PayPalService;
 import okio.*;
 import okhttp3.*;
 
@@ -16,7 +15,7 @@ import okhttp3.*;
 public class Main {
 
     // USARE SOLO PER TESTING
-    public static void main2(String[] args) throws SQLException, ExecutionException, InterruptedException {
+    public static void main(String[] args) throws SQLException, ExecutionException, InterruptedException {
         DatabaseHandler db = DatabaseHandler.getInstance();
         //db.getUtenteDao().saveOrUpdate(new User("Sav", "test", "Saverio", "Crea", "test", 'c'));
         System.out.println(db.getUtenteDao().findByPrimaryKey(6L).join().getUsername());
