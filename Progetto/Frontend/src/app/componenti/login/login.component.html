@@ -4,7 +4,7 @@
     <div class="col-lg-3"></div>
     <div class="col-lg-6">
       <mat-card>
-        <mat-card-content [formGroup]="loginForm" (ngSubmit)="onLogin()">
+        <mat-card-content [formGroup]="loginForm">
           <div class="row">
             <!-- ----------------- EMAIL ----------------- -->
             <mat-form-field class="full-width" appearance="outline">
@@ -31,7 +31,7 @@
             <div class="col-lg-2"></div>
             <div class="col-lg-8">
               <div class="row">
-                <button mat-raised-button color="primary" [disabled]="loginForm.invalid" (click)="onLogin()">Accedi</button>
+                <button mat-raised-button color="primary" [disabled]="loginForm.invalid" (click)="loginUtente()">Accedi</button>
               </div>
               <br><br>
               <div class="row">
@@ -44,5 +44,12 @@
       </mat-card>
     </div>
     <div class="col-lg-3"></div>
+
+    <!-- TODO, solo testing, poi rimuovere
+    <div>
+      <button (click)="alertshow()">fdgdfgdfgdgf</button>
+    </div>
+    -->
+
   </div>
 </div>

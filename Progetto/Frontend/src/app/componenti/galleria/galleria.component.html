@@ -1,34 +1,37 @@
 
+<div class="galleria" id="galleria">
+  <div id="DidascaliaCarosello" class="carousel slide" data-bs-ride="carousel">
+    <!-- Indicatori Dinamici -->
+    <div class="carousel-indicators">
+      <button type="button" *ngFor="let slide of slides; let i = index"
+              [attr.data-bs-target]="'#DidascaliaCarosello'"
+              [attr.data-bs-slide-to]="i"
+              [class.active]="i === 0"
+              aria-current="true"
+              [attr.aria-label]="'Slide ' + (i + 1)"></button>
+    </div>
 
-<div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
-  <!-- Indicatori Dinamici -->
-  <div class="carousel-indicators">
-    <button type="button" *ngFor="let slide of slides; let i = index"
-            [attr.data-bs-target]="'#carouselExampleCaptions'"
-            [attr.data-bs-slide-to]="i"
-            [class.active]="i === 0"
-            aria-current="true"
-            [attr.aria-label]="'Slide ' + (i + 1)"></button>
-  </div>
-
-  <!-- Slides Dinamiche -->
-  <div class="carousel-inner">
-    <div class="carousel-item" *ngFor="let slide of slides; let i = index" [class.active]="i === 0">
-      <img [src]="'./assets/images/Carousel/' + slide.src" class="d-block w-100" [alt]="slide.title">
-      <div class="carousel-caption d-none d-md-block">
-        <h5>{{ slide.title }}</h5>
-        <p>{{ slide.subtitle }}</p>
+    <!-- Slides Dinamiche -->
+    <div class="carousel-inner">
+      <div class="carousel-item" *ngFor="let slide of slides; let i = index" [class.active]="i === 0">
+        <img [src]="'./assets/images/Carousel/' + slide.src" class="d-block w-100" [alt]="slide.title">
+        <!--
+        <div class="carousel-caption d-none d-md-block">
+          <h5>{{ slide.title }}</h5>
+          <p>{{ slide.subtitle }}</p>
+        </div>
+        -->
       </div>
     </div>
-  </div>
 
-  <!-- Controlli -->
-  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </button>
-  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </button>
+    <!-- Pulsanti -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#DidascaliaCarosello" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Precedente</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#DidascaliaCarosello" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Successivo</span>
+    </button>
+  </div>
 </div>

@@ -1,16 +1,18 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {AuthenticationService} from "../../services/authentication.service";
-
+import {catchError, of, tap} from "rxjs";
+import {Router} from "@angular/router";
+import swal from 'sweetalert';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrl: './login.component.css'
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit{
 
-  constructor(private authService: AuthenticationService){
+  constructor(private authService: AuthenticationService, private router: Router) {
   }
 
   hide = true;
@@ -35,28 +37,39 @@ export class LoginComponent {
     });
   }
 
-  onLogin(){
+  loginUtente() {
     if (this.loginForm.valid) {
-      const email = this.loginForm.get('email')?.value;
-      const password = this.loginForm.get('password')?.value;
-
-      this.authService.login(email, password).subscribe(
-        accessToken => {
-          console.log("Login effettuato", accessToken);
-          localStorage.setItem('access_token', accessToken.toString()); // TODO salvare il cookie
-          this.loginErrorMessage = '';
-        },
-        error => {
-          console.log("Login non effettuato", error);
-          this.loginErrorMessage = 'Login non riuscito. Email o Password errati.';
-        }
-      );
-      // Meglio non resettare il form così da poter correggere più facilmente errori
-      // this.loginForm.reset();
+      this.authService.login(
+        this.loginForm.get('email')?.value,
+        this.loginForm.get('password')?.value
+      ).pipe(
+        tap((data) => {
+          console.log("Login effettuato", data);
+          this.loginForm.reset();
+          swal("Login effettuato con successo", {
+            icon: "success",
+            timer: 1800
+          });
+          this.router.navigate(['/home']);
+        }),
+        catchError((error) => {
+          console.error(error);
+          return of(null); // Gestisce l'errore restituendo un observable
+        })
+      ).subscribe();
     } else {
       console.log("Form non valido");
-      this.loginErrorMessage = 'Form non valido. Si prega di controllare i dati inseriti.';
     }
   }
+
+
+  /* SOLO TESTING, POI RIMUOVERE */
+  alertshow(){
+    swal("Login effettuato con successo", {
+      icon: "success",
+      timer: 1800
+    });
+  }
+
 
 }

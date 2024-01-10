@@ -13,7 +13,6 @@ export class GalleriaComponent{
     { src: 'taglio.png', title: 'Titolo 1', subtitle: 'Sottotitolo 1' },
     { src: 'taglio-donna1.png', title: 'Titolo 2', subtitle: 'Sottotitolo 2' },
     { src: 'taglio-uomo1.png', title: 'Titolo 2', subtitle: 'Sottotitolo 2' },
-    // ecc.
   ];
 
 }
