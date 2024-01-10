@@ -44,11 +44,9 @@ export class PrenotaComponent implements OnInit{
     });
 
     this.sessoCheck.valueChanges.subscribe((newSexValue) => {
-      if (newSexValue == 'M'){
-        this.orari = this.ottieniOrariPrenotabiliUomo();
-      }else {
-        this.orari = this.ottieniOrariPrenotabiliDonna();
-      }
+      this.dataCheck.reset();
+      this.orarioCheck.reset();
+      this.servizioCheck.reset();
       this.serviceService.getServiceBySex(newSexValue!).subscribe((response) => {
         // Gestisci la risposta qui
         console.log(response);
@@ -58,43 +56,50 @@ export class PrenotaComponent implements OnInit{
             name: service.name
           };
         });
+
+
+      });
+
+      this.prenotaForm.get('servizio')!.valueChanges.pipe(
+        switchMap((value) => {
+          return this.bookingDateService.getBookingDateByService(Number(value))
+        })
+      ).subscribe((response) => {
+        // Gestisci la risposta qui
+        console.log(response);
+        this.bookingDates = response.map((bookingDate: any) => {
+          const parts = bookingDate.date.split('-');
+          const date = new Date(parts[0], parts[1] - 1, parts[2]);
+          return date.toISOString().split('T')[0]; // Restituisce la data nel formato 'yyyy-mm-dd'
+        });
+      });
+
+      this.prenotaForm.get('data')!.valueChanges.pipe(
+        switchMap((value) => {
+          const localDate = new Date(value);
+          const offset = localDate.getTimezoneOffset();
+          localDate.setMinutes(localDate.getMinutes() - offset);
+          const localIsoString = localDate.toISOString().split('T')[0];
+
+
+          return this.bookingDateService.getBookingDateByTime(localIsoString, Number(this.prenotaForm.get('servizio')!.value))
+        })
+      ).subscribe((response) => {
+        // Gestisci la risposta qui
+        console.log(response);
+        this.orari = response.map((bookingDate: any) => {
+          return bookingDate.time;
+        });
       });
     });
 
-    this.prenotaForm.get('servizio')!.valueChanges.pipe(
-      switchMap((value) => {
-        return this.bookingDateService.getBookingDateByService(Number(value))
-      })
-    ).subscribe((response) => {
-      // Gestisci la risposta qui
-      console.log(response);
-      this.bookingDates = response.map((bookingDate: any) => {
-        const parts = bookingDate.date.split('-');
-        const date = new Date(parts[0], parts[1] - 1, parts[2]);
-        return date.toISOString().split('T')[0]; // Restituisce la data nel formato 'yyyy-mm-dd'
-      });
-    });
+
 
   }
   effettuaPrenotazione() {
 
   }
 
-  ottieniOrariPrenotabiliUomo(): string[] {
-    let slots: string[] = [];
-    for (let i = 8; i <= 19; i++) {
-      slots.push(i + ':00');
-      slots.push(i + ':30');
-    }
-    return slots;
-  }
-  ottieniOrariPrenotabiliDonna(): string[] {
-    let slots: string[] = [];
-    for (let i = 8; i <= 19; i++) {
-      slots.push(i + ':00');
-    }
-    return slots;
-  }
 
   dateFilter = (d: Date | null): boolean => {
     const date = (d || new Date()).toISOString().split('T')[0];

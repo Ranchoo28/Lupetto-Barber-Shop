@@ -30,7 +30,7 @@ export class BookingDateService {
     return this.http.get(`${this.baseUrl}/getDatebyService`, {params: {idService: idService.toString()}});
   }
 
-  getBookingDateTime(date: Date, idService: number): Observable<any> {
-    return this.http.get(`${this.baseUrl}/getTimebyDate`, {params: {date: date.toISOString(), idService: idService.toString()}});
+  getBookingDateByTime(date: string, idService: number): Observable<any> {
+    return this.http.get(`${this.baseUrl}/getTimebyDate`, {params: {date: date, idService: idService.toString()}});
   }
 }
