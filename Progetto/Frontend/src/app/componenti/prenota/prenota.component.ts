@@ -5,7 +5,7 @@ import {ServiceService} from "../../services/service.service";
 import {BookingDateService} from "../../services/booking-data.service";
 import {MatSelectChange} from "@angular/material/select";
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
-
+import swal from "sweetalert";
 
 @Component({
   selector: 'app-prenota',
@@ -14,7 +14,7 @@ import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 })
 export class PrenotaComponent implements OnInit{
   servizi: any;
-  orari: string[] = [];
+  orari: any;
   bookingDates: any[] = [];
   idService!: number;
 
@@ -46,7 +46,23 @@ export class PrenotaComponent implements OnInit{
   }
 
   effettuaPrenotazione() {
-
+    let idBookingDate = Number(this.prenotaForm.get('orario')!.value);
+    // ATTENZIONE!!!
+    // Aggiunto perché i servizi su backend richiedono l'email,
+    // però questo è un problemi di sicurezza, i servizi backend devono tener conto
+    // tramite il token JWT, dell'utente che sta facendo la richiesta
+    let email = localStorage.getItem('email')!;
+    this.bookingService.insertBooking(idBookingDate, email).subscribe((response) => {
+      // Gestisci la risposta qui
+      //console.log(response);
+      //alert("Prenotazione effettuata con successo!");
+      swal("Prenotazione effettuata con successo", {
+        icon: "success",
+        timer: 3000
+      }).then(() => {
+        window.location.reload();
+      });
+    });
   }
 
   dateFilter = (d: Date | null): boolean => {
@@ -95,10 +111,15 @@ export class PrenotaComponent implements OnInit{
     const localIsoString = localDate.toISOString().split('T')[0];
     this.bookingDateService.getBookingDateByTime(localIsoString, Number(this.prenotaForm.get('servizio')!.value)).subscribe((response) => {
       // Gestisci la risposta qui
+      console.log("ORARI");
       console.log(response);
       this.orari = response.map((bookingDate: any) => {
-        return bookingDate.time;
+        return {
+          "idBookingDate": bookingDate.idBookingDate,
+          "ora": bookingDate.time
+        };
       });
     });
   }
+
 }

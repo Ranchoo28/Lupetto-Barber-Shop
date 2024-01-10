@@ -43,8 +43,8 @@
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Ora</mat-label>
                 <mat-select [formControl]="orarioCheck">
-                  <mat-option *ngFor="let ora of orari" [value]="ora">
-                    {{ora}}
+                  <mat-option *ngFor="let item of orari" [value]="item.idBookingDate">
+                    {{item.ora}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>

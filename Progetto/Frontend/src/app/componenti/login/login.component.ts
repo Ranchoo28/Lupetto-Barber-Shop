@@ -45,6 +45,13 @@ export class LoginComponent implements OnInit{
       ).pipe(
         tap((data) => {
           console.log("Login effettuato");
+
+          // ATTENZIONE!!!
+          // Aggiunto perché i servizi su backend richiedono l'email,
+          // però questo è un problemi di sicurezza, i servizi backend devono tener conto
+          // tramite il token JWT, dell'utente che sta facendo la richiesta
+          localStorage.setItem('email', this.loginForm.get('email')?.value);
+
           this.loginForm.reset();
           swal("Login effettuato con successo", {
             icon: "success",
