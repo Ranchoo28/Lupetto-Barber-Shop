@@ -1,9 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import { FormControl, FormGroup, Validators} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {BookingService} from "../../services/booking.service";
-import {catchError, of, switchMap, tap} from "rxjs";
 import {ServiceService} from "../../services/service.service";
 import {BookingDateService} from "../../services/booking-data.service";
+import {MatSelectChange} from "@angular/material/select";
+import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 
 
 @Component({
@@ -30,11 +31,11 @@ export class PrenotaComponent implements OnInit{
     Validators.required
   ]);
 
-
   prenotaForm!: FormGroup;
 
   constructor(private bookingService: BookingService, private serviceService: ServiceService,private bookingDateService: BookingDateService) {
   }
+
   ngOnInit(): void {
     this.prenotaForm = new FormGroup({
       sessoCheck: this.sessoCheck,
@@ -42,61 +43,11 @@ export class PrenotaComponent implements OnInit{
       data: this.dataCheck,
       orario: this.orarioCheck,
     });
-
-    this.sessoCheck.valueChanges.subscribe((newSexValue) => {
-      this.serviceService.getServiceBySex(newSexValue!).subscribe((response) => {
-        // Gestisci la risposta qui
-        console.log(response);
-        this.servizi = response.map((service: any) => {
-          return {
-            id: service.idService,
-            name: service.name
-          };
-        });
-
-
-      });
-
-      this.prenotaForm.get('servizio')!.valueChanges.pipe(
-        switchMap((value) => {
-          return this.bookingDateService.getBookingDateByService(Number(value))
-        })
-      ).subscribe((response) => {
-        // Gestisci la risposta qui
-        console.log(response);
-        this.bookingDates = response.map((bookingDate: any) => {
-          const parts = bookingDate.date.split('-');
-          const date = new Date(parts[0], parts[1] - 1, parts[2]);
-          return date.toISOString().split('T')[0]; // Restituisce la data nel formato 'yyyy-mm-dd'
-        });
-      });
-
-      this.prenotaForm.get('data')!.valueChanges.pipe(
-        switchMap((value) => {
-          const localDate = new Date(value);
-          const offset = localDate.getTimezoneOffset();
-          localDate.setMinutes(localDate.getMinutes() - offset);
-          const localIsoString = localDate.toISOString().split('T')[0];
-
-
-          return this.bookingDateService.getBookingDateByTime(localIsoString, Number(this.prenotaForm.get('servizio')!.value))
-        })
-      ).subscribe((response) => {
-        // Gestisci la risposta qui
-        console.log(response);
-        this.orari = response.map((bookingDate: any) => {
-          return bookingDate.time;
-        });
-      });
-    });
-
-
-
   }
+
   effettuaPrenotazione() {
 
   }
-
 
   dateFilter = (d: Date | null): boolean => {
     const date = (d || new Date()).toISOString().split('T')[0];
@@ -104,6 +55,50 @@ export class PrenotaComponent implements OnInit{
     return this.bookingDates.includes(date);
   };
 
+  changeSesso($event: MatSelectChange) {
+    let sesso = $event.value;
+    this.prenotaForm.get('servizio')!.setValue('');
+    this.prenotaForm.get('data')!.setValue('');
+    this.prenotaForm.get('orario')!.setValue('');
+    this.serviceService.getServiceBySex(sesso!).subscribe((response) => {
+      // Gestisci la risposta qui
+      console.log(response);
+      this.servizi = response.map((service: any) => {
+        return {
+          id: service.idService,
+          name: service.name
+        };
+      });
+    });
+  }
 
+  changeServizio($event: MatSelectChange) {
+    let idService = Number($event.value);
+    this.prenotaForm.get('data')!.setValue('');
+    this.prenotaForm.get('orario')!.setValue('');
+    this.bookingDateService.getBookingDateByService(idService).subscribe((response) => {
+      // Gestisci la risposta qui
+      console.log(response);
+      this.bookingDates = response.map((bookingDate: any) => {
+        const parts = bookingDate.date.split('-');
+        const date = new Date(parts[0], parts[1] - 1, parts[2]);
+        return date.toISOString().split('T')[0]; // Restituisce la data nel formato 'yyyy-mm-dd'
+      });
+    });
+  }
 
+  changeDate($event: MatDatepickerInputEvent<any, any>) {
+    this.prenotaForm.get('orario')!.setValue('');
+    const localDate = new Date($event.value!);
+    const offset = localDate.getTimezoneOffset();
+    localDate.setMinutes(localDate.getMinutes() - offset);
+    const localIsoString = localDate.toISOString().split('T')[0];
+    this.bookingDateService.getBookingDateByTime(localIsoString, Number(this.prenotaForm.get('servizio')!.value)).subscribe((response) => {
+      // Gestisci la risposta qui
+      console.log(response);
+      this.orari = response.map((bookingDate: any) => {
+        return bookingDate.time;
+      });
+    });
+  }
 }

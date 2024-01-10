@@ -9,7 +9,7 @@
               <!-- ----------------- SESSO ----------------- -->
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Sesso</mat-label>
-                <mat-select [formControl]="sessoCheck">
+                <mat-select [formControl]="sessoCheck" (selectionChange)="changeSesso($event)">
                   <mat-option value="M">Uomo</mat-option>
                   <mat-option value="F">Donna</mat-option>
                 </mat-select>
@@ -19,7 +19,7 @@
             <!-- ----------------- SERVIZIO ----------------- -->
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Servizio</mat-label>
-              <mat-select [formControl]="servizioCheck">
+              <mat-select [formControl]="servizioCheck" (selectionChange)="changeServizio($event)">
                 <mat-option *ngFor="let servizio of servizi" value="{{servizio.id}}">
                   {{servizio.name}}
                 </mat-option>
@@ -32,7 +32,7 @@
               <!-- ----------------- DATA ----------------- -->
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Data</mat-label>
-                <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" [formControl]="dataCheck">
+                <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" [formControl]="dataCheck" (dateChange)="changeDate($event)">
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker [touchUi]="true" #picker></mat-datepicker>
                               </mat-form-field>
