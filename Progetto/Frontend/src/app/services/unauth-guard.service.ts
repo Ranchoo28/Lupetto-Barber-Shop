@@ -11,10 +11,10 @@ export class UnAuthGuard implements CanActivate {
   constructor(private authService: AuthenticationService, private router: Router) { }
 
   canActivate(): boolean {
-    if (this.authService.isUserLoggedIn()) {
-      this.router.navigate(['/home']);
-      return false;
+    if (this.authService.isLoggedOut()) {
+      return true;
     }
-    return true;
+    this.router.navigate(['/home']);
+    return false;
   }
 }

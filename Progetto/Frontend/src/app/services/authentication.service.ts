@@ -65,17 +65,7 @@ export class AuthenticationService {
       .pipe(
         tap((res: any) => this.setSession(res.accessToken)), shareReplay());
   }
-// TODO RIMETTI NEL LOGIN QUANDO SISTEMANO IL BACKEND
-  /*
-      return this.http.post(this.loginURL, loginRequest, this.httpOptions)
-      .pipe(
-      tap((res: any) => this.setSession(res)), shareReplay());
 
-      o
-
-
-
-  */
 
   register(_email: string, _password: string, _name: string, _surname: string, _number: string) {
     const registrationRequest = {
