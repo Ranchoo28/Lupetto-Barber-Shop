@@ -35,11 +35,18 @@
         </li>
 
         <!-- ----------------- CONTATTI ----------------- -->
-        <li class="nav-item">
+        <!--<li class="nav-item">
           <a mat-button href="/contatti">
             Contatti
             <mat-icon fontIcon="contacts"></mat-icon>
           </a>
+        </li>
+        -->
+        <li class="nav-item">
+          <button mat-button [routerLink]="['contatti']" >
+            Contatti
+            <mat-icon fontIcon="contacts"></mat-icon>
+          </button>
         </li>
 
         <!-- ----------------- LOGOUT ----------------- -->

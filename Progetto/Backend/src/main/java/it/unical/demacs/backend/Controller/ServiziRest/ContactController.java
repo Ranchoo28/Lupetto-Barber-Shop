@@ -1,7 +1,6 @@
 package it.unical.demacs.backend.Controller.ServiziRest;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,12 +19,12 @@ public class ContactController {
     @Value("${contacts.address}")
     private String address;
 
-    @GetMapping("/contatti")
+    @GetMapping("/thymeleaf")
     public String getContatti(Model model) {
         model.addAttribute("title", "Contatti");
         model.addAttribute("number", number);
         model.addAttribute("email", email);
         model.addAttribute("address", address);
-        return "contatti";
+        return "thymeleafcontatti";
     }
 }

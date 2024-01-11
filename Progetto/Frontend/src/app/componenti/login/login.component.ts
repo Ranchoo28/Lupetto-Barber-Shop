@@ -16,7 +16,6 @@ export class LoginComponent implements OnInit{
   }
 
   hide = true;
-  loginErrorMessage = '';
 
   regexEmail =`^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$`;
 
@@ -31,6 +30,7 @@ export class LoginComponent implements OnInit{
 
 
   ngOnInit(): void {
+    this.authService.logout();
     this.loginForm = new FormGroup({
       email: this.emailCheck,
       password: this.passwordCheck

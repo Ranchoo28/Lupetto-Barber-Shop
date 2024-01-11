@@ -2,13 +2,15 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from "@angular/common/http";
 import { Observable, throwError } from "rxjs"; // Importa throwError
 import { Router } from '@angular/router';
+import {AuthenticationService} from "./authentication.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthInterceptorService implements HttpInterceptor {
 
-  constructor(private router: Router) {}
+  constructor(private authService:AuthenticationService, private router: Router) {}
+
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     const accessToken = localStorage.getItem("accessToken");
@@ -20,9 +22,9 @@ export class AuthInterceptorService implements HttpInterceptor {
 
       if (now > expiresAt) {
         console.log('Token scaduto');
-        // Reindirizza l'utente al login o rinnova il token
+        this.authService.logout();
         this.router.navigate(['login']);
-        return throwError(() => new Error('Token scaduto')); // Usa throwError qui
+        return throwError(() => new Error('Token scaduto'));
       }
 
       const cloned = req.clone({

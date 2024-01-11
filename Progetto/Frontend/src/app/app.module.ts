@@ -21,6 +21,7 @@ import { MatRadioModule } from "@angular/material/radio";
 
 // Components
 import { AppComponent } from './app.component';
+import { ContattiComponent } from './componenti/contatti/contatti.component';
 import { GalleriaComponent } from './componenti/galleria/galleria.component';
 import { HomeComponent } from './componenti/home/home.component';
 import { LoginComponent } from './componenti/login/login.component';
@@ -62,6 +63,7 @@ registerLocaleData(localeIt, 'it');
     LoginComponent,
     RegistrazioneComponent,
     PrenotazioniComponent,
+    ContattiComponent,
   ],
   imports: [
     RouterModule,

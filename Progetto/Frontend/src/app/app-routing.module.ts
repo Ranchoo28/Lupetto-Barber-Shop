@@ -12,10 +12,12 @@ import {RegistrazioneComponent} from "./componenti/registrazione/registrazione.c
 import {PrenotazioniComponent} from "./componenti/prenotazioni/prenotazioni.component";
 import {AuthGuard} from "./services/auth-guard.service";
 import { UnAuthGuard } from "./services/unauth-guard.service";
+import {ContattiComponent} from "./componenti/contatti/contatti.component";
 
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
+  { path: 'contatti', component: ContattiComponent},
   { path: 'prodotti', component: ProdottiComponent },
   { path: 'prenota', component: PrenotaComponent, canActivate: [AuthGuard]},
   { path: 'prenotazioni', component: PrenotazioniComponent, canActivate: [AuthGuard] },

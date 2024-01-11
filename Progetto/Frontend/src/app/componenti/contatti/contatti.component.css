@@ -1,0 +1,36 @@
+
+iframe{
+  width: 100%;
+  min-height: 800px;
+}
+
+
+.card {
+  max-width: 18rem; /* This is already inline, but can be moved to CSS */
+  border: 1px solid #ddd; /* Light grey border */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
+  margin-bottom: 1rem; /* mb-3 utility equivalent */
+  background-color: #f8f9fa; /* light background */
+}
+
+.card-header {
+  background-color: #e9ecef; /* Slightly darker header bg */
+  padding: 0.75rem 1.25rem; /* Padding for spacing */
+  border-bottom: 1px solid #ddd; /* Light grey border */
+}
+
+.card-body {
+  padding: 1.25rem; /* Padding inside the card body */
+}
+
+.card-title {
+  margin-bottom: 0.75rem; /* Space below the title */
+  color: #212529; /* Dark color for the title text */
+}
+
+.card-text {
+  color: #6c757d; /* Lighter text color for the body */
+}
+
+
+
