@@ -76,6 +76,7 @@ public class BookingDaoImpl implements BookingDao {
     }
 
     @Override
+    @Async
     public CompletableFuture<Boolean> update(Booking booking) {
         String query = "UPDATE bookings SET id_booking=?, id_user=?, id_bookingdate=? WHERE id_booking=?";
         try {
@@ -103,12 +104,14 @@ public class BookingDaoImpl implements BookingDao {
             st.close();
 
             return CompletableFuture.completedFuture(rowsAffected > 0);
-        } catch (SQLException ignored) {
+        } catch (SQLException e) {
+            e.fillInStackTrace();
             return CompletableFuture.completedFuture(false);
         }
     }
 
     @Override
+    @Async
     public CompletableFuture<Boolean> isValid(Long id, Long idUser) {
         String query = "SELECT COUNT(*) FROM bookings WHERE id_booking = ? and id_user = ?";
         try (

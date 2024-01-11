@@ -10,6 +10,7 @@ public interface ProductDao {
     public CompletableFuture<ArrayList<Product>> findAll();
     public CompletableFuture<Product> findByPrimaryKey(Long id) throws SQLException;
     public CompletableFuture<Product> findByName(String name);
-    public CompletableFuture<Void> saveOrUpdate(Product product);
-    public CompletableFuture<Void> delete(Long id);
+    public CompletableFuture<Boolean> insert(Product product);
+    public CompletableFuture<Boolean> update(Product product);
+    public CompletableFuture<Boolean> delete(Long id);
 }

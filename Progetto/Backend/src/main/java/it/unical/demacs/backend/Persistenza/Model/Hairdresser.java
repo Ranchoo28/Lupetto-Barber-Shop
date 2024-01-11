@@ -1,5 +1,6 @@
 package it.unical.demacs.backend.Persistenza.Model;
 
+import it.unical.demacs.backend.Persistenza.DatabaseHandler;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,6 +21,19 @@ public class Hairdresser implements UserDetails {
     private String email;
     private String password;
 
+
+    public Hairdresser(Long id_hairdresser, String email, String password) {
+        this.id_hairdresser = id_hairdresser;
+        this.email = email;
+        this.password = password;
+    }
+
+    public Hairdresser(Long id_hairdresser) {
+        Hairdresser h=DatabaseHandler.getInstance().getHairdresserDao().findByPrimaryKey(id_hairdresser).join();
+        this.id_hairdresser = h.getId_hairdresser();
+        this.email = h.getEmail();
+        this.password = h.getPassword();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
