@@ -32,15 +32,25 @@ export class BookingService {
     });
   }
 
+
   deleteBooking(idBooking: number, email: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/api/booking/delete`, {params: {idBooking: idBooking.toString(), email: email}});
+    return this.http.post(`${this.baseUrl}/api/booking/delete`, null, {
+      params: {
+        idBooking: idBooking.toString(),
+        email: email
+
+      },
+      // ATTENZIONE!!!
+      // Viene aggiunto il responseType text perché il backend non invia JSON!!!
+      responseType: 'text'
+    });
   }
 
   updateBooking(booking: any, email: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/api/booking/update`, booking, {params: {email: email}});
   }
 
-  getBooking(email: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/api/booking/get`, {params: {email: email}});
+  getUserBooking(email: string): Observable<any> {
+    return this.http.get(`${this.baseUrl}/api/user/booking`, {params: {email: email}});
   }
 }

@@ -1,74 +1,82 @@
-import { Component } from '@angular/core';
-import {SelectionModel} from "@angular/cdk/collections";
-import {MatTableDataSource} from "@angular/material/table";
-export interface PeriodicElement {
-  name: string;
-  position: number;
-  weight: number;
-  symbol: string;
-}
+    import {Component, OnInit, ViewChild} from '@angular/core';
+    import { MatTableDataSource } from '@angular/material/table';
+    import {MatPaginator} from "@angular/material/paginator";
+    import {SelectionModel} from '@angular/cdk/collections';
+    import {BookingService} from "../../services/booking.service";
+    import {BookingDateService} from "../../services/booking-data.service";
+    import swal from "sweetalert";
 
-const ELEMENT_DATA: PeriodicElement[] = [
-  {position: 1, name: 'Hydrogen', weight: 1.0079, symbol: 'H'},
-  {position: 2, name: 'Helium', weight: 4.0026, symbol: 'He'},
-  {position: 3, name: 'Lithium', weight: 6.941, symbol: 'Li'},
-  {position: 4, name: 'Beryllium', weight: 9.0122, symbol: 'Be'},
-  {position: 5, name: 'Boron', weight: 10.811, symbol: 'B'},
-  {position: 6, name: 'Carbon', weight: 12.0107, symbol: 'C'},
-  {position: 7, name: 'Nitrogen', weight: 14.0067, symbol: 'N'},
-  {position: 8, name: 'Oxygen', weight: 15.9994, symbol: 'O'},
-  {position: 9, name: 'Fluorine', weight: 18.9984, symbol: 'F'},
-  {position: 10, name: 'Neon', weight: 20.1797, symbol: 'Ne'},
-];
-@Component({
-  selector: 'app-prenotazioni',
-  templateUrl: './prenotazioni.component.html',
-  styleUrl: './prenotazioni.component.css'
-})
-export class PrenotazioniComponent {
-  displayedColumns: string[] = ['select', 'position', 'name', 'weight', 'symbol'];
-  dataSource = new MatTableDataSource<PeriodicElement>(ELEMENT_DATA);
-  selection = new SelectionModel<PeriodicElement>(true, []);
+    @Component({
+      selector: 'app-prenotazioni',
+      templateUrl: './prenotazioni.component.html',
+      styleUrls: ['./prenotazioni.component.css']
+    })
+    export class PrenotazioniComponent implements OnInit {
+        dataSource!: MatTableDataSource<any>;
+        displayedColumns: string[] = ['select', 'Servizio', 'Data', 'Orario', 'idBooking'];
+        selection = new SelectionModel<any>(true, []);
+        @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  /** Whether the number of selected elements matches the total number of rows. */
-  isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.dataSource.data.length;
-    return numSelected === numRows;
-  }
+        constructor(private bookingService: BookingService, private bookgdataservice:BookingDateService) { }
 
-  /** Selects all rows if they are not all selected; otherwise clear selection. */
-  toggleAllRows() {
-    if (this.isAllSelected()) {
-      this.selection.clear();
-      return;
+        ngOnInit(): void {
+          if(localStorage.getItem("admin")=="true"){
+            this.visualizzaPrenotazioni();
+          }else{
+            this.visualizzaPrenotazioniHairD();
+          }
+        }
+
+        visualizzaPrenotazioni() {
+          this.bookingService.getUserBooking(localStorage.getItem("email")!).subscribe((data) => {
+            this.dataSource = new MatTableDataSource(data);
+            this.dataSource.paginator = this.paginator;
+          });
+        }
+        eliminaPrenotazione() {
+          console.log("Elimina prenotazione");
+          // Controlla se almeno una riga è selezionata
+          if (this.selection.selected.length > 0) {
+            // Itera su ogni riga selezionata
+            this.selection.selected.forEach(row => {
+              console.log(row);
+              this.bookingService.deleteBooking(row.id_booking,localStorage.getItem("email")!).subscribe((data) => {
+                swal("Prenotazione rimossa", {
+                  icon: "success",
+                  timer: 3000
+                })
+              });
+              });
+
+
+            // Aggiorna la tabella
+            this.visualizzaPrenotazioni();
+
+            // Pulisci la selezione
+            this.selection.clear();
+          } else {
+            console.log("Nessuna riga selezionata");
+          }
+        }
+
+
+
+        isAllSelected() {
+          const numSelected = this.selection.selected.length;
+          const numRows = this.dataSource.data.length;
+          return numSelected === numRows;
+        }
+
+        masterToggle() {
+          this.isAllSelected() ?
+              this.selection.clear() :
+              this.dataSource.data.forEach(row => this.selection.select(row));
+        }
+
+      private visualizzaPrenotazioniHairD() {
+        this.bookgdataservice.getBookingDate().subscribe((data) => {
+          this.dataSource = new MatTableDataSource(data);
+          this.dataSource.paginator = this.paginator;
+        });
+      }
     }
-
-    this.selection.select(...this.dataSource.data);
-  }
-
-  /** The label for the checkbox on the passed row */
-  checkboxLabel(row?: PeriodicElement): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
-    }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.position + 1}`;
-  }
-
-  eliminaPrenotazione() {
-  // Ottieni le righe selezionate
-  const selectedRows = this.selection.selected;
-
-  // Rimuovi le righe selezionate dal dataSource
-  selectedRows.forEach(row => {
-    const index = this.dataSource.data.indexOf(row);
-    if (index > -1) {
-      this.dataSource.data.splice(index, 1);
-    }
-  });
-
-  // Aggiorna il dataSource e pulisci la selezione
-  this.dataSource = new MatTableDataSource<PeriodicElement>(this.dataSource.data);
-  this.selection.clear();
-}
-}
