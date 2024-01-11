@@ -23,4 +23,8 @@ public class Service {
     	this.price = price;
         this.sex=sex;
     }
+
+    public Service(Long idService){
+        this.idService = idService;
+    }
 }

@@ -89,7 +89,7 @@ public class UserDaoImpl implements UserDao {
     {
         ArrayList<UserBookingResponse> bookings = new ArrayList<>();
         String query =
-                "SELECT s.name, bd.data, bd.ora " +
+                "SELECT s.name, bd.data, bd.ora, b.id_booking " +
                 "FROM bookings as b, bookingsdate as bd, services as s " +
                 "WHERE b.id_user = ? and b.id_bookingdate = bd.id_bookingdate and bd.id_service = s.id_service";
         try {
@@ -101,6 +101,7 @@ public class UserDaoImpl implements UserDao {
                 userBookingResponse.setService_name(rs.getString(1));
                 userBookingResponse.setDate(rs.getDate(2));
                 userBookingResponse.setTime(rs.getTime(3));
+                userBookingResponse.setId_booking(rs.getLong(4));
                 bookings.add(userBookingResponse);
             }
         } catch (SQLException e) {

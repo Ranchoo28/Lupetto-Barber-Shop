@@ -20,6 +20,7 @@ public class Hairdresser implements UserDetails {
     private String email;
     private String password;
 
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("HAIRDRESSER"));

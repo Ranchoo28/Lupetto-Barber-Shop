@@ -12,12 +12,12 @@ import lombok.*;
 
 public class Booking {
     private Long idBooking;
-    private Long idUser;
-    private Long idBookingDate;
+    private User user;
+    private BookingDate bookingDate;
 
-    public Booking(Long idUser, Long idBookingDate)
+    public Booking(User user, BookingDate bookingDate)
     {
-        this.idUser = idUser;
-        this.idBookingDate = idBookingDate;
+        this.user = user;
+        this.bookingDate = bookingDate;
     }
 }

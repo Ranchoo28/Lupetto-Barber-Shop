@@ -3,6 +3,7 @@ package it.unical.demacs.backend.Controller.ServiziRest;
 import it.unical.demacs.backend.Persistenza.Model.BookingDate;
 import it.unical.demacs.backend.Persistenza.Model.Service;
 import it.unical.demacs.backend.Service.HandleBookingDateService;
+import it.unical.demacs.backend.Service.Request.BookingDateInsertRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,8 +17,8 @@ public class BookingsDateController {
     private final HandleBookingDateService handleBookingDateService;
 
     @PostMapping("/api/bookingdate/insert")
-    public ResponseEntity<?> insert(@RequestBody BookingDate bookingDate, @RequestParam String username){
-        return handleBookingDateService.insertBookingDate(bookingDate, username);
+    public ResponseEntity<?> insert(@RequestBody BookingDateInsertRequest request){
+        return handleBookingDateService.insertBookingDate(request);
     }
 
     @GetMapping("/api/bookingdate/delete")

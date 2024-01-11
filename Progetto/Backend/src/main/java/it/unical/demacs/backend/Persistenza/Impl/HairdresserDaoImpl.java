@@ -1,9 +1,8 @@
 package it.unical.demacs.backend.Persistenza.Impl;
 
 import it.unical.demacs.backend.Persistenza.DAO.HairdresserDao;
-import it.unical.demacs.backend.Persistenza.Model.Booking;
 import it.unical.demacs.backend.Persistenza.Model.Hairdresser;
-import it.unical.demacs.backend.Persistenza.Model.User;
+import it.unical.demacs.backend.Service.Response.HaidresserBookingResponse;
 import org.springframework.scheduling.annotation.Async;
 
 import java.sql.*;
@@ -73,6 +72,32 @@ public class HairdresserDaoImpl implements HairdresserDao {
             e.fillInStackTrace();
         }
         return CompletableFuture.completedFuture(hairdresser);
+    }
+
+    @Override
+    public CompletableFuture<ArrayList<HaidresserBookingResponse>> findAllBookings() {
+        String query =
+                "SELECT u.name, u.surname, s.name, bd.data, bd.ora " +
+                        "FROM users as u, services as s, bookings as b, bookingsdate as bd " +
+                        "WHERE u.id_user = b.id_user and b.id_bookingdate = bd.id_bookingdate " +
+                        "and bd.id_service = s.id_service and bd.isvalid = false";
+        ArrayList<HaidresserBookingResponse> bookings = new ArrayList<>();
+        try {
+            PreparedStatement st = this.con.prepareStatement(query);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                HaidresserBookingResponse booking = new HaidresserBookingResponse();
+                booking.setUser_name(rs.getString(1));
+                booking.setUser_surname(rs.getString(2));
+                booking.setService_name(rs.getString(3));
+                booking.setDate(rs.getDate(4));
+                booking.setTime(rs.getTime(5));
+                bookings.add(booking);
+            }
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        }
+        return CompletableFuture.completedFuture(bookings);
     }
 
     @Override

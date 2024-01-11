@@ -3,6 +3,7 @@ package it.unical.demacs.backend.Service;
 import it.unical.demacs.backend.Persistenza.DatabaseHandler;
 import it.unical.demacs.backend.Persistenza.Model.Booking;
 import it.unical.demacs.backend.Persistenza.Model.BookingDate;
+import it.unical.demacs.backend.Persistenza.Model.Hairdresser;
 import it.unical.demacs.backend.Persistenza.Model.User;
 import it.unical.demacs.backend.Service.Response.UserBookingResponse;
 import jakarta.servlet.http.HttpServletRequest;
@@ -23,7 +24,7 @@ public class HandleBookingService {
             DatabaseHandler.getInstance().openConnection();
             String email = request.getParameter("email");
             Long idBookingDate = Long.valueOf(request.getParameter("idBookingDate"));
-            BookingDate bookingDate =DatabaseHandler.getInstance().getBookingDateDao().findByPrimaryKey(idBookingDate).join();
+            BookingDate bookingDate = DatabaseHandler.getInstance().getBookingDateDao().findByPrimaryKey(idBookingDate).join();
             if(!bookingDate.getIsValid())
             {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -32,7 +33,7 @@ public class HandleBookingService {
             }
             User user = DatabaseHandler.getInstance().getUtenteDao().findByEmail(email).join();
             try {
-                Booking booking = new Booking(user.getIdUser(), idBookingDate);
+                Booking booking = new Booking(user, bookingDate);
                 boolean res = DatabaseHandler.getInstance().getBookingDao().insert(booking).join();
                 if (res) {
                     res=DatabaseHandler.getInstance().getBookingDateDao().updateIsValid(idBookingDate, false).join();
@@ -119,6 +120,20 @@ public class HandleBookingService {
                 return ResponseEntity.ok(booking);
             } else {
                 return ResponseEntity.badRequest().body("{\"message\": \"A person with this email doesn't exists\"}");
+            }
+        }finally {
+            DatabaseHandler.getInstance().closeConnection();
+        }
+    }
+
+    public ResponseEntity<?> getAllBooking(String email){
+        try{
+            DatabaseHandler.getInstance().openConnection();
+            Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByEmail(email).join();
+            if(hairdresser.getId_hairdresser() != null){
+                return ResponseEntity.ok(DatabaseHandler.getInstance().getHairdresserDao().findAllBookings().join());
+            }else{
+                return ResponseEntity.badRequest().body("{\"message\": \"You are not authorized to perform this action\"}");
             }
         }finally {
             DatabaseHandler.getInstance().closeConnection();

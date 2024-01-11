@@ -2,6 +2,8 @@ package it.unical.demacs.backend.Persistenza.Impl;
 
 import it.unical.demacs.backend.Persistenza.DAO.BookingDao;
 import it.unical.demacs.backend.Persistenza.Model.Booking;
+import it.unical.demacs.backend.Persistenza.Model.BookingDate;
+import it.unical.demacs.backend.Persistenza.Model.User;
 import org.springframework.scheduling.annotation.Async;
 
 import java.sql.*;
@@ -24,8 +26,8 @@ public class BookingDaoImpl implements BookingDao {
             while (rs.next()) {
                 Booking booking = new Booking();
                 booking.setIdBooking(rs.getLong(1));
-                booking.setIdUser(rs.getLong(2));
-                booking.setIdBookingDate(rs.getLong(3));
+                booking.setUser(new User(rs.getLong(2)));
+                booking.setBookingDate(new BookingDate(rs.getLong(3)));
                 bookingList.add(booking);
             }
         } catch (SQLException e) {
@@ -45,8 +47,8 @@ public class BookingDaoImpl implements BookingDao {
             try (ResultSet rs = st.executeQuery()) {
                 if (rs.next()) {
                     booking.setIdBooking(rs.getLong(1));
-                    booking.setIdUser(rs.getLong(2));
-                    booking.setIdBookingDate(rs.getLong(3));
+                    booking.setUser(new User(rs.getLong(2)));
+                    booking.setBookingDate(new BookingDate(rs.getLong(3)));
                 }
             }
         } catch (SQLException e) {
@@ -61,8 +63,8 @@ public class BookingDaoImpl implements BookingDao {
         String query = "INSERT INTO bookings ( id_user, id_bookingdate) VALUES (?, ?)";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
-            st.setLong(1, booking.getIdUser());
-            st.setLong(2, booking.getIdBookingDate());
+            st.setLong(1, booking.getUser().getIdUser());
+            st.setLong(2, booking.getBookingDate().getIdBookingDate());
             int rowsAffected = st.executeUpdate();
             st.close();
 
@@ -79,8 +81,8 @@ public class BookingDaoImpl implements BookingDao {
         try {
             PreparedStatement st = this.con.prepareStatement(query);
             st.setLong(1, booking.getIdBooking());
-            st.setLong(2, booking.getIdUser());
-            st.setLong(3, booking.getIdBookingDate());
+            st.setLong(1, booking.getUser().getIdUser());
+            st.setLong(2, booking.getBookingDate().getIdBookingDate());
             int rowsAffected = st.executeUpdate();
             st.close();
             return CompletableFuture.completedFuture(rowsAffected > 0);

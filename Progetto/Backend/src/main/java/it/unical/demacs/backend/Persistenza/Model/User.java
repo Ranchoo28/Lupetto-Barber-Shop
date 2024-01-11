@@ -24,6 +24,10 @@ public class User implements UserDetails {
     private String surname;
     private String number;
 
+    public User(Long idUser){
+        this.idUser = idUser;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("USER"));

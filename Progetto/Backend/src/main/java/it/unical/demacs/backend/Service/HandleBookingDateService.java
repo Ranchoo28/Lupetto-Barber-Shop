@@ -3,20 +3,27 @@ package it.unical.demacs.backend.Service;
 import it.unical.demacs.backend.Persistenza.DatabaseHandler;
 import it.unical.demacs.backend.Persistenza.Model.BookingDate;
 import it.unical.demacs.backend.Persistenza.Model.Hairdresser;
+import it.unical.demacs.backend.Service.Request.BookingDateInsertRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+
 
 import java.sql.Date;
 import java.util.ArrayList;
 
 @Service
 public class HandleBookingDateService {
-    public ResponseEntity<?> insertBookingDate(BookingDate bookingDate, String email) {
+    public ResponseEntity<?> insertBookingDate(BookingDateInsertRequest request) {
         try {
             DatabaseHandler.getInstance().openConnection();
-            Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByEmail(email).join();
+            Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByEmail(request.getEmail()).join();
             if (hairdresser.getId_hairdresser() != null) {
-                boolean res = DatabaseHandler.getInstance().getBookingDateDao().insert(bookingDate).join();
+                boolean res = DatabaseHandler.getInstance().getBookingDateDao().insert(new BookingDate(
+                        new it.unical.demacs.backend.Persistenza.Model.Service(request.getId_service()),
+                        request.getDate(),
+                        request.getTime(),
+                        false
+                )).join();
                 if (res) {
                     return ResponseEntity.ok().body("{\"message\": \"Successful insert of the booking date\"}");
                 } else {
