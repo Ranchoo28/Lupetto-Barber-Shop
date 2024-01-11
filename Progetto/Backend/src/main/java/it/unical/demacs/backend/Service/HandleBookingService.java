@@ -4,6 +4,7 @@ import it.unical.demacs.backend.Persistenza.DatabaseHandler;
 import it.unical.demacs.backend.Persistenza.Model.Booking;
 import it.unical.demacs.backend.Persistenza.Model.BookingDate;
 import it.unical.demacs.backend.Persistenza.Model.User;
+import it.unical.demacs.backend.Service.Response.UserBookingResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
@@ -113,11 +114,11 @@ public class HandleBookingService {
         try {
             DatabaseHandler.getInstance().openConnection();
             User user = DatabaseHandler.getInstance().getUtenteDao().findByEmail(email).join();
-            if (user != null) {
-                ArrayList<BookingDate> booking = DatabaseHandler.getInstance().getUtenteDao().findBookings(user.getIdUser()).join();
+            if (user.getIdUser() != null) {
+                ArrayList<UserBookingResponse> booking = DatabaseHandler.getInstance().getUtenteDao().findBookings(user.getIdUser()).join();
                 return ResponseEntity.ok(booking);
             } else {
-                return ResponseEntity.badRequest().body("{\"message\": \"A person with this username doesn't exists\"}");
+                return ResponseEntity.badRequest().body("{\"message\": \"A person with this email doesn't exists\"}");
             }
         }finally {
             DatabaseHandler.getInstance().closeConnection();

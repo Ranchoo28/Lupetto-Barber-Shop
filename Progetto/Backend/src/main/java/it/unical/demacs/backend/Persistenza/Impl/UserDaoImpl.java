@@ -6,6 +6,8 @@ import it.unical.demacs.backend.Persistenza.Model.User;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
+
+import it.unical.demacs.backend.Service.Response.UserBookingResponse;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.scheduling.annotation.Async;
 
@@ -83,22 +85,23 @@ public class UserDaoImpl implements UserDao {
         return CompletableFuture.completedFuture(user);
     }
 
-    public CompletableFuture<ArrayList<BookingDate>> findBookings(Long id)
+    public CompletableFuture<ArrayList<UserBookingResponse>> findBookings(Long id)
     {
-        ArrayList<BookingDate> bookings = new ArrayList<>();
-        String query = "SELECT * FROM bookingsdate WHERE id_user = ?";
+        ArrayList<UserBookingResponse> bookings = new ArrayList<>();
+        String query =
+                "SELECT s.name, bd.data, bd.ora " +
+                "FROM bookings as b, bookingsdate as bd, services as s " +
+                "WHERE b.id_user = ? and b.id_bookingdate = bd.id_bookingdate and bd.id_service = s.id_service";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
             st.setLong(1, id);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                BookingDate booking = new BookingDate();
-                booking.setIdBookingDate(rs.getLong(1));
-                booking.setIdService(rs.getLong(2));
-                booking.setDate(rs.getDate(3).toLocalDate());
-                booking.setTime(rs.getTime(4));
-                booking.setIsValid(rs.getBoolean(5));
-                bookings.add(booking);
+                UserBookingResponse userBookingResponse = new UserBookingResponse();
+                userBookingResponse.setService_name(rs.getString(1));
+                userBookingResponse.setDate(rs.getDate(2));
+                userBookingResponse.setTime(rs.getTime(3));
+                bookings.add(userBookingResponse);
             }
         } catch (SQLException e) {
             e.fillInStackTrace();
