@@ -12,8 +12,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.Time;
 import java.util.ArrayList;
 
 @Service
@@ -37,6 +35,7 @@ public class HandleBookingService {
                 boolean res = DatabaseHandler.getInstance().getBookingDao().insert(booking).join();
                 if (res) {
                     res=DatabaseHandler.getInstance().getBookingDateDao().updateIsValid(idBookingDate, false).join();
+                    DatabaseHandler.getInstance().getBookingDateDao().deleteSovrapposition(bookingDate).join();
                     if(res)
                     {
                         response.setStatus(HttpServletResponse.SC_OK);

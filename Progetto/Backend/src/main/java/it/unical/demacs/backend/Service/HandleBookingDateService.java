@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 
 import java.sql.Date;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 @Service
@@ -32,8 +33,9 @@ public class HandleBookingDateService {
             }else {
                 return ResponseEntity.badRequest().body("{\"message\": \"You are not authorized to perform this action\"}");
             }
-        }
-        finally {
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        } finally {
             DatabaseHandler.getInstance().closeConnection();
         }
     }
@@ -87,7 +89,6 @@ public class HandleBookingDateService {
             ArrayList<BookingDate> bookingsDate = DatabaseHandler.getInstance().getBookingDateDao().findAll().join();
             if(!bookingsDate.isEmpty())
             {
-                System.out.println(bookingsDate);
                 return ResponseEntity.ok().body(bookingsDate);
             }
             else

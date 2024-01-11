@@ -28,6 +28,7 @@ public class ServiceDaoImpl implements ServiceDao {
                 service.setCategory(rs.getString(4));
                 service.setPrice(rs.getDouble(5));
                 service.setSex(rs.getString(6));
+                service.setDuration(rs.getInt(7));
                 services.add(service);
             }
         } catch (SQLException e) {
@@ -52,6 +53,7 @@ public class ServiceDaoImpl implements ServiceDao {
                     services.setCategory(rs.getString(4));
                     services.setPrice(rs.getDouble(5));
                     services.setSex(rs.getString(6));
+                    services.setDuration(rs.getInt(7));
                 }
             }
         } catch (SQLException e) {
@@ -76,6 +78,7 @@ public class ServiceDaoImpl implements ServiceDao {
                     services.setCategory(rs.getString(4));
                     services.setPrice(rs.getDouble(5));
                     services.setSex(rs.getString(6));
+                    services.setDuration(rs.getInt(7));
                 }
             }
         } catch (SQLException e) {
@@ -101,6 +104,7 @@ public class ServiceDaoImpl implements ServiceDao {
                     service.setCategory(rs.getString(4));
                     service.setPrice(rs.getDouble(5));
                     service.setSex(rs.getString(6));
+                    service.setDuration(rs.getInt(7));
                     services.add(service);
                 }
             }
@@ -113,7 +117,7 @@ public class ServiceDaoImpl implements ServiceDao {
     @Override
     @Async
     public CompletableFuture<Boolean> insert(Service services) {
-        String query = "INSERT INTO services (name, description, category, price, sex) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO services (name, description, category, price, sex, duration) VALUES (?, ?, ?, ?, ?, ?)";
         try (
                 PreparedStatement st = this.con.prepareStatement(query)) {
             st.setString(1, services.getName());
@@ -121,6 +125,7 @@ public class ServiceDaoImpl implements ServiceDao {
             st.setString(3, services.getCategory());
             st.setDouble(4, services.getPrice());
             st.setString(5, services.getSex());
+            st.setInt(6, services.getDuration());
             int rowsAffected = st.executeUpdate();
             st.close();
 
@@ -134,7 +139,7 @@ public class ServiceDaoImpl implements ServiceDao {
     @Override
     @Async
     public CompletableFuture<Boolean> update(Service services) {
-        String query = "UPDATE services SET name=?, description=?, category=?, price=?, sex=? WHERE id_service=?";
+        String query = "UPDATE services SET name=?, description=?, category=?, price=?, sex=?, duration=? WHERE id_service=?";
         try (
                 PreparedStatement st = this.con.prepareStatement(query)) {
             st.setString(1, services.getName());
@@ -142,7 +147,8 @@ public class ServiceDaoImpl implements ServiceDao {
             st.setString(3, services.getCategory());
             st.setDouble(4, services.getPrice());
             st.setString(5, services.getSex());
-            st.setLong(6, services.getIdService());
+            st.setInt(6, services.getDuration());
+            st.setLong(7, services.getIdService());
 
             int rowsAffected = st.executeUpdate();
             st.close();

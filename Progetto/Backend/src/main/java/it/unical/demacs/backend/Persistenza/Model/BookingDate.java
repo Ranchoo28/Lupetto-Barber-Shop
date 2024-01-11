@@ -1,6 +1,7 @@
 package it.unical.demacs.backend.Persistenza.Model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import it.unical.demacs.backend.Persistenza.DatabaseHandler;
 import lombok.*;
 
 import java.sql.Date;
@@ -29,6 +30,12 @@ public class BookingDate {
     }
 
     public BookingDate(Long idBookingDate){
-        this.idBookingDate = idBookingDate;
+        BookingDate b= DatabaseHandler.getInstance().getBookingDateDao().findByPrimaryKey(idBookingDate).join();
+        this.service=b.getService();
+        this.date=b.getDate();
+        this.time=b.getTime();
+        this.isValid=b.getIsValid();
     }
+
+
 }

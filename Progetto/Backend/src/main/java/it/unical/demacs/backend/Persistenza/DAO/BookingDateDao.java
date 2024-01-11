@@ -17,4 +17,6 @@ public interface BookingDateDao {
     CompletableFuture<Boolean> update(BookingDate booking);
 
     CompletableFuture<Boolean> updateIsValid(Long idBookingDate, boolean b);
+
+    CompletableFuture<Boolean> deleteSovrapposition(BookingDate booking);
 }
