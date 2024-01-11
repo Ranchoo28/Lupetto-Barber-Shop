@@ -99,7 +99,7 @@ public class UserDaoImpl implements UserDao {
             while (rs.next()) {
                 UserBookingResponse userBookingResponse = new UserBookingResponse();
                 userBookingResponse.setService_name(rs.getString(1));
-                userBookingResponse.setDate(rs.getDate(2));
+                userBookingResponse.setDate(rs.getDate(2).toLocalDate());
                 userBookingResponse.setTime(rs.getTime(3));
                 userBookingResponse.setId_booking(rs.getLong(4));
                 bookings.add(userBookingResponse);

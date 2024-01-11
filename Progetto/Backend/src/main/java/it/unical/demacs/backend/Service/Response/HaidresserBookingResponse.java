@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import java.sql.Date;
 import java.sql.Time;
+import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -14,6 +15,6 @@ public class HaidresserBookingResponse {
     String user_surname;
     String service_name;
     @JsonFormat(pattern="yyyy-MM-dd")
-    Date date;
+    LocalDate date;
     Time time;
 }

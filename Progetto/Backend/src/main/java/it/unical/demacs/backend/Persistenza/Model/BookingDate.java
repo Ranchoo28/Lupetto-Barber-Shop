@@ -17,13 +17,13 @@ public class BookingDate {
     private Long idBookingDate;
     private Service service;
     @JsonFormat(pattern="yyyy-MM-dd")
-    private Date date;
+    private LocalDate date;
     private Time time;
     private Boolean isValid;
 
     public BookingDate(Service service, Date date, Time time, Boolean isValid){
         this.service = service;
-        this.date = date;
+        this.date = date.toLocalDate();
         this.time = time;
         this.isValid = isValid;
     }

@@ -7,6 +7,7 @@ import org.springframework.scheduling.annotation.Async;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
 public class HairdresserDaoImpl implements HairdresserDao {
@@ -90,7 +91,7 @@ public class HairdresserDaoImpl implements HairdresserDao {
                 booking.setUser_name(rs.getString(1));
                 booking.setUser_surname(rs.getString(2));
                 booking.setService_name(rs.getString(3));
-                booking.setDate(rs.getDate(4));
+                booking.setDate(rs.getDate(4).toLocalDate());
                 booking.setTime(rs.getTime(5));
                 bookings.add(booking);
             }
