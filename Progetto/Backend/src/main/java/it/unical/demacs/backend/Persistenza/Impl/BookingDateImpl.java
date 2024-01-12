@@ -216,29 +216,5 @@ public class BookingDateImpl implements BookingDateDao {
         return CompletableFuture.completedFuture(false);
     }
 
-    @Override
-    @Async
-    public CompletableFuture<Boolean> deleteSovrapposition(BookingDate booking) {
-        String query = "DELETE FROM bookingsdate WHERE data = ? and ora >=? and ora<? and isvalid = true";
-        try (
-                PreparedStatement st = this.con.prepareStatement(query)) {
-            st.setDate(1, Date.valueOf(booking.getDate()));
-            st.setTime(2, booking.getTime());
-            st.setTime(3, new Time(booking.getTime().getTime() + (booking.getService().getDuration() * 60000L)));
-            int rowsAffected = st.executeUpdate();
-            st.close();
-
-            return CompletableFuture.completedFuture(rowsAffected > 0);
-        } catch (SQLException e) {
-            e.fillInStackTrace();
-        }
-        return CompletableFuture.completedFuture(false);
-    }
-
-    @Override
-    @Async
-    public CompletableFuture<Boolean> insertSovrapposition(BookingDate booking) {
-        return CompletableFuture.completedFuture(true);
-    }
 
 }

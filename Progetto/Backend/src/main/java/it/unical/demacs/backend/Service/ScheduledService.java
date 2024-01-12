@@ -43,7 +43,7 @@ public class ScheduledService {
         LocalDate currentDate = LocalDate.now();
         ArrayList<LocalDate> dateList = new ArrayList<>();
         for (int i = 0; i < 14; i++) {
-            if(currentDate.plusDays(i).getDayOfWeek().getValue() != 6 &&currentDate.plusDays(i).getDayOfWeek().getValue() != 7)
+            if(currentDate.plusDays(i).getDayOfWeek().getValue() != 1 &&currentDate.plusDays(i).getDayOfWeek().getValue() != 7)
                 dateList.add(currentDate.plusDays(i));
         }
         DatabaseHandler.getInstance().openConnection();
@@ -54,14 +54,19 @@ public class ScheduledService {
             int duration=0;
             for(int k1=0; k1<services.size(); k1++)
             {
-                duration = services.get(k1).getDuration();
-                if(time.getHours() == 12 && time.getMinutes()+duration >= 59)
-                    time = new Time(14, 30, 0);
-                if(time.getHours() == 18 && time.getMinutes()+duration >= 59)
-                    break;
-                BookingDate bookingDate = new BookingDate(services.get(k1), Date.valueOf(dateList.get(k)), time, true);
-                DatabaseHandler.getInstance().getBookingDateDao().insert(bookingDate);
-                time=Time.valueOf(time.toLocalTime().plusMinutes(duration));
+                boolean flag = true;
+                while(flag) {
+                    duration = services.get(k1).getDuration();
+                    if (time.getHours() == 12 && time.getMinutes() + duration >= 59)
+                        time = new Time(14, 30, 0);
+                    if (time.getHours() == 18 && time.getMinutes() + duration >= 59) {
+                        flag = false;
+                        break;
+                    }
+                    BookingDate bookingDate = new BookingDate(services.get(k1), Date.valueOf(dateList.get(k)), time, true);
+                    DatabaseHandler.getInstance().getBookingDateDao().insert(bookingDate);
+                    time = Time.valueOf(time.toLocalTime().plusMinutes(duration));
+                }
             }
         }
         DatabaseHandler.getInstance().closeConnection();
