@@ -3,10 +3,9 @@ package it.unical.demacs.backend.Controller.ServiziRest;
 import it.unical.demacs.backend.Service.HandleBookingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
@@ -18,5 +17,10 @@ public class HairdresserBookingController {
     @GetMapping("/api/hairdresser/bookings")
     public ResponseEntity<?> getAllBookings(@RequestParam String email){
         return handleBookingService.getAllBooking(email);
+    }
+
+    @PostMapping("/api/hairdresser/bookings/getByDate")
+    public ResponseEntity<?> getBookingsByDate(@RequestBody String email, @RequestBody LocalDate date){
+        return handleBookingService.getBookingByDate(email, date);
     }
 }

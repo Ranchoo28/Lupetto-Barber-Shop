@@ -7,6 +7,7 @@ import it.unical.demacs.backend.Persistenza.Model.User;
 import org.springframework.scheduling.annotation.Async;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
@@ -127,6 +128,30 @@ public class BookingDaoImpl implements BookingDao {
             e.fillInStackTrace();
         }
         return CompletableFuture.completedFuture(false);
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<ArrayList<Booking>> findByDate(LocalDate date) {
+        ArrayList<Booking> bookingList = new ArrayList<>();
+        String query = "SELECT * FROM bookings INNER JOIN bookingsDate ON bookings.id_bookingdate = bookingsDate.id_bookingdate WHERE bookingsDate.data = ?";
+        try (
+                PreparedStatement st = this.con.prepareStatement(query)) {
+                st.setDate(1, Date.valueOf(date));
+                st.setDate(1, Date.valueOf(date));
+                try (ResultSet rs = st.executeQuery()) {
+                    if (rs.next()) {
+                        Booking booking=new Booking();
+                        booking.setIdBooking(rs.getLong(1));
+                        booking.setUser(new User(rs.getLong(2)));
+                        booking.setBookingDate(new BookingDate(rs.getLong(3)));
+                        bookingList.add(booking);
+                    }
+                }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return CompletableFuture.completedFuture(bookingList);
     }
 
 

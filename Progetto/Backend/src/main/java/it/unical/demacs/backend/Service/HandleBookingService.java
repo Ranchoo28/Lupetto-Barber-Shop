@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 @Service
@@ -139,4 +140,17 @@ public class HandleBookingService {
         }
     }
 
+    public ResponseEntity<?> getBookingByDate(String email, LocalDate date){
+        try{
+            DatabaseHandler.getInstance().openConnection();
+            Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByEmail(email).join();
+            if(hairdresser.getId_hairdresser() != null){
+                return ResponseEntity.ok(DatabaseHandler.getInstance().getBookingDao().findByDate(date).join());
+            }else{
+                return ResponseEntity.badRequest().body("{\"message\": \"You are not authorized to perform this action\"}");
+            }
+        }finally {
+            DatabaseHandler.getInstance().closeConnection();
+        }
+    }
 }

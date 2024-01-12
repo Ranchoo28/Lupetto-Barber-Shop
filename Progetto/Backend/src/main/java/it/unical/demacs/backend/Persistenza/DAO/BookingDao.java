@@ -2,6 +2,7 @@ package it.unical.demacs.backend.Persistenza.DAO;
 
 import it.unical.demacs.backend.Persistenza.Model.Booking;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
@@ -13,5 +14,7 @@ public interface BookingDao {
     CompletableFuture<Boolean> delete(Long id);
 
     CompletableFuture<Boolean> isValid(Long id, Long idUser);
+
+    CompletableFuture<ArrayList<Booking>> findByDate(LocalDate date);
 
 }
