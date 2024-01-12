@@ -2,6 +2,7 @@ package it.unical.demacs.backend.Controller.ServiziRest;
 
 import it.unical.demacs.backend.Service.HandleBookingService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,8 +20,9 @@ public class HairdresserBookingController {
         return handleBookingService.getAllBooking(email);
     }
 
-    @PostMapping("/api/hairdresser/bookings/getByDate")
-    public ResponseEntity<?> getBookingsByDate(@RequestBody String email, @RequestBody LocalDate date){
+    @GetMapping("/api/hairdresser/bookings/getByDate")
+    public ResponseEntity<?> getBookingsByDate(@RequestParam String email, @RequestParam LocalDate date){
+        System.out.println(date);
         return handleBookingService.getBookingByDate(email, date);
     }
 }
