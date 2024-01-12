@@ -36,11 +36,18 @@ public class HandleBookingService {
                 boolean res = DatabaseHandler.getInstance().getBookingDao().insert(booking).join();
                 if (res) {
                     res=DatabaseHandler.getInstance().getBookingDateDao().updateIsValid(idBookingDate, false).join();
-                    DatabaseHandler.getInstance().getBookingDateDao().deleteSovrapposition(bookingDate).join();
                     if(res)
                     {
-                        response.setStatus(HttpServletResponse.SC_OK);
-                        response.getWriter().write("Successful insert of the booking");
+                        res=DatabaseHandler.getInstance().getBookingDateDao().deleteSovrapposition(bookingDate).join();
+                        if(res) {
+                            response.setStatus(HttpServletResponse.SC_OK);
+                            response.getWriter().write("Successful insert of the booking");
+                        }
+                        else
+                        {
+                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                            response.getWriter().write("Insert failed");
+                        }
                     }
                     else
                     {
@@ -64,16 +71,32 @@ public class HandleBookingService {
     public void deleteBooking(HttpServletRequest request, HttpServletResponse response) throws IOException {
         try{
             DatabaseHandler.getInstance().openConnection();
-        Long bookingId= Long.valueOf(request.getParameter("idBooking"));
+        Booking b= new Booking(Long.parseLong(request.getParameter("idBooking")));
         String email=request.getParameter("email");
-        User user=DatabaseHandler.getInstance().getUtenteDao().findByEmail(email).join();
-        boolean isValid =DatabaseHandler.getInstance().getBookingDao().isValid(bookingId, user.getIdUser()).join();
-        if (isValid) {
+        if (b.getUser().getEmail().equals(email)) {
             try {
-                boolean res= DatabaseHandler.getInstance().getBookingDao().delete(bookingId).join();
-                if (res) {
-                    response.setStatus(HttpServletResponse.SC_OK);
-                    response.getWriter().write("Successful cancellation of the reservation");
+                boolean res= DatabaseHandler.getInstance().getBookingDao().delete(b.getIdBooking()).join();
+                if (res)
+                {
+                    res=DatabaseHandler.getInstance().getBookingDateDao().updateIsValid(b.getIdBooking(), false).join();
+                    if(res){
+                        res=DatabaseHandler.getInstance().getBookingDateDao().insertSovrapposition(b.getBookingDate()).join();
+                        if(res)
+                        {
+                            response.setStatus(HttpServletResponse.SC_OK);
+                            response.getWriter().write("Successful deletion of the booking");
+                        }
+                        else
+                        {
+                            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                            response.getWriter().write("Deletion failed");
+                        }
+                    }
+                    else
+                    {
+                        response.setStatus(HttpServletResponse.SC_NOT_FOUND);
+                        response.getWriter().write("Deletion failed");
+                    }
                 } else {
                     response.setStatus(HttpServletResponse.SC_NOT_FOUND);
                     response.getWriter().write("Deletion failed");

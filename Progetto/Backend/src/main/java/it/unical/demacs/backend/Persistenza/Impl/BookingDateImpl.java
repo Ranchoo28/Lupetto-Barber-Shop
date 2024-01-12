@@ -173,6 +173,7 @@ public class BookingDateImpl implements BookingDateDao {
     }
 
     @Override
+    @Async
     public CompletableFuture<Boolean> updateIsValid(Long idBookingDate, boolean b) {
         String query = "UPDATE bookingsdate SET isvalid=? WHERE id_bookingdate=?";
         try (
@@ -191,6 +192,7 @@ public class BookingDateImpl implements BookingDateDao {
     }
 
     @Override
+    @Async
     public CompletableFuture<Boolean> deleteSovrapposition(BookingDate booking) {
         String query = "DELETE FROM bookingsdate WHERE data = ? and ora >=? and ora<? and isvalid = true";
         try (
@@ -206,6 +208,12 @@ public class BookingDateImpl implements BookingDateDao {
             e.fillInStackTrace();
         }
         return CompletableFuture.completedFuture(false);
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<Boolean> insertSovrapposition(BookingDate booking) {
+        return CompletableFuture.completedFuture(true);
     }
 
 }

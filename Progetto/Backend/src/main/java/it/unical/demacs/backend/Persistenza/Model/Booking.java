@@ -2,6 +2,8 @@ package it.unical.demacs.backend.Persistenza.Model;
 
 import java.sql.Date;
 import java.sql.Time;
+
+import it.unical.demacs.backend.Persistenza.DatabaseHandler;
 import lombok.*;
 
 @Getter
@@ -19,5 +21,13 @@ public class Booking {
     {
         this.user = user;
         this.bookingDate = bookingDate;
+    }
+
+    public Booking(Long idBooking)
+    {
+        Booking b= DatabaseHandler.getInstance().getBookingDao().findByPrimaryKey(idBooking).join();
+        this.idBooking=b.getIdBooking();
+        this.user=b.getUser();
+        this.bookingDate=b.getBookingDate();
     }
 }

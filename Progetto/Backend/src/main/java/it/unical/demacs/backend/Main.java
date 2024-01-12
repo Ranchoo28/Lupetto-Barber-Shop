@@ -1,11 +1,17 @@
 package it.unical.demacs.backend;
 
 import it.unical.demacs.backend.Persistenza.DatabaseHandler;
+import it.unical.demacs.backend.Persistenza.Model.BookingDate;
+import it.unical.demacs.backend.Persistenza.Model.Service;
 import it.unical.demacs.backend.Persistenza.Model.User;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.time.Duration;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import okio.*;
@@ -23,67 +29,39 @@ import com.stripe.net.Webhook;
 public class Main {
 
     // USARE SOLO PER TESTING
+    /*
     public static void main(String[] args) throws SQLException, ExecutionException, InterruptedException {
         DatabaseHandler db = DatabaseHandler.getInstance();
         //db.getUtenteDao().saveOrUpdate(new User("Sav", "test", "Saverio", "Crea", "test", 'c'));
         System.out.println(db.getUtenteDao().findByPrimaryKey(6L).join().getUsername());
-    }
+    }*/
 
-    public static void main1(String[] args) {
-        // The library needs to be configured with your account's secret key.
-        // Ensure the key is kept out of any version control system you might be using.
-        Stripe.apiKey = "sk_test_...";
-
-        // This is your Stripe CLI webhook secret for testing your endpoint locally.
-        String endpointSecret = "whsec_290583701dec7ea074015cfce0efd0a24fea73f5b15a62ea81bc1e0e6e36c13a";
-
-        port(4242);
-
-        post("/webhook", (request, response) -> {
-            String payload = request.body();
-            String sigHeader = request.headers("Stripe-Signature");
-            Event event = null;
-
-            try {
-                event = Webhook.constructEvent(
-                        payload, sigHeader, endpointSecret
-                );
-            } catch (JsonSyntaxException e) {
-                // Invalid payload
-                response.status(400);
-                return "";
-            } catch (SignatureVerificationException e) {
-                // Invalid signature
-                response.status(400);
-                return "";
-            }
-
-            // Deserialize the nested object inside the event
-            EventDataObjectDeserializer dataObjectDeserializer = event.getDataObjectDeserializer();
-            StripeObject stripeObject;
-            if (dataObjectDeserializer.getObject().isPresent()) {
-                stripeObject = dataObjectDeserializer.getObject().get();
-            } else {
-                // Deserialization failed, probably due to an API version mismatch.
-                // Refer to the Javadoc documentation on `EventDataObjectDeserializer` for
-                // instructions on how to handle this case, or return an error here.
-            }
-            // Handle the event
-            switch (event.getType()) {
-                case "payment_intent.succeeded": {
-                    // Then define and call a function to handle the event payment_intent.succeeded
+    public static void main(String[] args) {
+        LocalDate currentDate = LocalDate.now();
+        ArrayList<LocalDate> dateList = new ArrayList<>();
+        for (int i = 0; i < 14; i++) {
+            dateList.add(currentDate.plusDays(i));
+        }
+        DatabaseHandler.getInstance().openConnection();
+        ArrayList<Service> services = DatabaseHandler.getInstance().getServiceDao().findAll().join();
+        for(int k=0; k<dateList.size(); k++)
+        {
+            Time time = new Time(9, 0, 0);
+            int duration=0;
+            for(int k1=0; k1<services.size(); k1++)
+            {
+                duration = services.get(k1).getDuration();
+                if(time.getHours() == 12 && time.getMinutes()+duration >= 59)
+                    time = new Time(14, 30, 0);
+                if(time.getHours() == 18 && time.getMinutes()+duration >= 59)
                     break;
-                }
-                // ... handle other event types
-                default:
-                    System.out.println("Unhandled event type: " + event.getType());
+                BookingDate bookingDate = new BookingDate(services.get(k1), Date.valueOf(dateList.get(k)), time, true);
+                DatabaseHandler.getInstance().getBookingDateDao().insert(bookingDate);
+                time=Time.valueOf(time.toLocalTime().plusMinutes(duration));
             }
-
-            response.status(200);
-            return "";
-        });
+        }
+        DatabaseHandler.getInstance().closeConnection();
     }
-
 }
 
 
