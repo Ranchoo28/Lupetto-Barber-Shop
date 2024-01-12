@@ -22,18 +22,22 @@ export class AuthenticationService {
   constructor(private http:HttpClient, private jwtHandler: JwttokenhandlerService) { }
 
   private setSession(accessToken: string) {
-    var expirationDate = this.jwtHandler.getExpiration(accessToken);
-    sessionStorage.setItem('accessToken', accessToken);
-    sessionStorage.setItem("tokenExpiration", expirationDate.valueOf().toString());
-    sessionStorage.setItem("email", this.jwtHandler.getEmail(accessToken));
-    sessionStorage.setItem("role", this.jwtHandler.getRole(accessToken));
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      var expirationDate = this.jwtHandler.getExpiration(accessToken);
+      sessionStorage.setItem('accessToken', accessToken);
+      sessionStorage.setItem("tokenExpiration", expirationDate.valueOf().toString());
+      sessionStorage.setItem("email", this.jwtHandler.getEmail(accessToken));
+      sessionStorage.setItem("role", this.jwtHandler.getRole(accessToken));
+    }
   }
 
   logout() {
-    sessionStorage.removeItem("accessToken");
-    sessionStorage.removeItem("tokenExpiration");
-    sessionStorage.removeItem("email");
-    sessionStorage.removeItem("role");
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      sessionStorage.removeItem("accessToken");
+      sessionStorage.removeItem("tokenExpiration");
+      sessionStorage.removeItem("email");
+      sessionStorage.removeItem("role");
+    }
   }
 
   public isLoggedIn() {

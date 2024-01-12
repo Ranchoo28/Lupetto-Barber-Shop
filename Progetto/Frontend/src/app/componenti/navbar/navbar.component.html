@@ -11,7 +11,7 @@
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
         <!-- ----------------- ELENCO PRENOTAZIONI ----------------- -->
-        <li class="nav-item">
+        <li class="nav-item" *ngIf="authService.isLoggedIn()">
           <button mat-button [routerLink]="['prenotazioni']">
             Appuntamenti prenotati
             <mat-icon fontIcon="view_list"></mat-icon>
