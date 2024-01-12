@@ -16,10 +16,9 @@
           <p>{{ prodotto.description }}</p>
         </mat-card-content>
       </mat-card>
+      <img [src]="convertBase64ToImageUrl(prodotto.image)" alt="Immagine del prodotto" />
 
       <br>
-      <img [src]="convertBase64ToImageUrl(prodotto.image)" alt="Immagine del prodotto" />
-      <!--Altre proprietà del prodotto come prezzo ecc. -->
     </div>
 
 
