@@ -33,21 +33,13 @@ public class HandleBookingService {
             User user = DatabaseHandler.getInstance().getUtenteDao().findByEmail(email).join();
             try {
                 Booking booking = new Booking(user, bookingDate);
-                boolean res = DatabaseHandler.getInstance().getBookingDao().insert(booking).join();
+                boolean res=DatabaseHandler.getInstance().getBookingDateDao().updateIsValid(idBookingDate, false).join();
                 if (res) {
-                    res=DatabaseHandler.getInstance().getBookingDateDao().updateIsValid(idBookingDate, false).join();
+                    res=DatabaseHandler.getInstance().getBookingDao().insert(booking).join();
                     if(res)
                     {
-                        res=DatabaseHandler.getInstance().getBookingDateDao().deleteSovrapposition(bookingDate).join();
-                        if(res) {
-                            response.setStatus(HttpServletResponse.SC_OK);
-                            response.getWriter().write("Successful insert of the booking");
-                        }
-                        else
-                        {
-                            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                            response.getWriter().write("Insert failed");
-                        }
+                        response.setStatus(HttpServletResponse.SC_OK);
+                        response.getWriter().write("Successful insert of the booking");
                     }
                     else
                     {

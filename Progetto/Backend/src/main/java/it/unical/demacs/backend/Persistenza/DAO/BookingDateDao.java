@@ -12,6 +12,7 @@ public interface BookingDateDao {
     CompletableFuture<BookingDate> findByPrimaryKey(Long id);
     CompletableFuture<ArrayList<BookingDate>> findByService(Long id);
     CompletableFuture<ArrayList<BookingDate>> findByDate(Date date, Long id);
+    CompletableFuture<ArrayList<BookingDate>> findByDate(Date date);
     CompletableFuture<Boolean> insert(BookingDate booking);
     CompletableFuture<Boolean> delete(Long id);
     CompletableFuture<Boolean> update(BookingDate booking);

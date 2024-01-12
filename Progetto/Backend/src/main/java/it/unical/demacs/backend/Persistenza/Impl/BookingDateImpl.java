@@ -115,6 +115,31 @@ public class BookingDateImpl implements BookingDateDao {
 
     @Override
     @Async
+    public CompletableFuture<ArrayList<BookingDate>> findByDate(Date date)   {
+        ArrayList<BookingDate> bookingList = new ArrayList<>();
+        String query = "SELECT * FROM bookingsdate WHERE data = ? and isvalid = true";
+        try (
+                PreparedStatement st = this.con.prepareStatement(query)) {
+            st.setDate(1, date);
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    BookingDate bookingDate = new BookingDate();
+                    bookingDate.setIdBookingDate(rs.getLong(1));
+                    bookingDate.setService(new Service(rs.getLong(2)));
+                    bookingDate.setDate(rs.getDate(3).toLocalDate());
+                    bookingDate.setTime(rs.getTime(4));
+                    bookingDate.setIsValid(rs.getBoolean(5));
+                    bookingList.add(bookingDate);
+                }
+            }
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        }
+        return CompletableFuture.completedFuture(bookingList);
+    }
+
+    @Override
+    @Async
     public CompletableFuture<Boolean> insert(BookingDate bookingdate) {
         String query = "INSERT INTO bookingsdate (id_service, data, ora, isvalid) VALUES (?, ?, ?,?)";
         try (
