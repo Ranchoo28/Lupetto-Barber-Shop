@@ -11,7 +11,7 @@
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
         <!-- ----------------- ELENCO PRENOTAZIONI ----------------- -->
-        <li class="nav-item" *ngIf="authService.isUser();">
+        <li class="nav-item">
           <button mat-button [routerLink]="['prenotazioni']">
             Appuntamenti prenotati
             <mat-icon fontIcon="view_list"></mat-icon>
@@ -22,14 +22,6 @@
         <li class="nav-item" *ngIf="authService.isUser();">
           <button mat-button [routerLink]="['prenota']">
             Prenota ora
-            <mat-icon fontIcon="playlist_add"></mat-icon>
-          </button>
-        </li>
-
-        <!-- ----------------- ELENCO PRENOTAZIONI HAIRDRESSER ----------------- -->
-        <li class="nav-item" *ngIf="authService.isHairdresser();">
-          <button mat-button [routerLink]="['riepilogo']">
-            Visualizza elenco Prenotazioni
             <mat-icon fontIcon="playlist_add"></mat-icon>
           </button>
         </li>

@@ -48,7 +48,6 @@ import { ReactiveFormsModule} from "@angular/forms";
 import { PrenotazioniComponent } from './componenti/prenotazioni/prenotazioni.component';
 import {AuthInterceptorService} from "./services/auth-interceptor.service";
 import {MatPaginatorModule} from "@angular/material/paginator";
-import { PrenotazioniHairdresserComponent } from './componenti/prenotazioni-hairdresser/prenotazioni-hairdresser.component';
 
 
 
@@ -66,7 +65,6 @@ registerLocaleData(localeIt, 'it');
     RegistrazioneComponent,
     PrenotazioniComponent,
     ContattiComponent,
-    PrenotazioniHairdresserComponent,
   ],
     imports: [
         RouterModule,

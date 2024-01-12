@@ -51,7 +51,7 @@ export class PrenotaComponent implements OnInit{
     // Aggiunto perché i servizi su backend richiedono l'email,
     // però questo è un problemi di sicurezza, i servizi backend devono tener conto
     // tramite il token JWT, dell'utente che sta facendo la richiesta
-    let email = localStorage.getItem('email')!;
+    let email = sessionStorage.getItem('email')!;
     this.bookingService.insertBooking(idBookingDate, email).subscribe((response) => {
       // Gestisci la risposta qui
       //console.log(response);

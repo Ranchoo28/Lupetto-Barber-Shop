@@ -11,8 +11,6 @@ import { LoginComponent } from "./componenti/login/login.component";
 import { RegistrazioneComponent } from "./componenti/registrazione/registrazione.component";
 import { PrenotazioniComponent } from "./componenti/prenotazioni/prenotazioni.component";
 import { ContattiComponent } from "./componenti/contatti/contatti.component";
-import { PrenotazioniHairdresserComponent } from "./componenti/prenotazioni-hairdresser/prenotazioni-hairdresser.component";
-
 /* Guards */
 import { AuthGuard} from "./services/auth-guard.service";
 import { UnAuthGuard } from "./services/unauth-guard.service";
@@ -26,8 +24,7 @@ const routes: Routes = [
   { path: 'prodotti', component: ProdottiComponent },
   { path: 'galleria', component: GalleriaComponent },
   { path: 'prenota', component: PrenotaComponent, canActivate: [UserGuard]},
-  { path: 'prenotazioni', component: PrenotazioniComponent, canActivate: [UserGuard] },
-  { path: 'riepilogo', component: PrenotazioniHairdresserComponent, canActivate: [HairdresserGuard]},
+  { path: 'prenotazioni', component: PrenotazioniComponent },
   { path: 'login', component: LoginComponent, canActivate: [UnAuthGuard] },
   { path: 'registrazione', component: RegistrazioneComponent, canActivate: [UnAuthGuard]  },
   { path: 'pagina_non_trovata', component: NotfoundComponent },

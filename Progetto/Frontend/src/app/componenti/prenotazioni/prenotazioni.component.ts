@@ -12,27 +12,34 @@
       styleUrls: ['./prenotazioni.component.css']
     })
     export class PrenotazioniComponent implements OnInit {
+        role: string = sessionStorage.getItem("role") || '';
         dataSource!: MatTableDataSource<any>;
-        displayedColumns: string[] = ['select', 'Servizio', 'Data', 'Orario', 'idBooking'];
+        displayedColumns: string[] = this.role === 'HAIRDRESSER' ? ['select', 'Servizio', 'Data', 'Orario', 'idBooking', 'user_surname','user_name'] : ['select', 'Servizio', 'Data', 'Orario', 'idBooking'];
         selection = new SelectionModel<any>(true, []);
         @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-        constructor(private bookingService: BookingService, private bookgdataservice:BookingDateService) { }
+        constructor(private bookingService: BookingService, private bookingdataservice:BookingDateService) { }
 
         ngOnInit(): void {
-          if(localStorage.getItem("admin")=="true"){
+          if(this.role=="USER"){
             this.visualizzaPrenotazioni();
           }else{
-            this.visualizzaPrenotazioniHairD();
+            this.visualizzaPrenotazioniHairD(sessionStorage.getItem("email")!);
           }
         }
 
         visualizzaPrenotazioni() {
-          this.bookingService.getUserBooking(localStorage.getItem("email")!).subscribe((data) => {
+          this.bookingService.getUserBooking(sessionStorage.getItem("email")!).subscribe((data) => {
             this.dataSource = new MatTableDataSource(data);
             this.dataSource.paginator = this.paginator;
           });
         }
+        private visualizzaPrenotazioniHairD(email: string) {
+        this.bookingService.getAllBooking(email).subscribe((data) => {
+          this.dataSource = new MatTableDataSource(data);
+          this.dataSource.paginator = this.paginator;
+        });
+      }
         eliminaPrenotazione() {
           console.log("Elimina prenotazione");
           // Controlla se almeno una riga è selezionata
@@ -40,7 +47,7 @@
             // Itera su ogni riga selezionata
             this.selection.selected.forEach(row => {
               console.log(row);
-              this.bookingService.deleteBooking(row.id_booking,localStorage.getItem("email")!).subscribe((data) => {
+              this.bookingService.deleteBooking(row.id_booking,sessionStorage.getItem("email")!).subscribe((data) => {
                 swal("Prenotazione rimossa", {
                   icon: "success",
                   timer: 3000
@@ -59,24 +66,4 @@
           }
         }
 
-
-
-        isAllSelected() {
-          const numSelected = this.selection.selected.length;
-          const numRows = this.dataSource.data.length;
-          return numSelected === numRows;
-        }
-
-        masterToggle() {
-          this.isAllSelected() ?
-              this.selection.clear() :
-              this.dataSource.data.forEach(row => this.selection.select(row));
-        }
-
-      private visualizzaPrenotazioniHairD() {
-        this.bookgdataservice.getBookingDate().subscribe((data) => {
-          this.dataSource = new MatTableDataSource(data);
-          this.dataSource.paginator = this.paginator;
-        });
-      }
     }
