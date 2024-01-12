@@ -33,39 +33,43 @@ public class ScheduledService {
     }*/
 
     @Scheduled(fixedRate = 1209600000)
-    public void addBookingDate(){
+    public void addBookingDate() {
         executeScript();
     }
 
-    private void executeScript(){
-        if(!DatabaseHandler.getInstance().getBookingDateDao().findByDate(Date.valueOf(LocalDate.now())).join().isEmpty())
+    private void executeScript() {
+        if (!DatabaseHandler.getInstance().getBookingDateDao().findByDate(Date.valueOf(LocalDate.now())).join().isEmpty())
             return;
         LocalDate currentDate = LocalDate.now();
         ArrayList<LocalDate> dateList = new ArrayList<>();
         for (int i = 0; i < 14; i++) {
-            if(currentDate.plusDays(i).getDayOfWeek().getValue() != 1 &&currentDate.plusDays(i).getDayOfWeek().getValue() != 7)
+            if (currentDate.plusDays(i).getDayOfWeek().getValue() != 1 && currentDate.plusDays(i).getDayOfWeek().getValue() != 7)
                 dateList.add(currentDate.plusDays(i));
         }
         DatabaseHandler.getInstance().openConnection();
         ArrayList<it.unical.demacs.backend.Persistenza.Model.Service> services = DatabaseHandler.getInstance().getServiceDao().findAll().join();
-        for(int k=0; k<dateList.size(); k++)
-        {
-            Time time = new Time(9, 0, 0);
-            int duration=0;
-            for(int k1=0; k1<services.size(); k1++)
-            {
+        for (int k = 0; k < dateList.size(); k++) {
+            int duration = 0;
+            for (int k1 = 0; k1 < services.size(); k1++) {
+                Time time = new Time(9, 0, 0);
                 boolean flag = true;
-                while(flag) {
+                boolean morning = true;
+                while (flag) {
                     duration = services.get(k1).getDuration();
-                    if (time.getHours() == 12 && time.getMinutes() + duration >= 59)
-                        time = new Time(14, 30, 0);
-                    if (time.getHours() == 18 && time.getMinutes() + duration >= 59) {
-                        flag = false;
-                        break;
-                    }
-                    BookingDate bookingDate = new BookingDate(services.get(k1), Date.valueOf(dateList.get(k)), time, true);
-                    DatabaseHandler.getInstance().getBookingDateDao().insert(bookingDate);
-                    time = Time.valueOf(time.toLocalTime().plusMinutes(duration));
+                    Time tempTime = Time.valueOf(time.toLocalTime().plusMinutes(duration));
+                        if (tempTime.getHours() >= 13 && morning) {
+                            time = new Time(14, 30, 0);
+                            morning = false;
+                        }
+                        if (tempTime.getHours() >= 18) {
+                            time = new Time(9, 0, 0);
+                            flag = false;
+                            morning=true;
+                            break;
+                        }
+                        BookingDate bookingDate = new BookingDate(services.get(k1), Date.valueOf(dateList.get(k)), time, true);
+                        DatabaseHandler.getInstance().getBookingDateDao().insert(bookingDate);
+                        time = Time.valueOf(time.toLocalTime().plusMinutes(duration));
                 }
             }
         }
