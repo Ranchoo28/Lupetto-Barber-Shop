@@ -42,7 +42,6 @@ public class AuthenticationService {
 
             if (BCrypt.checkpw(request.getPassword(), passwordToCheck)) {
                 UserDetails entity = isHairdresser ? hairdresser : user;
-                System.out.println(entity);
                 return ResponseEntity.ok(new JwtAuthResponse(jwtService.generateToken(entity)));
             } else {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Wrong password\", \"errorCode\": \"INVALID_CREDENTIALS\"}");

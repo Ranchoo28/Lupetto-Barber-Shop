@@ -20,6 +20,9 @@ public class Hairdresser implements UserDetails {
     private String email;
     private String password;
 
+    public String getRole(){
+        return "HAIRDRESSER";
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -27,7 +30,7 @@ public class Hairdresser implements UserDetails {
     }
 
     @Override
-    public String getUsername() { return null; }
+    public String getUsername() { return this.email; }
 
     @Override
     public boolean isAccountNonExpired() {

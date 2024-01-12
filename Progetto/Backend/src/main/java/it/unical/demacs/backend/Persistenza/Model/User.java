@@ -34,13 +34,17 @@ public class User implements UserDetails {
         this.number=u.getNumber();
     }
 
+    public String getRole(){
+        return "USER";
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("USER"));
     }
 
     @Override
-    public String getUsername() { return null; }
+    public String getUsername() { return this.email; }
 
     @Override
     public boolean isAccountNonExpired() { return true; }
