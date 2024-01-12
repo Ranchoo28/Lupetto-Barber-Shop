@@ -56,12 +56,13 @@
                 <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
               </button>
             </mat-form-field>
-          </div>
 
-          <div class="row">
+            </div>
+
+            <div class="row">
             <!-- ----------------- PASSWORD CHECK ----------------- -->
             <mat-form-field class="full-width" appearance="outline">
-              <mat-label>Password</mat-label>
+              <mat-label>Ripeti Password</mat-label>
               <input matInput type="{{hide ? 'password' : 'text'}}" [formControl]="repeatPasswordCheck"
                      matTooltip="{{passwordCheck.invalid ? passwordExample : ''}}">
               <button type="button" mat-icon-button matSuffix (click)="hide = !hide">
@@ -69,6 +70,9 @@
               </button>
             </mat-form-field>
 
+            </div>
+
+          <div class="row">
             <mat-error id="errorOutput">
               <ul>
                 <span *ngIf="errors.length > 0">Rispetta i seguenti parametri:</span>

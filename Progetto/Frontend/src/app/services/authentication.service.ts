@@ -1,8 +1,9 @@
 // authentication.service.ts
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import { Injectable} from '@angular/core';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import moment from 'moment';
-import {shareReplay, tap} from "rxjs";
+import { shareReplay, tap } from "rxjs";
+import { JwttokenhandlerService } from "./jwttokenhandler.service";
 
 @Injectable({
   providedIn: 'root'
@@ -18,34 +19,21 @@ export class AuthenticationService {
     })
   };
 
-  constructor(private http:HttpClient) { }
-
-  isUserLoggedIn(): boolean {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      return moment().isBefore(this.getExpiration());
-    } else {
-      return false;
-    }
-  }
-
-  getJwtExpiration(token: string): Date {
-    const tokenParts = token.split('.');
-    const encodedPayload = tokenParts[1];
-    const decodedPayload = atob(encodedPayload);
-    const payloadObj = JSON.parse(decodedPayload);
-    return new Date(payloadObj.exp * 1000);
-  }
+  constructor(private http:HttpClient, private jwtHandler: JwttokenhandlerService) { }
 
   private setSession(accessToken: string) {
-    const expirationDate = this.getJwtExpiration(accessToken);
-
-    localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem("tokenExpiration", expirationDate.valueOf().toString());
+    var expirationDate = this.jwtHandler.getExpiration(accessToken);
+    sessionStorage.setItem('accessToken', accessToken);
+    sessionStorage.setItem("tokenExpiration", expirationDate.valueOf().toString());
+    sessionStorage.setItem("email", this.jwtHandler.getEmail(accessToken));
+    sessionStorage.setItem("role", this.jwtHandler.getRole(accessToken));
   }
 
   logout() {
-    localStorage.removeItem("accessToken");
-    localStorage.removeItem("tokenExpiration");
+    sessionStorage.removeItem("accessToken");
+    sessionStorage.removeItem("tokenExpiration");
+    sessionStorage.removeItem("email");
+    sessionStorage.removeItem("role");
   }
 
   public isLoggedIn() {
@@ -56,9 +44,27 @@ export class AuthenticationService {
     return !this.isLoggedIn();
   }
 
+  isUser() {
+    if(!this.isLoggedIn()) return false;
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      return sessionStorage.getItem("role") === "USER";
+    } else {
+      return false;
+    }
+  }
+
+  isHairdresser() {
+    if(!this.isLoggedIn()) return false;
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      return sessionStorage.getItem("role") === "HAIRDRESSER";
+    } else {
+      return false;
+    }
+  }
+
   getExpiration() {
-    if (typeof window !== 'undefined' && window.localStorage) {
-      const expiration = localStorage.getItem("tokenExpiration");
+    if (typeof window !== 'undefined' && window.sessionStorage) {
+      const expiration = sessionStorage.getItem("tokenExpiration");
       if (!expiration) {
         return moment(0);
       }

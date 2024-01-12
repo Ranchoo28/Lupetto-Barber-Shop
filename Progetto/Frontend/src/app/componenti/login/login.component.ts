@@ -4,6 +4,7 @@ import {AuthenticationService} from "../../services/authentication.service";
 import {catchError, of, tap} from "rxjs";
 import {Router} from "@angular/router";
 import swal from 'sweetalert';
+import {JwttokenhandlerService} from "../../services/jwttokenhandler.service";
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,9 @@ import swal from 'sweetalert';
 })
 export class LoginComponent implements OnInit{
 
-  constructor(private authService: AuthenticationService, private router: Router) {
+  constructor(private authService: AuthenticationService,
+              private router: Router,
+              private jwtHandler: JwttokenhandlerService) {
   }
 
   hide = true;
@@ -45,12 +48,6 @@ export class LoginComponent implements OnInit{
       ).pipe(
         tap((data) => {
           console.log("Login effettuato");
-
-          // ATTENZIONE!!!
-          // Aggiunto perché i servizi su backend richiedono l'email,
-          // però questo è un problemi di sicurezza, i servizi backend devono tener conto
-          // tramite il token JWT, dell'utente che sta facendo la richiesta
-          localStorage.setItem('email', this.loginForm.get('email')?.value);
 
           this.loginForm.reset();
           swal("Login effettuato con successo", {

@@ -14,7 +14,7 @@ export class UnAuthGuard implements CanActivate {
     if (this.authService.isLoggedOut()) {
       return true;
     }
-    //this.router.navigate(['/home']);
+    this.router.navigate(['/pagina_non_trovata']);
     return false;
   }
 }
