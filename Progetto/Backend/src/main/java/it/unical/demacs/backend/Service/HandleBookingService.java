@@ -72,17 +72,8 @@ public class HandleBookingService {
                 {
                     res=DatabaseHandler.getInstance().getBookingDateDao().updateIsValid(b.getIdBooking(), false).join();
                     if(res){
-                        res=DatabaseHandler.getInstance().getBookingDateDao().insertSovrapposition(b.getBookingDate()).join();
-                        if(res)
-                        {
-                            response.setStatus(HttpServletResponse.SC_OK);
-                            response.getWriter().write("Successful deletion of the booking");
-                        }
-                        else
-                        {
-                            response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                            response.getWriter().write("Deletion failed");
-                        }
+                        response.setStatus(HttpServletResponse.SC_OK);
+                        response.getWriter().write("Successful deletion of the booking");
                     }
                     else
                     {

@@ -78,7 +78,7 @@ public class HairdresserDaoImpl implements HairdresserDao {
     @Override
     public CompletableFuture<ArrayList<HaidresserBookingResponse>> findAllBookings() {
         String query =
-                "SELECT u.name, u.surname, s.name, bd.data, bd.ora " +
+                "SELECT b.id_booking, u.name, u.surname, s.name, bd.data, bd.ora " +
                         "FROM users as u, services as s, bookings as b, bookingsdate as bd " +
                         "WHERE u.id_user = b.id_user and b.id_bookingdate = bd.id_bookingdate " +
                         "and bd.id_service = s.id_service and bd.isvalid = false";
@@ -88,11 +88,12 @@ public class HairdresserDaoImpl implements HairdresserDao {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 HaidresserBookingResponse booking = new HaidresserBookingResponse();
-                booking.setUser_name(rs.getString(1));
-                booking.setUser_surname(rs.getString(2));
-                booking.setService_name(rs.getString(3));
-                booking.setDate(rs.getDate(4).toLocalDate());
-                booking.setTime(rs.getTime(5));
+                booking.setBooking_id(rs.getLong(1));
+                booking.setUser_name(rs.getString(2));
+                booking.setUser_surname(rs.getString(3));
+                booking.setService_name(rs.getString(4));
+                booking.setDate(rs.getDate(5).toLocalDate());
+                booking.setTime(rs.getTime(6));
                 bookings.add(booking);
             }
         } catch (SQLException e) {
