@@ -2,6 +2,7 @@ package it.unical.demacs.backend.Persistenza.Impl;
 
 
 import it.unical.demacs.backend.Persistenza.DAO.ProductDao;
+import it.unical.demacs.backend.Persistenza.Model.Hairdresser;
 import it.unical.demacs.backend.Persistenza.Model.Product;
 
 import java.sql.*;
@@ -27,6 +28,8 @@ public class ProductDaoImpl implements ProductDao {
                 product.setDescription(rs.getString(3));
                 product.setCategory(rs.getString(4));
                 product.setPrice(rs.getDouble(5));
+                product.setImage(rs.getString(6));
+                product.setHairdresser(new Hairdresser(rs.getLong(7)));
                 productsList.add(product);
             }
         } catch (SQLException e) {
@@ -50,6 +53,8 @@ public class ProductDaoImpl implements ProductDao {
                     product.setDescription(rs.getString(3));
                     product.setCategory(rs.getString(4));
                     product.setPrice(rs.getDouble(5));
+                    product.setImage(rs.getString(6));
+                    product.setHairdresser(new Hairdresser(rs.getLong(7)));
                 }
             }
         } catch (SQLException e) {
@@ -72,6 +77,8 @@ public class ProductDaoImpl implements ProductDao {
                     product.setDescription(rs.getString(3));
                     product.setCategory(rs.getString(4));
                     product.setPrice(rs.getDouble(5));
+                    product.setImage(rs.getString(6));
+                    product.setHairdresser(new Hairdresser(rs.getLong(7)));
                 }
             }
         } catch (SQLException e) {
@@ -81,31 +88,61 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public CompletableFuture<Void> saveOrUpdate(Product product) {
-        String query = "INSERT INTO products (name, description, category, price) VALUES ( ?, ?, ?, ?)";
+    public CompletableFuture<Boolean> insert(Product product) {
+        String query = "INSERT INTO products (name, description, category, price, image, id_hairdresser) VALUES ( ?, ?, ?, ?, ?, ?)";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
             st.setString(1, product.getName());
             st.setString(2, product.getDescription());
             st.setString(3, product.getCategory());
             st.setDouble(4, product.getPrice());
-            st.executeUpdate();
+            st.setString(5, product.getImage());
+            st.setLong(6, product.getHairdresser().getId_hairdresser());
+            int rowsAffected = st.executeUpdate();
+            st.close();
+
+            return CompletableFuture.completedFuture(rowsAffected > 0);
         } catch (SQLException e) {
             e.fillInStackTrace();
         }
-        return CompletableFuture.completedFuture(null);
+        return CompletableFuture.completedFuture(false);
     }
 
     @Override
-    public CompletableFuture<Void> delete(Long id) {
+    public CompletableFuture<Boolean> update(Product product) {
+        String query = "UPDATE products SET name=?, description=?, category=?, price=?, image=?, id_hairdresser=? WHERE id_product=?";
+        try {
+            PreparedStatement st = this.con.prepareStatement(query);
+            st.setString(1, product.getName());
+            st.setString(2, product.getDescription());
+            st.setString(3, product.getCategory());
+            st.setDouble(4, product.getPrice());
+            st.setString(5, product.getImage());
+            st.setLong(6, product.getHairdresser().getId_hairdresser());
+            st.setLong(7, product.getIdProduct());
+            int rowsAffected = st.executeUpdate();
+            st.close();
+
+            return CompletableFuture.completedFuture(rowsAffected > 0);
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        }
+        return CompletableFuture.completedFuture(false);
+    }
+
+    @Override
+    public CompletableFuture<Boolean> delete(Long id) {
         String query = "DELETE FROM products WHERE id_product = ?";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
             st.setLong(1, id);
             st.executeUpdate();
+            int rowsAffected = st.executeUpdate();
             st.close();
+
+            return CompletableFuture.completedFuture(rowsAffected > 0);
         } catch (SQLException ignored) {}
 
-        return CompletableFuture.completedFuture(null);
+        return CompletableFuture.completedFuture(false);
     }
 }
