@@ -1,6 +1,7 @@
 package it.unical.demacs.backend.Persistenza.DAO;
 
 import it.unical.demacs.backend.Persistenza.Model.Booking;
+import it.unical.demacs.backend.Service.Response.HairdresserBookingResponse;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -15,6 +16,6 @@ public interface BookingDao {
 
     CompletableFuture<Boolean> isValid(Long id, Long idUser);
 
-    CompletableFuture<ArrayList<Booking>> findByDate(LocalDate date);
+    CompletableFuture<ArrayList<HairdresserBookingResponse>> findByDate(LocalDate date);
 
 }

@@ -2,12 +2,11 @@ package it.unical.demacs.backend.Persistenza.Impl;
 
 import it.unical.demacs.backend.Persistenza.DAO.HairdresserDao;
 import it.unical.demacs.backend.Persistenza.Model.Hairdresser;
-import it.unical.demacs.backend.Service.Response.HaidresserBookingResponse;
+import it.unical.demacs.backend.Service.Response.HairdresserBookingResponse;
 import org.springframework.scheduling.annotation.Async;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.concurrent.CompletableFuture;
 
 public class HairdresserDaoImpl implements HairdresserDao {
@@ -76,18 +75,18 @@ public class HairdresserDaoImpl implements HairdresserDao {
     }
 
     @Override
-    public CompletableFuture<ArrayList<HaidresserBookingResponse>> findAllBookings() {
+    public CompletableFuture<ArrayList<HairdresserBookingResponse>> findAllBookings() {
         String query =
                 "SELECT b.id_booking, u.name, u.surname, s.name, bd.data, bd.ora " +
                         "FROM users as u, services as s, bookings as b, bookingsdate as bd " +
                         "WHERE u.id_user = b.id_user and b.id_bookingdate = bd.id_bookingdate " +
                         "and bd.id_service = s.id_service and bd.isvalid = false";
-        ArrayList<HaidresserBookingResponse> bookings = new ArrayList<>();
+        ArrayList<HairdresserBookingResponse> bookings = new ArrayList<>();
         try {
             PreparedStatement st = this.con.prepareStatement(query);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                HaidresserBookingResponse booking = new HaidresserBookingResponse();
+                HairdresserBookingResponse booking = new HairdresserBookingResponse();
                 booking.setBooking_id(rs.getLong(1));
                 booking.setUser_name(rs.getString(2));
                 booking.setUser_surname(rs.getString(3));

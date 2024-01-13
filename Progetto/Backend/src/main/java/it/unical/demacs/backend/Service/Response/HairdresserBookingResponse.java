@@ -3,14 +3,14 @@ package it.unical.demacs.backend.Service.Response;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
-import java.sql.Date;
+
 import java.sql.Time;
 import java.time.LocalDate;
 
 @Getter
 @Setter
 
-public class HaidresserBookingResponse {
+public class HairdresserBookingResponse {
     Long booking_id;
     String user_name;
     String user_surname;

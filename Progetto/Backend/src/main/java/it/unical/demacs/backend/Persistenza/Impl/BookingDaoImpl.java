@@ -4,6 +4,7 @@ import it.unical.demacs.backend.Persistenza.DAO.BookingDao;
 import it.unical.demacs.backend.Persistenza.Model.Booking;
 import it.unical.demacs.backend.Persistenza.Model.BookingDate;
 import it.unical.demacs.backend.Persistenza.Model.User;
+import it.unical.demacs.backend.Service.Response.HairdresserBookingResponse;
 import org.springframework.scheduling.annotation.Async;
 
 import java.sql.*;
@@ -132,26 +133,30 @@ public class BookingDaoImpl implements BookingDao {
 
     @Override
     @Async
-    public CompletableFuture<ArrayList<Booking>> findByDate(LocalDate date) {
-        ArrayList<Booking> bookingList = new ArrayList<>();
-        String query = "SELECT * FROM bookings INNER JOIN bookingsDate ON bookings.id_bookingdate = bookingsDate.id_bookingdate WHERE bookingsDate.data = ?";
-        try (
-                PreparedStatement st = this.con.prepareStatement(query)) {
-                st.setDate(1, Date.valueOf(date));
-                st.setDate(1, Date.valueOf(date));
-                try (ResultSet rs = st.executeQuery()) {
-                    if (rs.next()) {
-                        Booking booking=new Booking();
-                        booking.setIdBooking(rs.getLong(1));
-                        booking.setUser(new User(rs.getLong(2)));
-                        booking.setBookingDate(new BookingDate(rs.getLong(3)));
-                        bookingList.add(booking);
-                    }
-                }
+    public CompletableFuture<ArrayList<HairdresserBookingResponse>> findByDate(LocalDate date) {
+        String query =
+                "SELECT b.id_booking, u.name, u.surname, s.name, bd.data, bd.ora " +
+                        "FROM users as u, services as s, bookings as b, bookingsdate as bd " +
+                        "WHERE u.id_user = b.id_user and b.id_bookingdate = bd.id_bookingdate " +
+                        "and bd.id_service = s.id_service and bd.isvalid = false and bd.data = ?";
+        ArrayList<HairdresserBookingResponse> bookings = new ArrayList<>();
+        try {
+            PreparedStatement st = this.con.prepareStatement(query);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                HairdresserBookingResponse booking = new HairdresserBookingResponse();
+                booking.setBooking_id(rs.getLong(1));
+                booking.setUser_name(rs.getString(2));
+                booking.setUser_surname(rs.getString(3));
+                booking.setService_name(rs.getString(4));
+                booking.setDate(rs.getDate(5).toLocalDate());
+                booking.setTime(rs.getTime(6));
+                bookings.add(booking);
+            }
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.fillInStackTrace();
         }
-        return CompletableFuture.completedFuture(bookingList);
+        return CompletableFuture.completedFuture(bookings);
     }
 
 
