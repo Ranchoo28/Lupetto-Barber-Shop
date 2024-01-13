@@ -186,7 +186,6 @@ export class RegistrazioneComponent implements OnInit{
         this.registrationForm.get('telefono')?.value
       ).pipe(
         tap((data) => {
-          console.log(data);
           this.registrationForm.reset();
           swal("Registrazione effettuata con successo", {
             icon: "success",

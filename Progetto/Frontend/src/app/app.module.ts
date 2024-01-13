@@ -32,6 +32,7 @@ import { PrenotaComponent } from './componenti/prenota/prenota.component';
 import { RegistrazioneComponent } from './componenti/registrazione/registrazione.component';
 import { CarrelloComponent } from './componenti/carrello/carrello.component';
 import { PagamentoComponent } from './componenti/pagamento/pagamento.component';
+import { CheckoutComponent } from './componenti/checkout/checkout.component';
 
 import {
   CarouselCaptionComponent, CarouselComponent,
@@ -70,6 +71,7 @@ registerLocaleData(localeIt, 'it');
     ContattiComponent,
     CarrelloComponent,
     PagamentoComponent,
+    CheckoutComponent,
   ],
   imports: [
     RouterModule,

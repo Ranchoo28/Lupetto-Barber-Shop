@@ -1,36 +1,48 @@
 
 
-<div class="cart-sidebar" *ngIf="items.length > 0">
-  <h1>Carrello</h1>
-  <div *ngFor="let item of items; let i = index" class="cart-item">
-    <div class="cart-item-details">
-      <img [src]="convertBase64ToImageUrl(item.product.image)" alt="{{ item.product.name }}" class="cart-item-image">
-      <br>
-      <div>
-        <h2>{{ item.product.name }}</h2>
-        <h3>Quantità: {{ item.quantity }} <br>
-        Prezzo: {{ item.product.price * item.quantity }} €</h3>
+<div class="general-container">
+  <div class="cart-sidebar" *ngIf="visible">
+
+    <div class="row">
+      <mat-card style="padding: 10px">
+        <button class="modern-button" (click)="nascondiCarrello()"
+                id="buttonCarrello">
+          <mat-icon>remove_shopping_cart</mat-icon>
+        </button>
+      </mat-card>
+    </div>
+    <br>
+
+    <div *ngFor="let item of items; let i = index" class="cart-item">
+      <div class="cart-item-details">
+        <img [src]="convertBase64ToImageUrl(item.product.image)" alt="{{ item.product.name }}" class="cart-item-image">
+        <br>
+        <div>
+          <h2>{{ item.product.name }}</h2>
+          <h3>Quantità: {{ item.quantity }} <br>
+          Prezzo: {{ item.product.price * item.quantity }} €</h3>
+        </div>
       </div>
+      <div class="cart-item-actions">
+        <button class="cart-button add-button" (click)="increaseQuantity(item.product.idProduct)">
+          <mat-icon>add</mat-icon>
+        </button>
+        <button class="cart-button remove-button" (click)="decreaseQuantity(item.product.idProduct)">
+          <mat-icon>remove</mat-icon>
+        </button>
+        <button class="cart-button delete-button" (click)="removeItem(item.product.idProduct)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
+      <br>
     </div>
-    <div class="cart-item-actions">
-      <button class="cart-button add-button" (click)="increaseQuantity(item.product.id_product)">
-        <mat-icon>add</mat-icon>
-      </button>
-      <button class="cart-button remove-button" (click)="decreaseQuantity(item.product.id_product)">
-        <mat-icon>remove</mat-icon>
-      </button>
-      <button class="cart-button delete-button" (click)="removeItem(item.product.id_product)">
-        <mat-icon>delete</mat-icon>
+
+    <div class="fixed-payment-button" >
+      <button (click)="apriPagamento()" class="modern-button">
+        <span>Paga</span>
+        <mat-icon>payment</mat-icon>
       </button>
     </div>
-  </div>
 
-  <div class="fixed-payment-button">
-    <button (click)="apriPagamento()">
-      <mat-icon>payment</mat-icon>
-      <span>Paga</span>
-    </button>
   </div>
-
 </div>
-

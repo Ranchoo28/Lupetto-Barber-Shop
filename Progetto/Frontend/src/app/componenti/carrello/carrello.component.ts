@@ -4,6 +4,7 @@ import { CartService } from '../../services/cart.service';
 import swal from "sweetalert";
 import {MatDialog} from "@angular/material/dialog";
 import {PagamentoComponent} from "../pagamento/pagamento.component";
+import {CheckoutComponent} from "../checkout/checkout.component";
 
 @Component({
   selector: 'app-carrello',
@@ -17,17 +18,28 @@ export class CarrelloComponent {
   constructor(private cartService: CartService, public dialog: MatDialog) {
   }
 
+  visible = false;
+
   ngAfterContentChecked(): void {
     this.items = this.cartService.getItems();
+    this.visible = this.cartService.isCartVisible();
+  }
+
+  nascondiCarrello() {
+    this.cartService.visible = false;
   }
 
   increaseQuantity(productId: number) {
-    console.log(productId);
+    console.log("carrello productID", productId);
     this.cartService.increaseQuantity(productId);
     this.items = this.cartService.getItems();
   }
 
   decreaseQuantity(productId: number) {
+    if(this.cartService.getQuantity(productId) == 1) {
+      this.removeItem(productId);
+      return;
+    }
     this.cartService.decreaseQuantity(productId);
     this.items = this.cartService.getItems();
   }
@@ -48,7 +60,7 @@ export class CarrelloComponent {
         swal({
           title: 'Cancellato',
           icon: 'success',
-          timer: 500
+          timer: 700
         });
       }
     })
@@ -61,9 +73,26 @@ export class CarrelloComponent {
 
 
   apriPagamento() {
-    this.dialog.open(PagamentoComponent, {
-      width: '8000px', // Imposta la larghezza che preferisci
-      // Puoi anche passare dei dati se necessario
+    if (this.cartService.getItems().length == 0) {
+      swal({
+        title: 'Carrello vuoto',
+        text: 'Aggiungi almeno un prodotto al carrello',
+        icon: 'warning',
+        timer: 800
+      });
+      return;
+    }
+
+    const dialogRef = this.dialog.open(CheckoutComponent, {
+      width: '550px',
+      data: {
+        items: this.cartService.getItems(),
+        prezzo: this.cartService.getTotalPrice()
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Il dialog è stato chiuso');
     });
   }
 

@@ -1,0 +1,18 @@
+
+
+<div class="row">
+  <br>
+  <div class="col-lg-2"></div>
+  <div class="col-lg-8">
+    <div class="row">
+      <h1>Conferma il pagamento</h1>
+      <h3>Costo totale: {{prezzo}} €</h3>
+      <h3 *ngIf="quantita>1">{{quantita}} prodotti</h3>
+      <h3 *ngIf="quantita==1">{{quantita}} prodotto</h3>
+    </div>
+    <br>
+    <app-pagamento></app-pagamento>
+    <br>
+  </div>
+  <div class="col-lg-2"></div>
+</div>
