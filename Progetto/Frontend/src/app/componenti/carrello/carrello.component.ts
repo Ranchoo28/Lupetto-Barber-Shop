@@ -2,6 +2,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import swal from "sweetalert";
+import {MatDialog} from "@angular/material/dialog";
+import {PagamentoComponent} from "../pagamento/pagamento.component";
 
 @Component({
   selector: 'app-carrello',
@@ -12,7 +14,7 @@ export class CarrelloComponent {
 
   items: Array<{ product: any, quantity: number }> = [];
 
-  constructor(private cartService: CartService) {
+  constructor(private cartService: CartService, public dialog: MatDialog) {
   }
 
   ngAfterContentChecked(): void {
@@ -55,6 +57,14 @@ export class CarrelloComponent {
 
   convertBase64ToImageUrl(base64: string): string {
     return `data:image/png;base64,${base64}`;
+  }
+
+
+  apriPagamento() {
+    this.dialog.open(PagamentoComponent, {
+      width: '8000px', // Imposta la larghezza che preferisci
+      // Puoi anche passare dei dati se necessario
+    });
   }
 
 }
