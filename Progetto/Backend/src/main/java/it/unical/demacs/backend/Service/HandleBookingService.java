@@ -11,6 +11,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -64,13 +65,16 @@ public class HandleBookingService {
         try{
             DatabaseHandler.getInstance().openConnection();
         Booking b= new Booking(Long.parseLong(request.getParameter("idBooking")));
+        System.out.println("idBooking " + b.getIdBooking());
         String email=request.getParameter("email");
         if (b.getUser().getEmail().equals(email)) {
             try {
-                boolean res= DatabaseHandler.getInstance().getBookingDao().delete(b.getIdBooking()).join();
+                Long idBookingDate = DatabaseHandler.getInstance().getBookingDateDao().findByBookingId(b.getIdBooking()).join();
+                boolean res= DatabaseHandler.getInstance().getBookingDateDao().updateIsValid(idBookingDate, true).join();
+                System.out.println("idBookingdate " + idBookingDate);
                 if (res)
                 {
-                    res=DatabaseHandler.getInstance().getBookingDateDao().updateIsValid(b.getIdBooking(), false).join();
+                    res= DatabaseHandler.getInstance().getBookingDao().delete(b.getIdBooking()).join();
                     if(res){
                         response.setStatus(HttpServletResponse.SC_OK);
                         response.getWriter().write("Successful deletion of the booking");

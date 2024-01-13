@@ -2,12 +2,10 @@ package it.unical.demacs.backend.Persistenza;
 
 import it.unical.demacs.backend.Persistenza.DAO.*;
 import it.unical.demacs.backend.Persistenza.Impl.*;
-import org.springframework.scheduling.annotation.Async;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.concurrent.CompletableFuture;
 
 public class DatabaseHandler {
     private static DatabaseHandler instance = null;
@@ -62,6 +60,6 @@ public class DatabaseHandler {
     public ServiceDao getServiceDao() { return new ServiceDaoImpl(getConnection());}
     public ProductDao getProductDao() { return new ProductDaoImpl(getConnection());}
     public HairdresserDao getHairdresserDao() { return new HairdresserDaoImpl(getConnection());}
-    public BookingDateDao getBookingDateDao() { return new BookingDateImpl(getConnection());}
+    public BookingDateDao getBookingDateDao() { return new BookingDateDaoImpl(getConnection());}
 
 }
