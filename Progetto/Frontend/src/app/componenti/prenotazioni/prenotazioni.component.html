@@ -45,6 +45,11 @@
       <td mat-cell *matCellDef="let booking"> {{booking.user_name}} </td>
     </ng-container>
 
+    <!-- number Column -->
+    <ng-container matColumnDef="tel_number" *ngIf="role === 'HAIRDRESSER'">
+      <th mat-header-cell *matHeaderCellDef> Cellulare </th>
+      <td mat-cell *matCellDef="let booking"> {{booking.tel_number}} </td>
+    </ng-container>
     <!-- Update displayedColumns array -->
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

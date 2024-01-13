@@ -15,7 +15,7 @@ export class PrenotazioniComponent implements OnInit {
   dataRicerca!: string;
   role: string = sessionStorage.getItem("role") || '';
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = this.role === 'HAIRDRESSER' ? ['select', 'Servizio', 'Data', 'Orario', 'idBooking', 'user_surname','user_name'] : ['select', 'Servizio', 'Data', 'Orario', 'idBooking'];
+  displayedColumns: string[] = this.role === 'HAIRDRESSER' ? ['select', 'Servizio', 'Data', 'Orario', 'idBooking', 'user_surname','user_name', 'tel_number'] : ['select', 'Servizio', 'Data', 'Orario', 'idBooking'];
   selection = new SelectionModel<any>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -42,32 +42,52 @@ export class PrenotazioniComponent implements OnInit {
     });
   }
   eliminaPrenotazione() {
-    this.selection.selected.forEach(row => {
-      this.bookingService.deleteBooking(row.id_booking, sessionStorage.getItem("email")!).subscribe((data) => {
-        swal(`Prenotazione eliminata con successo`, {
-          icon: "success",
-          timer: 3000
+  const selected = this.selection.selected;
+  if (selected.length > 0) {
+    const idBooking = selected[0].id_booking;
+    swal({
+      title: "Sei sicuro?",
+      text: "Una volta eliminata, non sarai in grado di recuperare questa prenotazione!",
+      icon: "warning",
+      buttons: ["Annulla", "OK"],
+      dangerMode: true,
+    })
+    .then((willDelete) => {
+      if (willDelete) {
+        this.bookingService.deleteBooking(idBooking, sessionStorage.getItem("email")!).subscribe(() => {},);
+          swal("La tua prenotazione è stata eliminata!", {
+            icon: "success",
+          },).then(() => {
+          // Aggiorna la tabella per rimuovere la riga eliminata
+          this.selection.clear();
+          this.visualizzaPrenotazioni();
         });
-        this.visualizzaPrenotazioni();
-      },);
+      }
     });
-    console.log(this.selection.selected);
-    this.visualizzaPrenotazioni();
+  } else {
+    swal('Errore: Nessuna prenotazione selezionata', {
+      icon: "error",
+      timer: 3000
+    });
   }
+}
+
+
+
 
   visualizzaPrenotazioniHairDbyDate() {
   this.bookingService.getBookingsByDate(sessionStorage.getItem("email")!, this.dataRicerca).subscribe((data) => {
-    if (data.length === 0) {
-      swal(`Errore: Nessuna prenotazione trovata`, {
-        icon: "error",
-        timer: 3000
-      });
+      if (data.length === 0) {
+        swal(`Errore: Nessuna prenotazione trovata`, {
+          icon: "error",
+          timer: 3000
+        });
 
-    } else {
-      this.dataSource = new MatTableDataSource(data);
-      this.dataSource.paginator = this.paginator;
-    }
-  });
-}
+      } else {
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.paginator = this.paginator;
+      }
+    });
+  }
 
 }
