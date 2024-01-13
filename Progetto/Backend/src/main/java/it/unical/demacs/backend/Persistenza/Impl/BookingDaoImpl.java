@@ -145,7 +145,7 @@ public class BookingDaoImpl implements BookingDao {
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 HairdresserBookingResponse booking = new HairdresserBookingResponse();
-                booking.setBooking_id(rs.getLong(1));
+                booking.setId_booking(rs.getLong(1));
                 booking.setUser_name(rs.getString(2));
                 booking.setUser_surname(rs.getString(3));
                 booking.setService_name(rs.getString(4));

@@ -2,14 +2,13 @@
   <h1>PRENOTAZIONI</h1>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <!-- idBooking Column -->
-    <ng-container matColumnDef="select">
+    <ng-container matColumnDef="select" >
       <th mat-header-cell *matHeaderCellDef>
-        <!-- Removed the mat-checkbox from here -->
       </th>
       <td mat-cell *matCellDef="let row">
         <mat-checkbox (click)="$event.stopPropagation()"
                       (change)="$event ? selection.toggle(row) : null"
-                      [checked]="selection.isSelected(row)">
+                      [checked]="selection.isSelected(row)" *ngIf="role !== 'HAIRDRESSER'">
         </mat-checkbox>
       </td>
     </ng-container>
@@ -50,7 +49,10 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
   </table>
-  <button mat-raised-button (click)="eliminaPrenotazione()" color="primary" [disabled]="role === 'HAIRDRESSER'">Elimina</button>
+  <button mat-raised-button *ngIf="role !== 'HAIRDRESSER'" (click)="eliminaPrenotazione()" color="primary" [disabled]="role === 'HAIRDRESSER'">Elimina</button>
+  <input type="date" class="data" [(ngModel)]="dataRicerca" *ngIf="role === 'HAIRDRESSER'">
+  <button mat-raised-button (click)="visualizzaPrenotazioniHairDbyDate()" *ngIf="role === 'HAIRDRESSER'" color="primary">Cerca per data</button>
+
   <mat-paginator [pageSizeOptions]="[5, 10, 20]"
                  aria-label="Select page of periodic elements"
                  showFirstLastButtons>

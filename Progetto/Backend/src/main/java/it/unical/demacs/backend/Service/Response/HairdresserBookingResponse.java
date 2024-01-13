@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Setter
 
 public class HairdresserBookingResponse {
-    Long booking_id;
+    Long id_booking;
     String user_name;
     String user_surname;
     String service_name;
