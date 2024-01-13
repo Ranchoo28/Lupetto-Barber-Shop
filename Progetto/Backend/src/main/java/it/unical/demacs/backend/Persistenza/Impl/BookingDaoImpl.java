@@ -136,7 +136,7 @@ public class BookingDaoImpl implements BookingDao {
     @Async
     public CompletableFuture<ArrayList<HairdresserBookingResponse>> findByDate(LocalDate date) {
         String query =
-                "SELECT b.id_booking, u.name, u.surname, s.name, bd.data, bd.ora " +
+                "SELECT b.id_booking, u.name, u.surname, s.name, bd.data, bd.ora, u.tel_number " +
                         "FROM users as u, services as s, bookings as b, bookingsdate as bd " +
                         "WHERE u.id_user = b.id_user and b.id_bookingdate = bd.id_bookingdate " +
                         "and bd.id_service = s.id_service and bd.isvalid = false and bd.data = ?";
@@ -153,6 +153,7 @@ public class BookingDaoImpl implements BookingDao {
                 booking.setService_name(rs.getString(4));
                 booking.setDate(rs.getDate(5).toLocalDate());
                 booking.setTime(rs.getTime(6));
+                booking.setTel_number(rs.getString(7));
                 bookings.add(booking);
             }
         } catch (SQLException e) {

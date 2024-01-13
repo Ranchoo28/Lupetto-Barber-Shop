@@ -18,4 +18,5 @@ public class HairdresserBookingResponse {
     @JsonFormat(pattern="yyyy-MM-dd")
     LocalDate date;
     Time time;
+    String tel_number;
 }
