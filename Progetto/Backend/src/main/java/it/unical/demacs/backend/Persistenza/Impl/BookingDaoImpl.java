@@ -5,6 +5,7 @@ import it.unical.demacs.backend.Persistenza.Model.Booking;
 import it.unical.demacs.backend.Persistenza.Model.BookingDate;
 import it.unical.demacs.backend.Persistenza.Model.User;
 import it.unical.demacs.backend.Service.Response.HairdresserBookingResponse;
+import org.springframework.cglib.core.Local;
 import org.springframework.scheduling.annotation.Async;
 
 import java.sql.*;
@@ -142,6 +143,7 @@ public class BookingDaoImpl implements BookingDao {
         ArrayList<HairdresserBookingResponse> bookings = new ArrayList<>();
         try {
             PreparedStatement st = this.con.prepareStatement(query);
+            st.setDate(1, Date.valueOf(date));
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 HairdresserBookingResponse booking = new HairdresserBookingResponse();
