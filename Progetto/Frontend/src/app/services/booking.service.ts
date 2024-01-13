@@ -36,12 +36,12 @@ export class BookingService {
   deleteBooking(idBooking: number, email: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/api/booking/delete`, "", {
       params: {
-        idBooking: idBooking.toString(),
+        idBooking: idBooking,
         email: email
       },
       // ATTENZIONE!!!
       // Viene aggiunto il responseType text perché il backend non invia JSON!!!
-      responseType: 'text'
+
     });
   }
 
@@ -55,6 +55,11 @@ export class BookingService {
 
   getAllBooking(email: string): Observable<any>{
     return this.http.get(`${this.baseUrl}/api/hairdresser/bookings`, {params: {email: email}});
+
+  }
+
+  getBookingsByDate(email: string, data:string): Observable<any>{
+    return this.http.get(`${this.baseUrl}/api/hairdresser/bookings/getByDate`, {params: {email: email, date: data}});
 
   }
 }
