@@ -9,10 +9,10 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 
-public class BookingDateImpl implements BookingDateDao {
+public class BookingDateDaoImpl implements BookingDateDao {
     Connection con;
 
-    public BookingDateImpl(Connection connection){
+    public BookingDateDaoImpl(Connection connection){
         this.con = connection;
     }
 
@@ -214,6 +214,25 @@ public class BookingDateImpl implements BookingDateDao {
             e.fillInStackTrace();
         }
         return CompletableFuture.completedFuture(false);
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<Long> findByBookingId(Long id) {
+        String query = "SELECT bd.id_bookingdate FROM bookingsdate as bd, bookings WHERE bookings.id_booking = ? AND bookings.id_bookingdate = bd.id_bookingdate";
+        try (
+                PreparedStatement st = this.con.prepareStatement(query)) {
+            st.setLong(1, id);
+            try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                    return CompletableFuture.completedFuture(rs.getLong(1));
+                }
+            }
+
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        }
+        return CompletableFuture.completedFuture(null);
     }
 
 

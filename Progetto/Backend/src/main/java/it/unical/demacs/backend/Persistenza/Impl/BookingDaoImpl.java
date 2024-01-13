@@ -105,7 +105,7 @@ public class BookingDaoImpl implements BookingDao {
             st.close();
 
             return CompletableFuture.completedFuture(rowsAffected > 0);
-        } catch (SQLException e) {
+        } catch (Exception e) {
             e.fillInStackTrace();
             return CompletableFuture.completedFuture(false);
         }

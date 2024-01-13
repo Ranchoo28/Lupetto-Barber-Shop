@@ -16,7 +16,7 @@ public interface BookingDateDao {
     CompletableFuture<Boolean> insert(BookingDate booking);
     CompletableFuture<Boolean> delete(Long id);
     CompletableFuture<Boolean> update(BookingDate booking);
-
     CompletableFuture<Boolean> updateIsValid(Long idBookingDate, boolean b);
+    CompletableFuture<Long> findByBookingId(Long id);
 
 }
