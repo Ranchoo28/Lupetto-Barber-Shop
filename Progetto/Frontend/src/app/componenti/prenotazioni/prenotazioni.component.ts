@@ -43,7 +43,7 @@ export class PrenotazioniComponent implements OnInit {
   }
   eliminaPrenotazione() {
   const selected = this.selection.selected;
-  if (selected.length > 0) {
+  if (selected.length === 1) {
     const idBooking = selected[0].id_booking;
     swal({
       title: "Sei sicuro?",
@@ -65,10 +65,17 @@ export class PrenotazioniComponent implements OnInit {
       }
     });
   } else {
+    if(selected.length === 0){
     swal('Errore: Nessuna prenotazione selezionata', {
       icon: "error",
       timer: 3000
     });
+  }else {
+      swal('Errore: Seleziona solo una prenotazione da eliminare', {
+        icon: "error",
+        timer: 3000
+      });
+    }
   }
 }
 
@@ -83,10 +90,15 @@ export class PrenotazioniComponent implements OnInit {
           timer: 3000
         });
 
-      } else {
-        this.dataSource = new MatTableDataSource(data);
-        this.dataSource.paginator = this.paginator;
+      }else {
+        swal(`Prenotazione trovate!`, {
+          icon: "success",
+          timer: 3000
+        });
       }
+      this.dataSource = new MatTableDataSource(data);
+      this.dataSource.paginator = this.paginator;
+
     });
   }
 
