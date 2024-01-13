@@ -1,0 +1,77 @@
+
+
+.cart-sidebar {
+  transition: transform 1s ease-in-out;
+  width: 250px;
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background-color: #f5f5f5;
+  box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+.cart-sidebar.ng-animating {
+  transform: translateX(100%);
+}
+
+.cart-item-image {
+  background-color: #1c1c1c ;
+  border: 1px solid #1c1c1c;
+  border-radius: 5px;
+  padding: 2px;
+  width: auto;
+  height: auto;
+  max-height: 150px;
+  margin-bottom: 10px;
+}
+
+.cart-item-details {
+  margin-bottom: 15px;
+}
+
+.cart-item-details p {
+  margin: 5px 0;
+  font-size: 0.9em;
+}
+
+.cart-item-actions .cart-button {
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  margin-right: 5px;
+}
+
+
+.cart-item-actions .cart-button.add-button {
+  background-color: #45a049;
+}
+
+.cart-item-actions .cart-button.add-button:hover {
+  background-color: #9fdaa2;
+}
+
+.cart-item-actions .cart-button.remove-button {
+  background-color: #f44336;
+}
+
+.cart-item-actions .cart-button.remove-button:hover {
+  background-color: #ef847c;
+}
+
+
+.cart-item-actions .cart-button.delete-button {
+  background-color: #000000;
+}
+
+.cart-item-actions .cart-button.delete-button:hover {
+  background-color: #2d2d2d;
+}
+
+
+

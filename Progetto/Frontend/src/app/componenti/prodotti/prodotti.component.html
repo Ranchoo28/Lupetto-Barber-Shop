@@ -1,27 +1,43 @@
 
 
+<div class="container">
+  <div class="row">
+    <div class="col-lg-12">
 
-<div class="row">
-  <div class="col-lg-2"></div>
-  <div class="col-lg-8">
+      <div class="row">
+        <div *ngFor="let prodotto of prodotti" class="col-12 col-sm-6 col-md-4 col-lg-3">
+          <mat-card>
+            <mat-card-header>
+              <mat-card-title>{{ prodotto.name }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="row">
+                <p>{{ prodotto.description }}</p>
+                <img [src]="convertBase64ToImageUrl(prodotto.image)" alt="Immagine del prodotto" class="img-fluid"/>
+              </div>
+              <br><br>
+              <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-4">
+                  <p class="prezzo">{{ prodotto.price }} €</p>
+                </div>
+                <div class="col-lg-4">
+                  <button class="modern-button" (click)="addToCart(prodotto)">
+                    <mat-icon>add_shopping_cart</mat-icon>
+                  </button>
+                </div>
+                <div class="col-lg-2"></div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+          <br>
+        </div>
+      </div>
 
-    <div *ngFor="let prodotto of prodotti">
+      <app-carrello></app-carrello>
 
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>{{ prodotto.name }}</mat-card-title>
-          <mat-card-subtitle></mat-card-subtitle>
-        </mat-card-header>
-        <mat-card-content>
-          <p>{{ prodotto.description }}</p>
-        </mat-card-content>
-      </mat-card>
-      <img [src]="convertBase64ToImageUrl(prodotto.image)" alt="Immagine del prodotto" />
-
-      <br>br
     </div>
-
-
   </div>
-  <div class="col-lg-2"></div>
 </div>
+
+

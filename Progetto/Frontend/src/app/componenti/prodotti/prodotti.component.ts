@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {ProductsService} from "../../services/products.service";
+import {CartService} from "../../services/cart.service";
 
 @Component({
   selector: 'app-prodotti',
@@ -9,7 +10,7 @@ import {ProductsService} from "../../services/products.service";
 export class ProdottiComponent implements OnInit {
   prodotti: any[] = []; // o una tipizzazione più specifica se disponibile
 
-  constructor(private productsService: ProductsService) {}
+  constructor(private productsService: ProductsService, private cartService: CartService) {}
 
   ngOnInit() {
     this.productsService.getProducts().subscribe(
@@ -25,4 +26,9 @@ export class ProdottiComponent implements OnInit {
   convertBase64ToImageUrl(base64: string): string {
     return `data:image/png;base64,${base64}`;
   }
+
+  addToCart(prodotto: any) {
+    this.cartService.addToCart(prodotto);
+  }
+
 }

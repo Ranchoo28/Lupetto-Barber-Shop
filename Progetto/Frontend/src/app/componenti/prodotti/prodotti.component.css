@@ -1,1 +1,48 @@
 
+
+.carrello {
+  position: fixed;
+  right: 0;
+  top: 50%;
+}
+
+.modern-button {
+  background: linear-gradient(75deg, #000000, #656565);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modern-button:hover, .modern-button:focus {
+  background: linear-gradient(75deg, #1c1c1c, #939292);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.modern-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modern-button img {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+img {
+  background-color: #1c1c1c ;
+  border: 1px solid #1c1c1c;
+  border-radius: 5px;
+  padding: 2px
+}
+
+.prezzo{
+  font-size: 20px;
+  font-weight: bold;
+  color: #1c1c1c;
+}

@@ -30,6 +30,8 @@ import { NotfoundComponent } from './componenti/notfound/notfound.component';
 import { ProdottiComponent } from './componenti/prodotti/prodotti.component';
 import { PrenotaComponent } from './componenti/prenota/prenota.component';
 import { RegistrazioneComponent } from './componenti/registrazione/registrazione.component';
+import { CarrelloComponent } from './componenti/carrello/carrello.component';
+
 import {
   CarouselCaptionComponent, CarouselComponent,
   CarouselControlComponent,
@@ -65,6 +67,7 @@ registerLocaleData(localeIt, 'it');
     RegistrazioneComponent,
     PrenotazioniComponent,
     ContattiComponent,
+    CarrelloComponent,
   ],
     imports: [
         RouterModule,
@@ -95,7 +98,7 @@ registerLocaleData(localeIt, 'it');
         CarouselIndicatorsComponent,
         CarouselComponent,
         CarouselItemComponent,
-        MatPaginatorModule
+        MatPaginatorModule,
     ],
   providers: [
     provideClientHydration(),
