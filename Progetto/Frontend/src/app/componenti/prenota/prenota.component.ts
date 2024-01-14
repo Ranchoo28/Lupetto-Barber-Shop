@@ -6,6 +6,7 @@ import {BookingDateService} from "../../services/booking-data.service";
 import {MatSelectChange} from "@angular/material/select";
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 import swal from "sweetalert";
+import {TokenService} from "../../services/token.service";
 
 @Component({
   selector: 'app-prenota',
@@ -32,8 +33,9 @@ export class PrenotaComponent implements OnInit{
   ]);
 
   prenotaForm!: FormGroup;
+  isLoading = false;
 
-  constructor(private bookingService: BookingService, private serviceService: ServiceService,private bookingDateService: BookingDateService) {
+  constructor(private bookingService: BookingService, private serviceService: ServiceService,private bookingDateService: BookingDateService, private tokenService: TokenService) {
   }
 
   ngOnInit(): void {
@@ -47,22 +49,19 @@ export class PrenotaComponent implements OnInit{
 
   effettuaPrenotazione() {
     let idBookingDate = Number(this.prenotaForm.get('orario')!.value);
-    // ATTENZIONE!!!
-    // Aggiunto perché i servizi su backend richiedono l'email,
-    // però questo è un problemi di sicurezza, i servizi backend devono tener conto
-    // tramite il token JWT, dell'utente che sta facendo la richiesta
-    let email = sessionStorage.getItem('email')!;
-    this.bookingService.insertBooking(idBookingDate, email).subscribe((response) => {
-      // Gestisci la risposta qui
-      //console.log(response);
-      //alert("Prenotazione effettuata con successo!");
-      swal("Prenotazione effettuata con successo", {
-        icon: "success",
-        timer: 3000
-      }).then(() => {
-        window.location.reload();
+    let email = this.tokenService.getEmailFromToken()!;
+    this.isLoading = true;
+    setTimeout(() => {
+      this.bookingService.insertBooking(idBookingDate, email).subscribe((response) => {
+        this.isLoading = false;
+        swal("Prenotazione effettuata con successo", {
+          icon: "success",
+          timer: 3000
+        }).then(() => {
+          window.location.reload();
+        });
       });
-    });
+    }, 1000);
   }
 
   dateFilter = (d: Date | null): boolean => {
@@ -77,8 +76,6 @@ export class PrenotaComponent implements OnInit{
     this.prenotaForm.get('data')!.setValue('');
     this.prenotaForm.get('orario')!.setValue('');
     this.serviceService.getServiceBySex(sesso!).subscribe((response) => {
-      // Gestisci la risposta qui
-      console.log(response);
       this.servizi = response.map((service: any) => {
         return {
           id: service.idService,
@@ -93,8 +90,6 @@ export class PrenotaComponent implements OnInit{
     this.prenotaForm.get('data')!.setValue('');
     this.prenotaForm.get('orario')!.setValue('');
     this.bookingDateService.getBookingDateByService(idService).subscribe((response) => {
-      // Gestisci la risposta qui
-      console.log(response);
       this.bookingDates = response.map((bookingDate: any) => {
         const parts = bookingDate.date.split('-');
         const date = new Date(parts[0], parts[1] - 1, parts[2]);
@@ -111,8 +106,6 @@ export class PrenotaComponent implements OnInit{
     const localIsoString = localDate.toISOString().split('T')[0];
     this.bookingDateService.getBookingDateByTime(localIsoString, Number(this.prenotaForm.get('servizio')!.value)).subscribe((response) => {
       // Gestisci la risposta qui
-      console.log("ORARI");
-      console.log(response);
       this.orari = response.map((bookingDate: any) => {
         return {
           "idBookingDate": bookingDate.idBookingDate,

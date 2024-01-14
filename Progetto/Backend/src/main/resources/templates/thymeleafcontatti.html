@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
@@ -8,29 +6,50 @@
 
   <style>
     .contact-card {
-      width: 30%;
+      width: 400px;
       margin: 0 auto;
+      background: #fff;
       padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      background-color: #f4f4f4;
-
-    }
-    .contact-card h1 {
       text-align: center;
-      color: #666;
-      font-family: 'Helvetica Neue', sans-serif;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, .1);
     }
+
+    .contact-card h1 {
+      color: #1c87c9;
+      margin: 0 0 20px;
+      font-size: 30px;
+      font-weight: 400;
+    }
+
     .contact-card p {
-      font-family: 'Helvetica Neue', sans-serif;
-      font-size: 20px;
-      line-height: 1.5em;
-      color: #333;
+      font-size: 23px;
+      line-height: 26px;
+      margin: 0 0 10px;
+      color: #555;
     }
-    .contact-card p strong {
-      font-weight: bold;
+
+    .contact-card p span {
+      color: #888;
     }
-  </style>
+
+    .contact-card .btn {
+      display: inline-block;
+      background: #1c87c9;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      padding: 10px 20px;
+      font-size: 14px;
+      margin: 20px 0 0;
+    }
+
+    .contact-card .btn:hover {
+      background: #2371a0;
+    }
+
+    </style>
+</head>
 
 <body>
 
@@ -39,9 +58,9 @@
 <div class="contact-card">
   <h1 th:text="${title}">Contatti Parrucchiere</h1>
   <div>
-    <p><strong>Telefono:</strong><span th:text="${number}"></span></p>
-    <p><strong>Email:</strong><span th:text="${email}"></span></p>
-    <p><strong>Indirizzo:</strong><span th:text="${address}"></span></p>
+    <p><strong>Telefono: </strong><span th:text="${number}"></span></p>
+    <p><strong>Email: </strong><span th:text="${email}"></span></p>
+    <p><strong>Indirizzo: </strong><span th:text="${address}"></span></p>
   </div>
 </div>
 

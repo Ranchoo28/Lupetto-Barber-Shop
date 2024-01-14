@@ -1,5 +1,6 @@
 <mat-card>
   <h1>PRENOTAZIONI</h1>
+  <mat-progress-spinner *ngIf="isLoading" class="center-screen" mode="indeterminate"></mat-progress-spinner>
   <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
     <!-- idBooking Column -->
     <ng-container matColumnDef="select" >
@@ -56,6 +57,7 @@
   </table>
   <button mat-raised-button *ngIf="role !== 'HAIRDRESSER'" (click)="eliminaPrenotazione()" color="primary" [disabled]="role === 'HAIRDRESSER'">Elimina</button>
   <input type="date" class="data" [(ngModel)]="dataRicerca" *ngIf="role === 'HAIRDRESSER'">
+  <button mat-raised-button (click)="visualizzaPrenotazioniHairD()" *ngIf="role === 'HAIRDRESSER'" color="primary">Visualizza tutte le prenotazioni</button>
   <button mat-raised-button (click)="visualizzaPrenotazioniHairDbyDate()" *ngIf="role === 'HAIRDRESSER'" color="primary">Cerca per data</button>
 
   <mat-paginator [pageSizeOptions]="[5, 10, 20]"

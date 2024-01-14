@@ -5,6 +5,7 @@ import {SelectionModel} from '@angular/cdk/collections';
 import {BookingService} from "../../services/booking.service";
 import {BookingDateService} from "../../services/booking-data.service";
 import swal from "sweetalert";
+import {TokenService} from "../../services/token.service";
 
 @Component({
   selector: 'app-prenotazioni',
@@ -13,33 +14,39 @@ import swal from "sweetalert";
 })
 export class PrenotazioniComponent implements OnInit {
   dataRicerca!: string;
-  role: string = sessionStorage.getItem("role") || '';
+  role: string = this.tokenService.getRoleFromToken()!;
+  email: string = this.tokenService.getEmailFromToken()!;
   dataSource!: MatTableDataSource<any>;
   displayedColumns: string[] = this.role === 'HAIRDRESSER' ? ['select', 'Servizio', 'Data', 'Orario', 'idBooking', 'user_surname','user_name', 'tel_number'] : ['select', 'Servizio', 'Data', 'Orario', 'idBooking'];
   selection = new SelectionModel<any>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
+  isLoading = false;
 
-  constructor(private bookingService: BookingService, private bookingdataservice:BookingDateService) { }
+  constructor(private bookingService: BookingService,private tokenService: TokenService) { }
 
   ngOnInit(): void {
     if(this.role=="USER"){
       this.visualizzaPrenotazioni();
-    }else{
-      this.visualizzaPrenotazioniHairD(sessionStorage.getItem("email")!);
     }
   }
 
   visualizzaPrenotazioni() {
-    this.bookingService.getUserBooking(sessionStorage.getItem("email")!).subscribe((data) => {
+    this.bookingService.getUserBooking(this.email).subscribe((data) => {
       this.dataSource = new MatTableDataSource(data);
       this.dataSource.paginator = this.paginator;
     });
   }
-  private visualizzaPrenotazioniHairD(email: string) {
-    this.bookingService.getAllBooking(email).subscribe((data) => {
-      this.dataSource = new MatTableDataSource(data);
-      this.dataSource.paginator = this.paginator;
-    });
+  visualizzaPrenotazioniHairD() {
+    this.dataRicerca = '';
+    this.isLoading = true;
+    setTimeout(() => {
+
+      this.bookingService.getAllBooking(this.email).subscribe((data) => {
+        this.isLoading = false;
+        this.dataSource = new MatTableDataSource(data);
+        this.dataSource.paginator = this.paginator;
+      });
+    }, 1000);
   }
   eliminaPrenotazione() {
   const selected = this.selection.selected;
@@ -54,7 +61,10 @@ export class PrenotazioniComponent implements OnInit {
     })
     .then((willDelete) => {
       if (willDelete) {
-        this.bookingService.deleteBooking(idBooking, sessionStorage.getItem("email")!).subscribe(() => {},);
+        this.isLoading = true;
+        setTimeout(() => {
+        this.bookingService.deleteBooking(idBooking, this.email).subscribe(() => {},);
+          this.isLoading = false;
           swal("La tua prenotazione è stata eliminata!", {
             icon: "success",
           },).then(() => {
@@ -62,6 +72,7 @@ export class PrenotazioniComponent implements OnInit {
           this.selection.clear();
           this.visualizzaPrenotazioni();
         });
+      }, 1000);
       }
     });
   } else {
@@ -83,23 +94,34 @@ export class PrenotazioniComponent implements OnInit {
 
 
   visualizzaPrenotazioniHairDbyDate() {
-  this.bookingService.getBookingsByDate(sessionStorage.getItem("email")!, this.dataRicerca).subscribe((data) => {
-      if (data.length === 0) {
-        swal(`Errore: Nessuna prenotazione trovata`, {
+      // Se non è stata selezionata nessuna data, mostra un messaggio di errore e interrompi l'esecuzione del metodo
+      if (!this.dataRicerca) {
+        swal('Errore: Nessuna data selezionata', {
           icon: "error",
           timer: 3000
         });
-
-      }else {
-        swal(`Prenotazione trovate!`, {
-          icon: "success",
-          timer: 3000
-        });
+        return;
       }
-      this.dataSource = new MatTableDataSource(data);
-      this.dataSource.paginator = this.paginator;
-
-    });
-  }
+      this.isLoading = true;
+      setTimeout(() => {
+        this.bookingService.getBookingsByDate(this.email, this.dataRicerca).subscribe((data) => {
+          this.isLoading = false;
+          if (data.length === 0) {
+            swal(`Errore: Nessuna prenotazione trovata`, {
+              icon: "error",
+              timer: 3000
+            });
+          } else {
+            swal(`Prenotazione trovate!`, {
+              icon: "success",
+              timer: 3000
+            });
+          }
+          this.dataSource = new MatTableDataSource(data);
+          this.dataSource.paginator = this.paginator;
+          this.dataRicerca = '';
+        });
+      },1000);
+    }
 
 }

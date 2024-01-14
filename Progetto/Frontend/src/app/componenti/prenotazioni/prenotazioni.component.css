@@ -12,4 +12,15 @@ h1{
   margin: 10px;
   font-size: 20px;
 }
+button{
+  margin: 10px;
+  margin-top: 20px;
+  font-size: 18px;
+}
+.center-screen {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
 

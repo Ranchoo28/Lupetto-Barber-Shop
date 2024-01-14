@@ -1,9 +1,10 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-2"></div>
-
     <div class="col-lg-8">
       <mat-card>
+        <h1 class="text-center">Prenota un appuntamento</h1>
+        <mat-progress-spinner *ngIf="isLoading" class="center-screen" mode="indeterminate"></mat-progress-spinner>
         <mat-card-content [formGroup]="prenotaForm">
           <div class="row">
               <!-- ----------------- SESSO ----------------- -->
@@ -32,8 +33,7 @@
               <!-- ----------------- DATA ----------------- -->
               <mat-form-field class="full-width" appearance="outline">
                 <mat-label>Data</mat-label>
-                <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" [formControl]="dataCheck" (dateChange)="changeDate($event)">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <input matInput [matDatepickerFilter]="dateFilter" [matDatepicker]="picker" [formControl]="dataCheck" (dateChange)="changeDate($event)" readonly>                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker [touchUi]="true" #picker></mat-datepicker>
                               </mat-form-field>
             </div>
