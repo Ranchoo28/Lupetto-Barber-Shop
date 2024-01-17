@@ -31,19 +31,23 @@ public class CartService {
         try {
             DatabaseHandler.getInstance().openConnection();
             Long id_user = DatabaseHandler.getInstance().getUserDao().findByEmail(email).join().getIdUser();
-            if(id_user == null){
+            if (id_user == null) {
                 return ResponseEntity.badRequest().body("{\"message\": \"No user found\"}");
-            }else{
-                DatabaseHandler.getInstance().getCartDao().addCart(id_user);
-                Cart cart = new Cart(id_user);
-                for(CartProduct c: products)
-                    DatabaseHandler.getInstance().getCartDao().addProductToCart(cart.getId_cart(), c.getIdProduct(), c.getQuantity());
-
-                return ResponseEntity.ok().body("{\"message\": \"Product added to cart\"}");
+            } else {
+                if (DatabaseHandler.getInstance().getCartDao().addCart(id_user).join()) {
+                    Cart cart = DatabaseHandler.getInstance().getCartDao().findCartByUserId(id_user).join();
+                    for (CartProduct c : products)
+                        DatabaseHandler.getInstance().getCartDao().addProductToCart(cart.getId_cart(), c.getIdProduct(), c.getQuantity());
+                    return ResponseEntity.ok().body("{\"message\": \"Cart created and products added\"}");
+                }
+                else{
+                    return ResponseEntity.badRequest().body("{\"message\": \"Cart creation failed\"}");
+                }
             }
         }
-        finally {
-            DatabaseHandler.getInstance().closeConnection();
+        finally{
+                DatabaseHandler.getInstance().closeConnection();
         }
     }
+
 }

@@ -123,8 +123,8 @@ public class CartDaoImpl implements CartDao {
             st.setLong(1, idCart);
             st.setLong(2, id_product);
             st.setInt(3, quantity);
+            st.executeUpdate();
             st.close();
-
         } catch (SQLException e) {
             e.fillInStackTrace();
         }
