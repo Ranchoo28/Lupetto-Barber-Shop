@@ -25,14 +25,14 @@ public class ProductsService {
         }
     }
 
-    public ResponseEntity<?> insertProduct(Product product, String email) {
+    public ResponseEntity<?> insertProduct(String email, Product product) {
         try {
             Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByEmail(email).join();
             if (hairdresser.getId_hairdresser() != null) {
                 DatabaseHandler.getInstance().openConnection();
                 boolean res = DatabaseHandler.getInstance().getProductDao().insert(product).join();
                 if (res) {
-                    return ResponseEntity.ok(product);
+                    return ResponseEntity.ok("{\"message\": \"Product added\"}");
                 } else {
                     return ResponseEntity.badRequest().body("{\"message\": \"Insert failed\"}");
                 }
@@ -47,7 +47,7 @@ public class ProductsService {
         }
     }
 
-    public ResponseEntity<?> deleteProduct(Long id, String email) {
+    public ResponseEntity<?> deleteProduct(String email, Long id){
         try {
             DatabaseHandler.getInstance().openConnection();
             Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByEmail(email).join();
