@@ -22,7 +22,7 @@ public class ProductsController {
         return productsService.insertProduct(email, product);
     }
 
-    @PostMapping("/api/hairdresser/deleteProduct/")
+    @PostMapping("/api/hairdresser/deleteProduct")
     public ResponseEntity<?> deleteProduct(@RequestParam String email, @RequestParam Long id_product) {
         return productsService.deleteProduct(email, id_product);
     }
