@@ -26,7 +26,7 @@ public class AuthenticationService {
     public ResponseEntity<?> authenticate(AuthenticationRequest request) {
         try {
             DatabaseHandler.getInstance().openConnection();
-            UserDao userDao = DatabaseHandler.getInstance().getUtenteDao();
+            UserDao userDao = DatabaseHandler.getInstance().getUserDao();
             HairdresserDao hairdresserDao = DatabaseHandler.getInstance().getHairdresserDao();
 
             User user = userDao.findByEmail(request.getEmail()).join();
@@ -55,7 +55,7 @@ public class AuthenticationService {
     public ResponseEntity<?> registerUser(User user) {
         try {
             DatabaseHandler.getInstance().openConnection();
-            UserDao utenteDao = DatabaseHandler.getInstance().getUtenteDao();
+            UserDao utenteDao = DatabaseHandler.getInstance().getUserDao();
             HairdresserDao hairdresserDao = DatabaseHandler.getInstance().getHairdresserDao();
 
             if (utenteDao.findByEmail(user.getEmail()).join().getEmail() != null ||

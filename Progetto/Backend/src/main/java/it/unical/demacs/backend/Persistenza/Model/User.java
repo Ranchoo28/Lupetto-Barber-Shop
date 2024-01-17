@@ -25,7 +25,7 @@ public class User implements UserDetails {
     private String number;
 
     public User(Long idUser) throws SQLException {
-        User u= DatabaseHandler.getInstance().getUtenteDao().findByPrimaryKey(idUser).join();
+        User u= DatabaseHandler.getInstance().getUserDao().findByPrimaryKey(idUser).join();
         this.idUser=u.getIdUser();
         this.email=u.getEmail();
         this.password=u.getPassword();

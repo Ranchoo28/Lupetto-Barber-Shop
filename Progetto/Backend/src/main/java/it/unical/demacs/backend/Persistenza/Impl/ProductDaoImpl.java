@@ -1,10 +1,9 @@
 package it.unical.demacs.backend.Persistenza.Impl;
 
-
 import it.unical.demacs.backend.Persistenza.DAO.ProductDao;
 import it.unical.demacs.backend.Persistenza.Model.Hairdresser;
 import it.unical.demacs.backend.Persistenza.Model.Product;
-
+import it.unical.demacs.backend.Service.CartProduct;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
@@ -40,7 +39,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
-    public CompletableFuture<Product> findByPrimaryKey(Long id) throws SQLException {
+    public CompletableFuture<Product> findByPrimaryKey(Long id) {
         Product product=new Product();
         String query = "SELECT * FROM products WHERE id_product = ?";
         try (
@@ -144,5 +143,30 @@ public class ProductDaoImpl implements ProductDao {
         } catch (SQLException ignored) {}
 
         return CompletableFuture.completedFuture(false);
+    }
+
+    @Override
+    public CompletableFuture<ArrayList<CartProduct>> findAllByCartId(Long id) {
+        String query = "SELECT id_product, quantity FROM products_cart WHERE id_cart = ?";
+        ArrayList<CartProduct> products = new ArrayList<>();
+        try (
+                PreparedStatement st = this.con.prepareStatement(query)) {
+            st.setLong(1, id);
+            try (ResultSet rs = st.executeQuery()) {
+                while (rs.next()) {
+                    Product product = new Product(rs.getLong(1));
+                    CartProduct response = new CartProduct();
+                    response.setIdProduct(product.getIdProduct());
+                    response.setName(product.getName());
+                    response.setPrice(product.getPrice());
+                    response.setImage(product.getImage());
+                    response.setQuantity(rs.getInt(2));
+                    products.add(response);
+                }
+            }
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        }
+        return CompletableFuture.completedFuture(products);
     }
 }

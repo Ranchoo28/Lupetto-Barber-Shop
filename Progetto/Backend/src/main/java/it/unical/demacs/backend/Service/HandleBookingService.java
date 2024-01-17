@@ -11,7 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import javax.xml.crypto.Data;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ public class HandleBookingService {
                 response.getWriter().write("Invalid booking date ID provided");
                 return;
             }
-            User user = DatabaseHandler.getInstance().getUtenteDao().findByEmail(email).join();
+            User user = DatabaseHandler.getInstance().getUserDao().findByEmail(email).join();
             try {
                 Booking booking = new Booking(user, bookingDate);
                 boolean res=DatabaseHandler.getInstance().getBookingDateDao().updateIsValid(idBookingDate, false).join();
@@ -104,7 +103,7 @@ public class HandleBookingService {
     {
         try {
             DatabaseHandler.getInstance().openConnection();
-            User user = DatabaseHandler.getInstance().getUtenteDao().findByEmail(email).join();
+            User user = DatabaseHandler.getInstance().getUserDao().findByEmail(email).join();
             if (user != null) {
                 if (DatabaseHandler.getInstance().getBookingDao().isValid(booking.getIdBooking(), user.getIdUser()).join()) {
                     boolean res = DatabaseHandler.getInstance().getBookingDao().update(booking).join();
@@ -124,9 +123,9 @@ public class HandleBookingService {
     {
         try {
             DatabaseHandler.getInstance().openConnection();
-            User user = DatabaseHandler.getInstance().getUtenteDao().findByEmail(email).join();
+            User user = DatabaseHandler.getInstance().getUserDao().findByEmail(email).join();
             if (user.getIdUser() != null) {
-                ArrayList<UserBookingResponse> booking = DatabaseHandler.getInstance().getUtenteDao().findBookings(user.getIdUser()).join();
+                ArrayList<UserBookingResponse> booking = DatabaseHandler.getInstance().getUserDao().findBookings(user.getIdUser()).join();
                 return ResponseEntity.ok(booking);
             } else {
                 return ResponseEntity.badRequest().body("{\"message\": \"A person with this email doesn't exists\"}");

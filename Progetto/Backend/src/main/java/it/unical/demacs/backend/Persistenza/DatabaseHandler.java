@@ -53,7 +53,7 @@ public class DatabaseHandler {
         }
     }
 
-    public UserDao getUtenteDao(){
+    public UserDao getUserDao(){
         return new UserDaoImpl(getConnection());
     }
     public BookingDao getBookingDao() {return new BookingDaoImpl(getConnection());}
@@ -61,5 +61,7 @@ public class DatabaseHandler {
     public ProductDao getProductDao() { return new ProductDaoImpl(getConnection());}
     public HairdresserDao getHairdresserDao() { return new HairdresserDaoImpl(getConnection());}
     public BookingDateDao getBookingDateDao() { return new BookingDateDaoImpl(getConnection());}
+    public CartDao getCartDao() { return new CartDaoImpl(getConnection());}
+    public ProductCartDao getProductCartDao() { return new ProductCartDaoImpl(getConnection());}
 
 }
