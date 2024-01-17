@@ -6,8 +6,7 @@ import {BookingDateService} from "../../services/booking-data.service";
 import {MatSelectChange} from "@angular/material/select";
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 import swal from "sweetalert";
-import {TokenService} from "../../services/token.service";
-
+import {JwttokenhandlerService} from "../../services/jwttokenhandler.service";
 @Component({
   selector: 'app-prenota',
   templateUrl: './prenota.component.html',
@@ -35,7 +34,7 @@ export class PrenotaComponent implements OnInit{
   prenotaForm!: FormGroup;
   isLoading = false;
 
-  constructor(private bookingService: BookingService, private serviceService: ServiceService,private bookingDateService: BookingDateService, private tokenService: TokenService) {
+  constructor(private bookingService: BookingService, private serviceService: ServiceService,private bookingDateService: BookingDateService, private tokenService: JwttokenhandlerService) {
   }
 
   ngOnInit(): void {

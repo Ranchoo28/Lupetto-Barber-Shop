@@ -1,3 +1,52 @@
-
-
-<h1> PISELLO </h1>
+<div class="container">
+  <div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+      <mat-card>
+        <h1 class="text-center">Aggiungi un prodotto</h1>
+        <mat-card-content [formGroup]="aggiungiProdottoForm">
+          <div class="row">
+            <!-- ----------------- NOME PRODOTTO ----------------- -->
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Nome Prodotto</mat-label>
+              <input matInput [formControl]="nomeProdotto">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <!-- ----------------- DESCRIZIONE PRODOTTO ----------------- -->
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Descrizione Prodotto</mat-label>
+              <input matInput [formControl]="descrizioneProdotto">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <!-- ----------------- IMMAGINE PRODOTTO ----------------- -->
+            <div class="full-width" style="margin: 10px;">
+              <label>Immagine Prodotto</label>
+              <input type="file" (change)="onFileSelected($event)" />
+            </div>
+          </div>
+          <div class="row">
+            <!-- ----------------- CATEGORIA PRODOTTO ----------------- -->
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Categoria Prodotto</mat-label>
+              <input matInput [formControl]="categoriaProdotto">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <!-- ----------------- PREZZO PRODOTTO ----------------- -->
+            <mat-form-field class="full-width" appearance="outline">
+              <mat-label>Prezzo Prodotto</mat-label>
+              <input matInput type="number" [formControl]="prezzoProdotto">
+            </mat-form-field>
+          </div>
+          <div class="row">
+            <!-- ----------------- SUBMITTA IL PRODOTTO ----------------- -->
+            <button mat-raised-button color="primary" [disabled]="aggiungiProdottoForm.invalid" (click)="aggiungiProdotto()">Aggiungi Prodotto</button>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <div class="col-lg-2"></div>
+  </div>
+</div>

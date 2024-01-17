@@ -4,8 +4,8 @@ import {MatPaginator} from "@angular/material/paginator";
 import {SelectionModel} from '@angular/cdk/collections';
 import {BookingService} from "../../services/booking.service";
 import {BookingDateService} from "../../services/booking-data.service";
+import {JwttokenhandlerService} from "../../services/jwttokenhandler.service";
 import swal from "sweetalert";
-import {TokenService} from "../../services/token.service";
 
 @Component({
   selector: 'app-prenotazioni',
@@ -22,7 +22,7 @@ export class PrenotazioniComponent implements OnInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   isLoading = false;
 
-  constructor(private bookingService: BookingService,private tokenService: TokenService) { }
+  constructor(private bookingService: BookingService,private tokenService: JwttokenhandlerService) { }
 
   ngOnInit(): void {
     if(this.role=="USER"){

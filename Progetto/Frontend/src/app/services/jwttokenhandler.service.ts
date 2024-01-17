@@ -33,4 +33,22 @@ export class JwttokenhandlerService {
     return new Date(jwtDecoded.exp * 1000);
   }
 
+  getEmailFromToken(): string | null {
+    let token = sessionStorage.getItem('accessToken');
+    if (token) {
+      let decodedPayload = JSON.parse(atob(token.split('.')[1]));
+      return decodedPayload['email'];
+    }
+    return null;
+  }
+
+  getRoleFromToken(): string | null {
+    let token = sessionStorage.getItem('accessToken');
+    if (token) {
+      let decodedPayload = JSON.parse(atob(token.split('.')[1]));
+      return decodedPayload['role'];
+    }
+    return null;
+  }
+
 }
