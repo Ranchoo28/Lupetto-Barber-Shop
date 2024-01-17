@@ -18,6 +18,13 @@
           </button>
         </li>
 
+        <li class="nav-item" *ngIf="authService.isHairdresser()">
+          <button mat-button [routerLink]="['aggiungi-prodotto']">
+            Aggiungi Prodotto
+            <mat-icon fontIcon="add_box"></mat-icon>
+          </button>
+        </li>
+
         <!-- ----------------- PRENOTA ----------------- -->
         <li class="nav-item" *ngIf="authService.isUser();">
           <button mat-button [routerLink]="['prenota']">

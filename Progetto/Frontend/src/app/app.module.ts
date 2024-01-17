@@ -3,6 +3,7 @@ import { LOCALE_ID, NgModule} from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+// Material
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from '@angular/material/icon';
@@ -18,8 +19,13 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { MatRadioModule } from "@angular/material/radio";
+import { MatPaginatorModule } from "@angular/material/paginator";
+import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
 // Components
+import {  CarouselCaptionComponent, CarouselComponent,
+          CarouselControlComponent, CarouselIndicatorsComponent,
+          CarouselInnerComponent, CarouselItemComponent } from "@coreui/angular";
 import { AppComponent } from './app.component';
 import { ContattiComponent } from './componenti/contatti/contatti.component';
 import { GalleriaComponent } from './componenti/galleria/galleria.component';
@@ -33,26 +39,19 @@ import { RegistrazioneComponent } from './componenti/registrazione/registrazione
 import { CarrelloComponent } from './componenti/carrello/carrello.component';
 import { PagamentoComponent } from './componenti/pagamento/pagamento.component';
 import { CheckoutComponent } from './componenti/checkout/checkout.component';
-
-import {
-  CarouselCaptionComponent, CarouselComponent,
-  CarouselControlComponent,
-  CarouselIndicatorsComponent,
-  CarouselInnerComponent, CarouselItemComponent
-} from "@coreui/angular";
+import { PrenotazioniComponent } from './componenti/prenotazioni/prenotazioni.component';
+import { AggiungiProdottoComponent } from './componenti/aggiungi-prodotto/aggiungi-prodotto.component';
 
 // Routing
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 
-import {NgOptimizedImage, registerLocaleData} from '@angular/common';
+// Altri
+import { NgOptimizedImage, registerLocaleData} from '@angular/common';
 import localeIt from '@angular/common/locales/it';
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import { PrenotazioniComponent } from './componenti/prenotazioni/prenotazioni.component';
-import {AuthInterceptorService} from "./services/auth-interceptor.service";
-import {MatPaginatorModule} from "@angular/material/paginator";
-import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import { FormsModule, ReactiveFormsModule} from "@angular/forms";
+import { AuthInterceptorService } from "./services/auth-interceptor.service";
 
 
 
@@ -73,6 +72,7 @@ registerLocaleData(localeIt, 'it');
     CarrelloComponent,
     PagamentoComponent,
     CheckoutComponent,
+    AggiungiProdottoComponent,
   ],
     imports: [
         RouterModule,
