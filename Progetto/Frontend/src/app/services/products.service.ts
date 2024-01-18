@@ -7,8 +7,9 @@ import { Observable } from 'rxjs';
 })
 export class ProductsService {
   private productsUrl = '/api/products';
-  private addProductUrl = '/api/hairdresser/addProduct';
   private deleteProductUrl = '/api/hairdresser/deleteProduct';
+  private baseUrl = 'http://localhost:4200';
+
   httpOptions = {
     headers: new HttpHeaders({
       'Accept': 'application/json',
@@ -22,18 +23,15 @@ export class ProductsService {
     return this.http.get<any[]>(this.productsUrl);
   }
 
-  addProduct(_email: string, _nome: string, _descrizione: string, _image: string, _categoria: string, _prezzo: number): Observable<any> {
-    let params = new HttpParams().set('email', _email);
+  addProduct(email: string, name: string, description: string, category: string, price: number, image: string ): Observable<any> {
     const productRequest = {
-      name: _nome,
-      description: _descrizione,
-      category: _categoria,
-      price: _prezzo,
-      image: _image,
+      name: name,
+      description: description,
+      category: category,
+      price: price,
+      image: image,
     };
-
-    console.log(productRequest);
-    return this.http.post<any>(this.addProductUrl, productRequest, this.httpOptions);
+    return this.http.post(`${this.baseUrl}/api/hairdresser/addProduct`, productRequest, {params: {email} });
   }
 
 

@@ -40,7 +40,8 @@ export class PrenotaComponent implements OnInit{
 
   constructor(private bookingService: BookingService,
               private serviceService: ServiceService,
-              private bookingDateService: BookingDateService) {
+              private bookingDateService: BookingDateService,
+              private jwtTokenHandler: JwttokenhandlerService) {
   }
 
   ngOnInit(): void {
@@ -58,7 +59,7 @@ export class PrenotaComponent implements OnInit{
 
   effettuaPrenotazione() {
     let idBookingDate = Number(this.prenotaForm.get('orario')!.value);
-    let email = sessionStorage.getItem('email')!;
+    let email = this.jwtTokenHandler.getEmail(sessionStorage.getItem('token')!);
     this.isLoading = true;
     setTimeout(() => {
       this.bookingService.insertBooking(idBookingDate, email).subscribe((response) => {
@@ -75,7 +76,6 @@ export class PrenotaComponent implements OnInit{
 
   dateFilter = (d: Date | null): boolean => {
     const date = (d || new Date()).toISOString().split('T')[0];
-    // Abilita solo le date che sono nell'array bookingDates
     return this.bookingDates.includes(date);
   };
 
@@ -116,7 +116,7 @@ export class PrenotaComponent implements OnInit{
       this.bookingDates = response.map((bookingDate: any) => {
         const parts = bookingDate.date.split('-');
         const date = new Date(parts[0], parts[1] - 1, parts[2]);
-        return date.toISOString().split('T')[0]; // Restituisce la data nel formato 'yyyy-mm-dd'
+        return date.toISOString().split('T')[0];
       });
     });
   }
@@ -133,7 +133,6 @@ export class PrenotaComponent implements OnInit{
     localDate.setMinutes(localDate.getMinutes() - offset);
     const localIsoString = localDate.toISOString().split('T')[0];
     this.bookingDateService.getBookingDateByTime(localIsoString, Number(this.prenotaForm.get('servizio')!.value)).subscribe((response) => {
-      // Gestisci la risposta qui
       this.orari = response.map((bookingDate: any) => {
         return {
           "idBookingDate": bookingDate.idBookingDate,

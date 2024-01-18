@@ -8,6 +8,7 @@ import {JwttokenhandlerService} from "../../services/jwttokenhandler.service";
 import swal from "sweetalert";
 import {Session} from "node:inspector";
 import {getMatIconFailedToSanitizeLiteralError} from "@angular/material/icon";
+import {jwtDecode} from "jwt-decode";
 
 @Component({
   selector: 'app-prenotazioni',
@@ -17,15 +18,15 @@ import {getMatIconFailedToSanitizeLiteralError} from "@angular/material/icon";
 export class PrenotazioniComponent implements OnInit {
 
   dataRicerca!: string;
-  role: string = sessionStorage.getItem('role')!
-  email: string = sessionStorage.getItem('email')!;
+  role: string = this.jtwtoken.getRole(sessionStorage.getItem('accessToken')!);
+  email: string = this.jtwtoken.getEmail(sessionStorage.getItem('accessToken')!);
   dataSource!: MatTableDataSource<any>;
   displayedColumns: string[] = this.role === 'HAIRDRESSER' ? ['select', 'Servizio', 'Data', 'Orario', 'idBooking', 'user_surname','user_name', 'tel_number'] : ['select', 'Servizio', 'Data', 'Orario', 'idBooking'];
   selection = new SelectionModel<any>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   isLoading = false;
 
-  constructor(private bookingService: BookingService) { }
+  constructor(private bookingService: BookingService, private jtwtoken:JwttokenhandlerService) { }
 
   ngOnInit(): void {
     if(this.role=="USER"){
@@ -83,7 +84,6 @@ export class PrenotazioniComponent implements OnInit {
           swal("La tua prenotazione è stata eliminata!", {
             icon: "success",
           },).then(() => {
-          // Aggiorna la tabella per rimuovere la riga eliminata
           this.selection.clear();
           this.visualizzaPrenotazioni();
         });

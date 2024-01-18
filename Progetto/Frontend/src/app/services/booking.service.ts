@@ -6,14 +6,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class BookingService {
-  // ATTENZIONE!!!
-  // O si usa http://localhost:4200 con il reverse proxy di Angular
-  // oppure si usa http://localhost:8080 ma DOVETE AGGIUSTARE IL CORS!!!
   private baseUrl = 'http://localhost:4200';
   httpOptions = {
     headers: new HttpHeaders({
-      // Se vuoi usare Accept e accettare JSON, prima accertati che da backend invii JSON!!!
-      //'Accept': 'application/json',
       'Content-Type': 'application/json'
     })
   };
@@ -26,8 +21,6 @@ export class BookingService {
         email: email,
         idBookingDate: idBookingDate.toString()
       },
-      // ATTENZIONE!!!
-      // Viene aggiunto il responseType text perché il backend non invia JSON!!!
       responseType: 'text'
     });
   }
@@ -39,8 +32,6 @@ export class BookingService {
         idBooking: idBooking,
         email: email
       },
-      // ATTENZIONE!!!
-      // Viene aggiunto il responseType text perché il backend non invia JSON!!!
 
     });
   }

@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import {ProductsService} from "../../services/products.service";
 import swal from 'sweetalert';
 import {catchError, of, tap, throwError} from "rxjs";
+import {JwttokenhandlerService} from "../../services/jwttokenhandler.service";
 
 @Component({
   selector: 'app-aggiungi-prodotto',
@@ -18,7 +19,7 @@ export class AggiungiProdottoComponent implements OnInit {
 
   aggiungiProdottoForm!: FormGroup;
 
-  constructor(private productService: ProductsService) { }
+  constructor(private productService: ProductsService,private jwttoken:JwttokenhandlerService) { }
 
   ngOnInit(): void {
     this.aggiungiProdottoForm = new FormGroup({
@@ -42,15 +43,16 @@ export class AggiungiProdottoComponent implements OnInit {
   aggiungiProdotto() {
 
     if (this.aggiungiProdottoForm.valid) {
-      const email = sessionStorage.getItem('email')!;
+      const email = this.jwttoken.getEmail(sessionStorage.getItem('accessToken')!)
 
       this.productService.addProduct(
-        sessionStorage.getItem('email')!,
+        email,
         this.aggiungiProdottoForm.get('nomeProdotto')!.value,
         this.aggiungiProdottoForm.get('descrizioneProdotto')!.value,
-        this.aggiungiProdottoForm.get('immagineProdotto')!.value,
         this.aggiungiProdottoForm.get('categoriaProdotto')!.value,
-        this.aggiungiProdottoForm.get('prezzoProdotto')!.value
+        this.aggiungiProdottoForm.get('prezzoProdotto')!.value,
+        this.aggiungiProdottoForm.get('immagineProdotto')!.value
+
       ).pipe(
         tap((data) => {
           this.aggiungiProdottoForm.reset();
