@@ -27,4 +27,13 @@ public class Product implements ProductInterface {
         this.hairdresser=hairdresser;
     }
 
+    public Product(String name, String description, String category, Double price, String image) {
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.price = price;
+        this.image = image;
+        this.hairdresser=null;
+    }
+
 }

@@ -33,7 +33,7 @@ public class ProductsService {
             DatabaseHandler.getInstance().openConnection();
             Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByEmail(email).join();
             if (hairdresser.getId_hairdresser() != null) {
-                DatabaseHandler.getInstance().openConnection();
+                product.setHairdresser(hairdresser);
                 boolean res = DatabaseHandler.getInstance().getProductDao().insert(product).join();
                 if (res) {
                     return ResponseEntity.ok("{\"message\": \"Product added\"}");
