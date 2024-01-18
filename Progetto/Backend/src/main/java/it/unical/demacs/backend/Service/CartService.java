@@ -36,8 +36,7 @@ public class CartService {
             } else {
                 if (DatabaseHandler.getInstance().getCartDao().addCart(id_user).join()) {
                     Cart cart = DatabaseHandler.getInstance().getCartDao().findCartByUserId(id_user).join();
-                    for (CartProduct c : products)
-                        DatabaseHandler.getInstance().getCartDao().addProductToCart(cart.getId_cart(), c.getIdProduct(), c.getQuantity());
+                    DatabaseHandler.getInstance().getCartDao().addProductToCart(cart.getId_cart(), products);
                     return ResponseEntity.ok().body("{\"message\": \"Cart created and products added\"}");
                 }
                 else{

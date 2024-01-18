@@ -1,7 +1,10 @@
 package it.unical.demacs.backend.Persistenza.Impl;
 
 import it.unical.demacs.backend.Persistenza.DAO.CartDao;
+import it.unical.demacs.backend.Persistenza.DatabaseHandler;
 import it.unical.demacs.backend.Persistenza.Model.Cart;
+import it.unical.demacs.backend.Persistenza.Model.CartProduct;
+import it.unical.demacs.backend.Persistenza.Model.Product;
 import it.unical.demacs.backend.Persistenza.Model.User;
 import org.springframework.scheduling.annotation.Async;
 
@@ -100,6 +103,9 @@ public class CartDaoImpl implements CartDao {
     @Override
     @Async
     public CompletableFuture<Boolean> addCart(long idUser) {
+        if(findCartByUserId(idUser).join() != null){
+            return CompletableFuture.completedFuture(true);
+        }
         String query = "INSERT INTO carts (id_user) VALUES (?)";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
@@ -115,17 +121,25 @@ public class CartDaoImpl implements CartDao {
 
     @Override
     @Async
-    public void addProductToCart(Long idCart, Long id_product, Integer quantity) {
-        String query = "INSERT INTO products_cart (id_cart,id_product,quantity) VALUES (?,?,?)";
+    public void addProductToCart(Long idCart, ArrayList<CartProduct> products) {
         try {
-            PreparedStatement st = this.con.prepareStatement(query);
-            st.setLong(1, idCart);
-            st.setLong(2, id_product);
-            st.setInt(3, quantity);
-            st.executeUpdate();
-            st.close();
+            String deleteQuery = "DELETE FROM products_cart WHERE id_cart = ?";
+            PreparedStatement deleteStatement = this.con.prepareStatement(deleteQuery);
+            deleteStatement.setLong(1, idCart);
+            deleteStatement.executeUpdate();
+            deleteStatement.close();
+            for (CartProduct product : products) {
+                String insertQuery = "INSERT INTO products_cart (id_cart, id_product, quantity) VALUES (?, ?, ?)";
+                PreparedStatement insertStatement = this.con.prepareStatement(insertQuery);
+                insertStatement.setLong(1, idCart);
+                insertStatement.setLong(2, product.getIdProduct());
+                insertStatement.setInt(3, product.getQuantity());
+                insertStatement.executeUpdate();
+                insertStatement.close();
+            }
         } catch (SQLException e) {
             e.fillInStackTrace();
         }
     }
+
 }

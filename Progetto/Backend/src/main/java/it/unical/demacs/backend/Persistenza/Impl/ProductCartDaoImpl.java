@@ -60,20 +60,37 @@ public class ProductCartDaoImpl implements ProductCartDao{
     }
 
     @Override
-    public CompletableFuture<ArrayList<ProductProxy>> findProductByIdCart(Long id) {
+    public CompletableFuture<ArrayList<Product>> findProductByIdCart(Long id) {
         String query = "SELECT id_product FROM products_cart WHERE id_cart = ?";
-        ArrayList<ProductProxy> products = new ArrayList<>();
+        ArrayList<Product> products = new ArrayList<>();
         try (
                 PreparedStatement st = this.con.prepareStatement(query)) {
             st.setLong(1, id);
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
-                    products.add(new ProductProxy(rs.getLong(1)));
+                    products.add(new Product(rs.getLong(1)));
                 }
             }
         } catch (SQLException e) {
             e.fillInStackTrace();
         }
         return CompletableFuture.completedFuture(products);
+    }
+
+    @Override
+    public CompletableFuture<Boolean> findCart(Long idCart) {
+       String query = "SELECT * FROM products_cart WHERE id_cart = ?";
+         try (
+                PreparedStatement st = this.con.prepareStatement(query)) {
+              st.setLong(1, idCart);
+              try (ResultSet rs = st.executeQuery()) {
+                if (rs.next()) {
+                     return CompletableFuture.completedFuture(true);
+                }
+              }
+         } catch (SQLException e) {
+              e.fillInStackTrace();
+         }
+        return CompletableFuture.completedFuture(false);
     }
 }

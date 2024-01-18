@@ -1,6 +1,7 @@
 package it.unical.demacs.backend.Persistenza.DAO;
 
 import it.unical.demacs.backend.Persistenza.Model.Cart;
+import it.unical.demacs.backend.Persistenza.Model.CartProduct;
 import it.unical.demacs.backend.Persistenza.Model.User;
 
 import java.util.ArrayList;
@@ -13,5 +14,5 @@ public interface CartDao {
     public CompletableFuture<Cart> findCartByUserId(Long idUser);
 
     public CompletableFuture<Boolean> addCart(long idUser);
-    public void addProductToCart(Long idCart, Long id_product, Integer quantity);
+    public void addProductToCart(Long idCart, ArrayList<CartProduct> products);
 }
