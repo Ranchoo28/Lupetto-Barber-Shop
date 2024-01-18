@@ -23,6 +23,10 @@ export class CarrelloComponent {
   ngAfterContentChecked(): void {
     this.items = this.cartService.getItems();
     this.visible = this.cartService.isCartVisible();
+
+    if(!this.cartService.pagamentoInCorso) {
+      this.dialog.closeAll();
+    }
   }
 
   nascondiCarrello() {
@@ -30,7 +34,6 @@ export class CarrelloComponent {
   }
 
   increaseQuantity(productId: number) {
-    console.log("carrello productID", productId);
     this.cartService.increaseQuantity(productId);
     this.items = this.cartService.getItems();
   }
@@ -67,10 +70,6 @@ export class CarrelloComponent {
 
   }
 
-  convertBase64ToImageUrl(base64: string): string {
-    return `data:image/png;base64,${base64}`;
-  }
-
 
   apriPagamento() {
     if (this.cartService.getItems().length == 0) {
@@ -83,6 +82,8 @@ export class CarrelloComponent {
       return;
     }
 
+    this.cartService.pagamentoInCorso = true;
+
     const dialogRef = this.dialog.open(CheckoutComponent, {
       width: '550px',
       data: {
@@ -92,7 +93,12 @@ export class CarrelloComponent {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Il dialog è stato chiuso');
+      swal({
+        title: 'Pagamento Completato Con Successo',
+        text: 'Grazie per aver acquistato da noi!',
+        icon: 'success',
+        timer: 2500
+      });
     });
   }
 

@@ -6,16 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ProductsService {
+  private baseUrl = 'http://localhost:8080';
   private productsUrl = '/api/products';
+  private addProductUrl = '/api/hairdresser/addProduct';
   private deleteProductUrl = '/api/hairdresser/deleteProduct';
-  private baseUrl = 'http://localhost:4200';
 
-  httpOptions = {
-    headers: new HttpHeaders({
-      'Accept': 'application/json',
-      'Content-Type': 'application/json'
-    })
-  };
+
 
   constructor(private http: HttpClient) {}
 
@@ -24,14 +20,23 @@ export class ProductsService {
   }
 
   addProduct(email: string, name: string, description: string, category: string, price: number, image: string ): Observable<any> {
-    const productRequest = {
+    let productRequest = {
       name: name,
       description: description,
       category: category,
       price: price,
       image: image,
     };
-    return this.http.post(`${this.baseUrl}/api/hairdresser/addProduct`, productRequest, {params: {email} });
+
+    let httpOptions = {
+      params: {email},
+      headers: new HttpHeaders({
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      })
+    };
+
+    return this.http.post(this.baseUrl+this.addProductUrl, productRequest, httpOptions);
   }
 
 

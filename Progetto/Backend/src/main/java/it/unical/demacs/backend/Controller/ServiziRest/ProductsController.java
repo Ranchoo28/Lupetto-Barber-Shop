@@ -17,7 +17,7 @@ public class ProductsController {
     @GetMapping("/api/productsByName")
     public ResponseEntity<?> getProducts(@RequestParam String name) { return productsService.getProductById(name); }
 
-    @GetMapping("/api/products/minimal")
+    @GetMapping("/api/products")
     public ResponseEntity<?> getProductsMinimal() { return productsService.getProducts(); }
 
 

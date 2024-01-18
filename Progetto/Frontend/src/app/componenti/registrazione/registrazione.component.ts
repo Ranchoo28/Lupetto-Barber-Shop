@@ -191,7 +191,6 @@ export class RegistrazioneComponent implements OnInit{
             icon: "success",
             timer: 1000
           });
-          console.log("Registrazione effettuata con successo");
           this.router.navigate(['/login']);
         }),
         catchError((error) => {
@@ -205,7 +204,10 @@ export class RegistrazioneComponent implements OnInit{
         })
       ).subscribe();
     } else {
-      console.log("Form non valido");
+      swal(`Errore: form non valido`, {
+        icon: "error",
+        timer: 2000
+      })
     }
   }
 

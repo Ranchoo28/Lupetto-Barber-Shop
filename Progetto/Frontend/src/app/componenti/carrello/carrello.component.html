@@ -15,7 +15,7 @@
 
     <div *ngFor="let item of items; let i = index" class="cart-item">
       <div class="cart-item-details">
-        <img [src]="convertBase64ToImageUrl(item.product.image)" alt="{{ item.product.name }}" class="cart-item-image">
+        <img [src]="item.product.image" alt="{{ item.product.name }}" class="cart-item-image">
         <br>
         <div>
           <h2>{{ item.product.name }}</h2>

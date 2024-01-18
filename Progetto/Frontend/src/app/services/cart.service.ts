@@ -7,6 +7,8 @@ export class CartService {
 
   items = new Map<number, { product: any, quantity: number }>();
 
+  pagamentoInCorso = false;
+
   constructor() { }
 
   visible = false;

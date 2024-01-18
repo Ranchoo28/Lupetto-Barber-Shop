@@ -67,17 +67,11 @@ export class LoginComponent implements OnInit{
         })
       ).subscribe();
     } else {
-      console.log("Form non valido");
+      swal(`Errore: Compila tutti i campi`, {
+        icon: "error",
+        timer: 2000
+      });
     }
-  }
-
-
-  /* SOLO TESTING, POI RIMUOVERE */
-  alertshow(){
-    swal("Login effettuato con successo", {
-      icon: "success",
-      timer: 1800
-    });
   }
 
 

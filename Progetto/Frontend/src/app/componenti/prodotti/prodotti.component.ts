@@ -29,10 +29,6 @@ export class ProdottiComponent implements OnInit {
     this.isHidden = this.cartService.visible;
   }
 
-  convertBase64ToImageUrl(base64: string): string {
-    return `data:image/png;base64,${base64}`;
-  }
-
   addToCart(prodotto: any) {
     this.cartService.addToCart(prodotto);
   }

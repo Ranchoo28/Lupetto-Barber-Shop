@@ -28,7 +28,7 @@ public class StripeService {
 
             PaymentIntent paymentIntent = PaymentIntent.create(paymentIntentParams);
 
-            return ResponseEntity.ok(paymentIntent.getClientSecret());
+            return ResponseEntity.ok().body("{\"intent\": \"" + paymentIntent.getClientSecret() + "\"}");
 
         } catch (StripeException e) {
             e.fillInStackTrace();
