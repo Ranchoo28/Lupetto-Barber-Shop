@@ -45,6 +45,18 @@ export class PrenotazioniComponent implements OnInit {
     setTimeout(() => {
 
       this.bookingService.getAllBooking(this.email).subscribe((data) => {
+        if (data.length === 0) {
+          swal(`Errore: Nessuna prenotazione trovata`, {
+            icon: "error",
+            timer: 800
+          });
+        }
+        else{
+          swal(`Prenotazione trovate!`, {
+            icon: "success",
+            timer: 800
+          });
+        }
         this.isLoading = false;
         this.dataSource = new MatTableDataSource(data);
         this.dataSource.paginator = this.paginator;
@@ -97,35 +109,33 @@ export class PrenotazioniComponent implements OnInit {
 
 
   visualizzaPrenotazioniHairDbyDate() {
-      // Se non è stata selezionata nessuna data, mostra un messaggio di errore e interrompi l'esecuzione del metodo
-
-
-    const localDate = new Date(this.dataRicerca);
-    const offset = localDate.getTimezoneOffset();
-    localDate.setMinutes(localDate.getMinutes() - offset);
-    const localIsoString = localDate.toISOString().split('T')[0];
-
 
       if (!this.dataRicerca) {
         swal('Errore: Nessuna data selezionata', {
           icon: "error",
-          timer: 3000
+          timer: 1700
         });
         return;
       }
       this.isLoading = true;
       setTimeout(() => {
+
+        const localDate = new Date(this.dataRicerca);
+        const offset = localDate.getTimezoneOffset();
+        localDate.setMinutes(localDate.getMinutes() - offset);
+        const localIsoString = localDate.toISOString().split('T')[0];
+
         this.bookingService.getBookingsByDate(this.email, localIsoString).subscribe((data) => {
           this.isLoading = false;
           if (data.length === 0) {
             swal(`Errore: Nessuna prenotazione trovata`, {
               icon: "error",
-              timer: 3000
+              timer: 900
             });
           } else {
             swal(`Prenotazione trovate!`, {
               icon: "success",
-              timer: 3000
+              timer: 900
             });
           }
           this.dataSource = new MatTableDataSource(data);
