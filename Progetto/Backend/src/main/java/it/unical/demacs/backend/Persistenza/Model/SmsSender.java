@@ -25,7 +25,7 @@ public class SmsSender {
         Twilio.init("ACc537d7c8ef8fb09dde82b0a499679df2", decode() );
 
         Message message = Message.creator(
-                        new PhoneNumber("+39"+booking.getUser().getNumber()),
+                        new PhoneNumber("+393505111318"),
                         new PhoneNumber("+12054635379"),
                         "Ciao "+booking.getUser().getName()+" "+booking.getUser().getSurname()+"! La tua prenotazione è stata confermata per il giorno "+booking.getBookingDate().getDate()+" alle ore "+booking.getBookingDate().getTime()+" presso il nostro salone LUPETTO BARBER SHOP. \n Raggiungici più facilmente cliccando al seguente link: https://maps.app.goo.gl/T99Rzcia2CgmAJLx5 \n Ti aspettiamo!")
                 .create();
