@@ -32,11 +32,16 @@ public class ProductsService {
             Hairdresser hairdresser = DatabaseHandler.getInstance().getHairdresserDao().findByEmail(email).join();
             if (hairdresser.getId_hairdresser() != null) {
                 product.setHairdresser(hairdresser);
+
+                boolean oggettoMancante = DatabaseHandler.getInstance().getProductDao().findByName(product.getName()).join() == null;
+                if(!oggettoMancante)
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Product exist\", \"errorCode\": \"PRODUCT_EXISTS\"}");
+
                 boolean res = DatabaseHandler.getInstance().getProductDao().insert(product).join();
                 if (res) {
                     return ResponseEntity.ok("{\"message\": \"Product added\"}");
                 } else {
-                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Product exist\", \"errorCode\": \"PRODUCT_EXISTS\"}");
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Product exist\", \"errorCode\": \"ERROR_INSERT\"}");
                 }
             }
             else

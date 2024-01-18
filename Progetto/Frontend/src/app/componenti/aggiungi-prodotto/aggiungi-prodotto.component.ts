@@ -62,11 +62,19 @@ export class AggiungiProdottoComponent implements OnInit {
           });
         }),
         catchError((error) => {
-          swal(`Errore nell'inserimento del prodotto`, {
-            icon: "error",
-            timer: 2000
-          });
-          return of(null);
+          if(error.error.errorCode == "PRODUCT_EXISTS") {
+            swal("Prodotto già esistente", {
+              icon: "error",
+              timer: 2000
+            });
+            return of(null);
+          }else{
+            swal(`Errore nell'inserimento del prodotto`, {
+              icon: "error",
+              timer: 2000
+            });
+            return of(null);
+          }
         })
       ).subscribe();
     }
