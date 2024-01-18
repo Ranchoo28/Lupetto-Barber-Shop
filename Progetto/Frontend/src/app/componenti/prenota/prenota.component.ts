@@ -59,7 +59,7 @@ export class PrenotaComponent implements OnInit{
 
   effettuaPrenotazione() {
     let idBookingDate = Number(this.prenotaForm.get('orario')!.value);
-    let email = this.jwtTokenHandler.getEmail(sessionStorage.getItem('token')!);
+    let email = this.jwtTokenHandler.getEmail(sessionStorage.getItem('accessToken')!);
     this.isLoading = true;
     setTimeout(() => {
       this.bookingService.insertBooking(idBookingDate, email).subscribe((response) => {
