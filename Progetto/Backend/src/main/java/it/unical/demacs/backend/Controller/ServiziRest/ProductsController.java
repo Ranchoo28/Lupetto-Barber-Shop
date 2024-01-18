@@ -14,8 +14,12 @@ public class ProductsController {
 
     private final ProductsService productsService;
 
-    @GetMapping("/api/products")
-    public ResponseEntity<?> getProducts() { return productsService.getProducts(); }
+    @GetMapping("/api/productsByName")
+    public ResponseEntity<?> getProducts(@RequestParam String name) { return productsService.getProductById(name); }
+
+    @GetMapping("/api/products/minimal")
+    public ResponseEntity<?> getProductsMinimal() { return productsService.getProducts(); }
+
 
     @PostMapping("/api/hairdresser/addProduct")
     public ResponseEntity<?> insertProduct(@RequestParam String email, @RequestBody Product product) {

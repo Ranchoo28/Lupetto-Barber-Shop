@@ -18,6 +18,4 @@ public class PaymentController {
     public ResponseEntity<?> createPaymentIntent(@RequestParam Integer amount, @RequestParam String description) {
         return stripeService.createPaymentIntent(amount, description);
     }
-
-
 }

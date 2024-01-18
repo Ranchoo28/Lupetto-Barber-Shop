@@ -1,10 +1,7 @@
 package it.unical.demacs.backend.Persistenza.Impl;
 
 import it.unical.demacs.backend.Persistenza.DAO.ProductCartDao;
-import it.unical.demacs.backend.Persistenza.Model.Cart;
-import it.unical.demacs.backend.Persistenza.Model.Product;
-import it.unical.demacs.backend.Persistenza.Model.ProductCart;
-import it.unical.demacs.backend.Persistenza.Model.User;
+import it.unical.demacs.backend.Persistenza.Model.*;
 import lombok.NonNull;
 
 import java.sql.Connection;
@@ -63,15 +60,15 @@ public class ProductCartDaoImpl implements ProductCartDao{
     }
 
     @Override
-    public CompletableFuture<ArrayList<Product>> findProductByIdCart(Long id) {
+    public CompletableFuture<ArrayList<ProductProxy>> findProductByIdCart(Long id) {
         String query = "SELECT id_product FROM products_cart WHERE id_cart = ?";
-        ArrayList<Product> products = new ArrayList<>();
+        ArrayList<ProductProxy> products = new ArrayList<>();
         try (
                 PreparedStatement st = this.con.prepareStatement(query)) {
             st.setLong(1, id);
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
-                    products.add(new Product(rs.getLong(1)));
+                    products.add(new ProductProxy(rs.getLong(1)));
                 }
             }
         } catch (SQLException e) {

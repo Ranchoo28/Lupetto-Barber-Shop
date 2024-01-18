@@ -1,7 +1,7 @@
 package it.unical.demacs.backend.Controller.ServiziRest;
 
 import it.unical.demacs.backend.Service.CartService;
-import it.unical.demacs.backend.Service.CartProduct;
+import it.unical.demacs.backend.Persistenza.Model.CartProduct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

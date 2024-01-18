@@ -14,11 +14,11 @@ import java.util.ArrayList;
 public class ProductCart {
     Long id_product_cart;
     Cart cart;
-    ArrayList<Product> product;
+    ArrayList<ProductProxy> productProxy;
 
     public ProductCart(Long id_product_cart){
         this.id_product_cart = id_product_cart;
         this.cart = DatabaseHandler.getInstance().getProductCartDao().findCartByIdProductCart(id_product_cart).join();
-        this.product = DatabaseHandler.getInstance().getProductCartDao().findProductByIdCart(cart.getId_cart()).join();
+        this.productProxy = DatabaseHandler.getInstance().getProductCartDao().findProductByIdCart(cart.getId_cart()).join();
     }
 }

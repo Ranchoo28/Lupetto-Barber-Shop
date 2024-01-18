@@ -1,7 +1,7 @@
 package it.unical.demacs.backend.Persistenza.DAO;
 
 import it.unical.demacs.backend.Persistenza.Model.Product;
-import it.unical.demacs.backend.Service.CartProduct;
+import it.unical.demacs.backend.Persistenza.Model.CartProduct;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
 

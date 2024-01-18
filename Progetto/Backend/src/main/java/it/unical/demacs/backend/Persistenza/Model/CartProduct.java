@@ -1,4 +1,4 @@
-package it.unical.demacs.backend.Service;
+package it.unical.demacs.backend.Persistenza.Model;
 
 import lombok.Getter;
 import lombok.Setter;

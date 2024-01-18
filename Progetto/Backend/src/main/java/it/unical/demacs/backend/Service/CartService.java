@@ -2,7 +2,7 @@ package it.unical.demacs.backend.Service;
 
 import it.unical.demacs.backend.Persistenza.DatabaseHandler;
 import it.unical.demacs.backend.Persistenza.Model.Cart;
-import org.checkerframework.checker.units.qual.C;
+import it.unical.demacs.backend.Persistenza.Model.CartProduct;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 

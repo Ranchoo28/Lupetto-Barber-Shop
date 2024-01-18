@@ -3,7 +3,6 @@ package it.unical.demacs.backend.Persistenza.Impl;
 import it.unical.demacs.backend.Persistenza.DAO.CartDao;
 import it.unical.demacs.backend.Persistenza.Model.Cart;
 import it.unical.demacs.backend.Persistenza.Model.User;
-import it.unical.demacs.backend.Service.CartProduct;
 import org.springframework.scheduling.annotation.Async;
 
 import java.sql.Connection;
