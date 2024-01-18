@@ -24,7 +24,7 @@ const routes: Routes = [
   { path: 'contatti', component: ContattiComponent },
   { path: 'prodotti', component: ProdottiComponent },
   { path: 'prenota', component: PrenotaComponent, canActivate: [UserGuard]},
-  { path: 'prenotazioni', component: PrenotazioniComponent, canActivate: [UserGuard, HairdresserGuard]},
+  { path: 'prenotazioni', component: PrenotazioniComponent, canActivate: [AuthGuard]},
   { path: 'aggiungi-prodotto', component: AggiungiProdottoComponent, canActivate: [HairdresserGuard]},
   { path: 'login', component: LoginComponent, canActivate: [UnAuthGuard] },
   { path: 'registrazione', component: RegistrazioneComponent, canActivate: [UnAuthGuard]  },

@@ -18,6 +18,10 @@ export class PrenotaComponent implements OnInit{
   bookingDates: any[] = [];
   idService!: number;
 
+  sessoSelected = false;
+  servizioSelected = false;
+  dataSelected = false;
+
   sessoCheck = new FormControl('', [
     Validators.required
   ]);
@@ -34,21 +38,27 @@ export class PrenotaComponent implements OnInit{
   prenotaForm!: FormGroup;
   isLoading = false;
 
-  constructor(private bookingService: BookingService, private serviceService: ServiceService,private bookingDateService: BookingDateService, private tokenService: JwttokenhandlerService) {
+  constructor(private bookingService: BookingService,
+              private serviceService: ServiceService,
+              private bookingDateService: BookingDateService) {
   }
 
   ngOnInit(): void {
     this.prenotaForm = new FormGroup({
-      sessoCheck: this.sessoCheck,
+      sesso: this.sessoCheck,
       servizio: this.servizioCheck,
       data: this.dataCheck,
       orario: this.orarioCheck,
     });
+
+    this.prenotaForm.get('servizio')!.disable();
+    this.prenotaForm.get('data')!.disable();
+    this.prenotaForm.get('orario')!.disable();
   }
 
   effettuaPrenotazione() {
     let idBookingDate = Number(this.prenotaForm.get('orario')!.value);
-    let email = this.tokenService.getEmailFromToken()!;
+    let email = sessionStorage.getItem('email')!;
     this.isLoading = true;
     setTimeout(() => {
       this.bookingService.insertBooking(idBookingDate, email).subscribe((response) => {
@@ -70,10 +80,17 @@ export class PrenotaComponent implements OnInit{
   };
 
   changeSesso($event: MatSelectChange) {
+
+    this.prenotaForm.get('servizio')!.enable();
+    this.prenotaForm.get('data')!.disable();
+    this.prenotaForm.get('orario')!.disable();
+
     let sesso = $event.value;
+
     this.prenotaForm.get('servizio')!.setValue('');
     this.prenotaForm.get('data')!.setValue('');
     this.prenotaForm.get('orario')!.setValue('');
+
     this.serviceService.getServiceBySex(sesso!).subscribe((response) => {
       this.servizi = response.map((service: any) => {
         return {
@@ -85,7 +102,14 @@ export class PrenotaComponent implements OnInit{
   }
 
   changeServizio($event: MatSelectChange) {
+
+    this.prenotaForm.get('data')!.enable();
+    this.prenotaForm.get('orario')!.disable();
+
     let idService = Number($event.value);
+
+    this.servizioSelected = true;
+
     this.prenotaForm.get('data')!.setValue('');
     this.prenotaForm.get('orario')!.setValue('');
     this.bookingDateService.getBookingDateByService(idService).subscribe((response) => {
@@ -98,7 +122,12 @@ export class PrenotaComponent implements OnInit{
   }
 
   changeDate($event: MatDatepickerInputEvent<any, any>) {
+    this.prenotaForm.get('orario')!.enable();
+
     this.prenotaForm.get('orario')!.setValue('');
+
+    this.dataSelected = true;
+
     const localDate = new Date($event.value!);
     const offset = localDate.getTimezoneOffset();
     localDate.setMinutes(localDate.getMinutes() - offset);

@@ -8,6 +8,7 @@ import it.unical.demacs.backend.Persistenza.Model.User;
 import it.unical.demacs.backend.Service.Response.UserBookingResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,12 @@ import java.util.ArrayList;
 @Service
 public class HandleBookingService {
 
+    void outputJSON(HttpServletResponse response, String message, String error) throws IOException {
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(" {\"message\": \""+message+"\", \"errorCode\": \""+error+"\"}");
+    }
+
     public void insertBooking(HttpServletRequest request, HttpServletResponse response) {
         try {
             DatabaseHandler.getInstance().openConnection();
@@ -27,7 +34,7 @@ public class HandleBookingService {
             if(!bookingDate.getIsValid())
             {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.getWriter().write("Invalid booking date ID provided");
+                outputJSON(response, "Invalid booking date ID provided", "ERROR");
                 return;
             }
             User user = DatabaseHandler.getInstance().getUserDao().findByEmail(email).join();
@@ -39,16 +46,16 @@ public class HandleBookingService {
                     if(res)
                     {
                         response.setStatus(HttpServletResponse.SC_OK);
-                        response.getWriter().write("Successful insert of the booking");
+                        outputJSON(response, "Successful insert of the booking", "OK");
                     }
                     else
                     {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                        response.getWriter().write("Insert failed");
+                        outputJSON(response, "Insert failed", "ERROR");
                     }
                 } else {
                     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                    response.getWriter().write("Insert failed");
+                    outputJSON(response, "Insert failed", "ERROR");
                 }
             } catch (NumberFormatException | IOException e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -66,6 +73,7 @@ public class HandleBookingService {
         Booking b= new Booking(Long.parseLong(request.getParameter("idBooking")));
         System.out.println("idBooking " + b.getIdBooking());
         String email=request.getParameter("email");
+
         if (b.getUser().getEmail().equals(email)) {
             try {
                 Long idBookingDate = DatabaseHandler.getInstance().getBookingDateDao().findByBookingId(b.getIdBooking()).join();
@@ -76,23 +84,23 @@ public class HandleBookingService {
                     res= DatabaseHandler.getInstance().getBookingDao().delete(b.getIdBooking()).join();
                     if(res){
                         response.setStatus(HttpServletResponse.SC_OK);
-                        response.getWriter().write("Successful deletion of the booking");
+                        outputJSON(response, "Successful deletion of the booking", "OK");
                     }
                     else
                     {
                         response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                        response.getWriter().write("Deletion failed");
+                        outputJSON(response, "Deletion failed", "ERROR");
                     }
                 } else {
                     response.setStatus(HttpServletResponse.SC_NOT_FOUND);
-                    response.getWriter().write("Deletion failed");
+                    outputJSON(response, "Deletion failed", "ERROR");
                 }
             } catch (NumberFormatException e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().write("Invalid booking ID provided");
+            outputJSON(response, "Invalid booking ID provided", "ERROR");
         }
         }finally {
             DatabaseHandler.getInstance().closeConnection();

@@ -6,6 +6,8 @@ import {BookingService} from "../../services/booking.service";
 import {BookingDateService} from "../../services/booking-data.service";
 import {JwttokenhandlerService} from "../../services/jwttokenhandler.service";
 import swal from "sweetalert";
+import {Session} from "node:inspector";
+import {getMatIconFailedToSanitizeLiteralError} from "@angular/material/icon";
 
 @Component({
   selector: 'app-prenotazioni',
@@ -13,16 +15,17 @@ import swal from "sweetalert";
   styleUrls: ['./prenotazioni.component.css']
 })
 export class PrenotazioniComponent implements OnInit {
+
   dataRicerca!: string;
-  role: string = this.tokenService.getRoleFromToken()!;
-  email: string = this.tokenService.getEmailFromToken()!;
+  role: string = sessionStorage.getItem('role')!
+  email: string = sessionStorage.getItem('email')!;
   dataSource!: MatTableDataSource<any>;
   displayedColumns: string[] = this.role === 'HAIRDRESSER' ? ['select', 'Servizio', 'Data', 'Orario', 'idBooking', 'user_surname','user_name', 'tel_number'] : ['select', 'Servizio', 'Data', 'Orario', 'idBooking'];
   selection = new SelectionModel<any>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   isLoading = false;
 
-  constructor(private bookingService: BookingService,private tokenService: JwttokenhandlerService) { }
+  constructor(private bookingService: BookingService) { }
 
   ngOnInit(): void {
     if(this.role=="USER"){
@@ -95,6 +98,14 @@ export class PrenotazioniComponent implements OnInit {
 
   visualizzaPrenotazioniHairDbyDate() {
       // Se non è stata selezionata nessuna data, mostra un messaggio di errore e interrompi l'esecuzione del metodo
+
+
+    const localDate = new Date(this.dataRicerca);
+    const offset = localDate.getTimezoneOffset();
+    localDate.setMinutes(localDate.getMinutes() - offset);
+    const localIsoString = localDate.toISOString().split('T')[0];
+
+
       if (!this.dataRicerca) {
         swal('Errore: Nessuna data selezionata', {
           icon: "error",
@@ -104,7 +115,7 @@ export class PrenotazioniComponent implements OnInit {
       }
       this.isLoading = true;
       setTimeout(() => {
-        this.bookingService.getBookingsByDate(this.email, this.dataRicerca).subscribe((data) => {
+        this.bookingService.getBookingsByDate(this.email, localIsoString).subscribe((data) => {
           this.isLoading = false;
           if (data.length === 0) {
             swal(`Errore: Nessuna prenotazione trovata`, {

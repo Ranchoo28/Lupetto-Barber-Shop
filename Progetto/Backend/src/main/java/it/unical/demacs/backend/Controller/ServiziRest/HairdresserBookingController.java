@@ -22,8 +22,6 @@ public class HairdresserBookingController {
 
     @GetMapping("/api/hairdresser/bookings/getByDate")
     public ResponseEntity<?> getBookingsByDate(@RequestParam String email, @RequestParam String date){
-        System.out.println("date: " + date);
-        System.out.println("date: " + LocalDate.parse(date));
         return handleBookingService.getBookingByDate(email, LocalDate.parse(date));
     }
 }
