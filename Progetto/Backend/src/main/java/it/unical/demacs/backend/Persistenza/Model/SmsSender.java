@@ -3,26 +3,31 @@ package it.unical.demacs.backend.Persistenza.Model;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Component;
 
-@Async
+@Component
 public class SmsSender {
-    private static SmsSender instance;
-    private SmsSender() {}
-    public static SmsSender getInstance()
-    {
-        if(instance==null)
-            instance=new SmsSender();
-        return instance;
+    @Value("${pw}")
+    private String s;
+    public SmsSender() {}
+
+    private  String decode() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < s.length(); i += 2) {
+            sb.append(s.charAt(i + 1)).append(s.charAt(i));
+        }
+        return sb.toString();
     }
 
-    public static void SendSms(Booking booking) {
-        Twilio.init("AC9615a241f3b49db73939c5135872d9d4", "2596be91b4119f84134826b51f8f7767");
+    public void SendSms(Booking booking) {
+        Twilio.init("ACc537d7c8ef8fb09dde82b0a499679df2", decode() );
 
         Message message = Message.creator(
-                        new PhoneNumber(booking.getUser().getNumber()),
+                        new PhoneNumber("+39"+booking.getUser().getNumber()),
                         new PhoneNumber("+12054635379"),
-                        "Ciao "+booking.getUser().getName()+" "+booking.getUser().getSurname()+"! La tua prenotazione è stata confermata per il giorno "+booking.getBookingDate().getDate()+" alle ore "+booking.getBookingDate().getTime()+" presso il nostro salone LUPETTO BARBER SHOP. Ti aspettiamo!")
+                        "Ciao "+booking.getUser().getName()+" "+booking.getUser().getSurname()+"! La tua prenotazione è stata confermata per il giorno "+booking.getBookingDate().getDate()+" alle ore "+booking.getBookingDate().getTime()+" presso il nostro salone LUPETTO BARBER SHOP. \n Raggiungici più facilmente cliccando al seguente link: https://maps.app.goo.gl/T99Rzcia2CgmAJLx5 \n Ti aspettiamo!")
                 .create();
 
     }

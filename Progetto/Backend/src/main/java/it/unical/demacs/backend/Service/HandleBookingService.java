@@ -1,13 +1,11 @@
 package it.unical.demacs.backend.Service;
 
 import it.unical.demacs.backend.Persistenza.DatabaseHandler;
-import it.unical.demacs.backend.Persistenza.Model.Booking;
-import it.unical.demacs.backend.Persistenza.Model.BookingDate;
-import it.unical.demacs.backend.Persistenza.Model.Hairdresser;
-import it.unical.demacs.backend.Persistenza.Model.User;
+import it.unical.demacs.backend.Persistenza.Model.*;
 import it.unical.demacs.backend.Service.Response.UserBookingResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -18,6 +16,13 @@ import java.util.ArrayList;
 
 @Service
 public class HandleBookingService {
+
+    private final SmsSender smsSender;
+
+    @Autowired
+    public HandleBookingService(SmsSender smsSender) {
+        this.smsSender = smsSender;
+    }
 
     void outputJSON(HttpServletResponse response, String message, String error) throws IOException {
         response.setContentType("application/json");
@@ -45,6 +50,7 @@ public class HandleBookingService {
                     res=DatabaseHandler.getInstance().getBookingDao().insert(booking).join();
                     if(res)
                     {
+                        //smsSender.SendSms(booking);
                         response.setStatus(HttpServletResponse.SC_OK);
                         outputJSON(response, "Successful insert of the booking", "OK");
                     }
