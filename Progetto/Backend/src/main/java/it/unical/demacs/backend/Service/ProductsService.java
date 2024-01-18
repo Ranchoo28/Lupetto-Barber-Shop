@@ -3,13 +3,11 @@ package it.unical.demacs.backend.Service;
 import it.unical.demacs.backend.Persistenza.DatabaseHandler;
 import it.unical.demacs.backend.Persistenza.Model.Hairdresser;
 import it.unical.demacs.backend.Persistenza.Model.Product;
-import it.unical.demacs.backend.Persistenza.Model.ProductProxy;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 public class ProductsService {
@@ -38,7 +36,7 @@ public class ProductsService {
                 if (res) {
                     return ResponseEntity.ok("{\"message\": \"Product added\"}");
                 } else {
-                    return ResponseEntity.badRequest().body("{\"message\": \"Insert failed\"}");
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Product exist\", \"errorCode\": \"PRODUCT_EXISTS\"}");
                 }
             }
             else
@@ -86,6 +84,7 @@ public class ProductsService {
         }
     }
 
+    /*
     public ResponseEntity<?> getAllProductProxies() {
         try {
             DatabaseHandler.getInstance().openConnection();
@@ -104,5 +103,7 @@ public class ProductsService {
             DatabaseHandler.getInstance().closeConnection();
         }
     }
+
+     */
 
 }

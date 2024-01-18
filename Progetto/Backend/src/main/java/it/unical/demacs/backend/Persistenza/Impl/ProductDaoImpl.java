@@ -3,7 +3,6 @@ package it.unical.demacs.backend.Persistenza.Impl;
 import it.unical.demacs.backend.Persistenza.DAO.ProductDao;
 import it.unical.demacs.backend.Persistenza.Model.Hairdresser;
 import it.unical.demacs.backend.Persistenza.Model.Product;
-import it.unical.demacs.backend.Persistenza.Model.ProductProxy;
 import it.unical.demacs.backend.Persistenza.Model.CartProduct;
 import java.sql.*;
 import java.util.ArrayList;
@@ -155,7 +154,7 @@ public class ProductDaoImpl implements ProductDao {
             st.setLong(1, id);
             try (ResultSet rs = st.executeQuery()) {
                 while (rs.next()) {
-                    ProductProxy product = new ProductProxy(rs.getLong(1));
+                    Product product = new Product(rs.getLong(1));
                     CartProduct response = new CartProduct();
                     response.setIdProduct(product.getIdProduct());
                     response.setName(product.getName());

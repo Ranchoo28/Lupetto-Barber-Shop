@@ -11,7 +11,7 @@ import java.awt.dnd.DropTarget;
 @NoArgsConstructor
 @EqualsAndHashCode
 
-public class Product implements ProductInterface {
+public class Product {
     private Long idProduct;
     private String name;
     private String description;
