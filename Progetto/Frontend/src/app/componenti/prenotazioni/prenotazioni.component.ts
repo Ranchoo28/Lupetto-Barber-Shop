@@ -6,9 +6,7 @@ import {BookingService} from "../../services/booking.service";
 import {BookingDateService} from "../../services/booking-data.service";
 import {JwttokenhandlerService} from "../../services/jwttokenhandler.service";
 import swal from "sweetalert";
-import {Session} from "node:inspector";
-import {getMatIconFailedToSanitizeLiteralError} from "@angular/material/icon";
-import {jwtDecode} from "jwt-decode";
+
 
 @Component({
   selector: 'app-prenotazioni',
@@ -25,12 +23,17 @@ export class PrenotazioniComponent implements OnInit {
   selection = new SelectionModel<any>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   isLoading = false;
+  isOneSelected = false;
+
 
   constructor(private bookingService: BookingService, private jtwtoken:JwttokenhandlerService) { }
 
   ngOnInit(): void {
     if(this.role=="USER"){
       this.visualizzaPrenotazioni();
+      this.selection.changed.subscribe(() => {
+        this.isOneSelected = this.selection.selected.length > 0;
+      });
     }
   }
 
