@@ -30,4 +30,9 @@ public class ProductsController {
     public ResponseEntity<?> deleteProduct(@RequestParam String email, @RequestParam Long id_product) {
         return productsService.deleteProduct(email, id_product);
     }
+
+    @GetMapping("/api/hairdresser/productProxy")
+    public ResponseEntity<?> getProductProxy(@RequestParam Long id_product) {
+       return productsService.getProductProxy(id_product);
+    }
 }

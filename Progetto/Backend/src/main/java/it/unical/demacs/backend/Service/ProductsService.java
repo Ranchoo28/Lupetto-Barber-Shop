@@ -1,6 +1,7 @@
 package it.unical.demacs.backend.Service;
 
 import it.unical.demacs.backend.Persistenza.DatabaseHandler;
+import it.unical.demacs.backend.Persistenza.Impl.ProductProxy;
 import it.unical.demacs.backend.Persistenza.Model.Hairdresser;
 import it.unical.demacs.backend.Persistenza.Model.Product;
 import org.springframework.http.HttpStatus;
@@ -88,6 +89,23 @@ public class ProductsService {
         finally {
             DatabaseHandler.getInstance().closeConnection();
         }
+    }
+
+    public ResponseEntity<?> getProductProxy(Long idProduct) {
+        try {
+            DatabaseHandler.getInstance().openConnection();
+            ProductProxy product = (ProductProxy) DatabaseHandler.getInstance().getProductDao().findByPrimaryKey(idProduct).join();
+            if (product.getIdProduct() == null) {
+                return ResponseEntity.badRequest().body("{\"message\": \"NOT_FOUND\"}");
+            } else {
+                return ResponseEntity.ok("{\"description\": \""+ product.getDescription() + "\"}");
+            }
+        }
+        finally {
+            DatabaseHandler.getInstance().closeConnection();
+        }
+
+
     }
 
     /*

@@ -123,7 +123,6 @@ public class UserDaoImpl implements UserDao {
             st.setString(3, user.getName());
             st.setString(4, user.getSurname());
             st.setString(5, user.getNumber());
-            System.out.println(st);
             int rowsAffected = st.executeUpdate();
             st.close();
 
