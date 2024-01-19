@@ -181,8 +181,7 @@ public class HandleBookingService {
         }
     }
 
-    public ResponseEntity<?> getBooking(String email)
-    {
+    public ResponseEntity<?> getBooking(String email) {
         try {
             DatabaseHandler.getInstance().openConnection();
             User user = DatabaseHandler.getInstance().getUserDao().findByEmail(email).join();

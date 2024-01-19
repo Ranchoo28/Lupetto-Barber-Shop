@@ -91,7 +91,7 @@ public class UserDaoImpl implements UserDao {
     {
         ArrayList<UserBookingResponse> bookings = new ArrayList<>();
         String query =
-                "SELECT s.name, bd.data, bd.ora, b.id_booking " +
+                "SELECT s.name, bd.data, bd.ora, b.id_booking, b.intent" +
                 "FROM bookings as b, bookingsdate as bd, services as s " +
                 "WHERE b.id_user = ? and b.id_bookingdate = bd.id_bookingdate and bd.id_service = s.id_service";
         try {
@@ -104,6 +104,7 @@ public class UserDaoImpl implements UserDao {
                 userBookingResponse.setDate(rs.getDate(2).toLocalDate());
                 userBookingResponse.setTime(rs.getTime(3));
                 userBookingResponse.setId_booking(rs.getLong(4));
+                userBookingResponse.setIntent(rs.getString(5));
                 bookings.add(userBookingResponse);
             }
         } catch (SQLException e) {
@@ -170,5 +171,22 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException ignored) {}
 
         return CompletableFuture.completedFuture(false);
+    }
+
+    @Override
+    @Async
+    public CompletableFuture<Long> getUserIdByIdPurchase(Long id_purchase) {
+        String query = "SELECT id_user FROM purchases WHERE id_purchase = ?";
+        try {
+            PreparedStatement st = this.con.prepareStatement(query);
+            st.setLong(1, id_purchase);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+              return CompletableFuture.completedFuture(rs.getLong(1));
+            }
+        } catch (SQLException e) {
+            e.fillInStackTrace();
+        }
+        return CompletableFuture.completedFuture(null);
     }
 }

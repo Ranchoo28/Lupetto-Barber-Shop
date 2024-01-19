@@ -20,4 +20,5 @@ public class UserBookingResponse {
     LocalDate date;
     Time time;
     Long id_booking;
+    String intent;
 }
