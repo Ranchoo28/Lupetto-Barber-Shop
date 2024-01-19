@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthenticationService } from "../../services/authentication.service";
 import swal from "sweetalert";
 import {JwttokenhandlerService} from "../../services/jwttokenhandler.service";
+import {CartService} from "../../services/cart.service";
 
 @Component({
   selector: 'app-navbar',
@@ -14,7 +15,12 @@ export class NavbarComponent {
 
 
 
-  constructor(protected authService: AuthenticationService) {
+  constructor(protected authService: AuthenticationService,
+              private cartService: CartService) {
+  }
+
+  chiudiCarrello() {
+    this.cartService.visible = false;
   }
 
   logout() {

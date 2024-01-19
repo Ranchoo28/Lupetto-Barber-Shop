@@ -22,6 +22,9 @@ export class CartService {
   }
 
   addToCart(product: any) {
+
+    // invia al
+
     if (this.items.has(product.idProduct)) {
       this.items.get(product.idProduct)!.quantity++;
     } else {
