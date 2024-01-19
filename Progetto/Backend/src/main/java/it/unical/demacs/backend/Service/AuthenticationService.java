@@ -1,5 +1,6 @@
 package it.unical.demacs.backend.Service;
 
+import it.unical.demacs.backend.EmailSender.EmailService;
 import it.unical.demacs.backend.Persistenza.DAO.HairdresserDao;
 import it.unical.demacs.backend.Persistenza.DAO.UserDao;
 import it.unical.demacs.backend.Persistenza.DatabaseHandler;
@@ -15,13 +16,18 @@ import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 @Service
+
 public class AuthenticationService {
 
     private final JwtService jwtService;
+    private final EmailService emailService;
+
     @Autowired
-    public AuthenticationService(JwtService jwtService) {
+    public AuthenticationService(JwtService jwtService, EmailService emailService) {
         this.jwtService = jwtService;
+        this.emailService = emailService;
     }
+
 
     public ResponseEntity<?> authenticate(AuthenticationRequest request) {
         try {
@@ -62,7 +68,13 @@ public class AuthenticationService {
                     hairdresserDao.findByEmail(user.getEmail()).join().getEmail() != null) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"message\": \"A person with this email already exists\", \"errorCode\": \"EMAIL_CONFLICT\"}");
             }
+
             utenteDao.insert(user);
+            emailService.sendEmail(
+                    user.getEmail(),
+                    "Benvenuto in Lupetto Barber Shop" ,
+                    "Complimenti, " + user.getName() + " ti sei registrato con successo!"
+            );
             return ResponseEntity.ok().body("{\"message\": \"User registered successfully\"}");
         }
         finally {

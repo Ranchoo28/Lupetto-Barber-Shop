@@ -21,10 +21,10 @@ public class ProductDaoImpl implements ProductDao {
                 Statement st = this.con.createStatement();
                 ResultSet rs = st.executeQuery(query)) {
             while (rs.next()) {
-                Product product=new Product();
+                Product product = new ProductProxy(con);
                 product.setIdProduct(rs.getLong(1));
                 product.setName(rs.getString(2));
-                product.setDescription(rs.getString(3));
+                //product.setDescription(rs.getString(3));
                 product.setCategory(rs.getString(4));
                 product.setPrice(rs.getDouble(5));
                 product.setImage(rs.getString(6));
@@ -40,7 +40,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public CompletableFuture<Product> findByPrimaryKey(Long id) {
-        Product product=new Product();
+        Product product=new ProductProxy(con);
         String query = "SELECT * FROM products WHERE id_product = ?";
         try (
                 PreparedStatement st = this.con.prepareStatement(query)) {
@@ -49,7 +49,7 @@ public class ProductDaoImpl implements ProductDao {
                 if (rs.next()) {
                     product.setIdProduct(rs.getLong(1));
                     product.setName(rs.getString(2));
-                    product.setDescription(rs.getString(3));
+                    //product.setDescription(rs.getString(3));
                     product.setCategory(rs.getString(4));
                     product.setPrice(rs.getDouble(5));
                     product.setImage(rs.getString(6));
@@ -64,7 +64,7 @@ public class ProductDaoImpl implements ProductDao {
 
     @Override
     public CompletableFuture<Product> findByName(String name) {
-        Product product=new Product();
+        Product product=new ProductProxy(con);
         String query = "SELECT * FROM products WHERE name = ?";
         try (
                 PreparedStatement st = this.con.prepareStatement(query)) {
@@ -73,7 +73,7 @@ public class ProductDaoImpl implements ProductDao {
                 if (rs.next()) {
                     product.setIdProduct(rs.getLong(1));
                     product.setName(rs.getString(2));
-                    product.setDescription(rs.getString(3));
+                    //product.setDescription(rs.getString(3));
                     product.setCategory(rs.getString(4));
                     product.setPrice(rs.getDouble(5));
                     product.setImage(rs.getString(6));
