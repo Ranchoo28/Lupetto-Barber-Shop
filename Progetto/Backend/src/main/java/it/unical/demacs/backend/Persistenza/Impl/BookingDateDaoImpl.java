@@ -66,7 +66,7 @@ public class BookingDateDaoImpl implements BookingDateDao {
     @Async
     public CompletableFuture<ArrayList<BookingDate>> findByService(Long id) {
         ArrayList<BookingDate> bookingList = new ArrayList<>();
-        String query = "SELECT * FROM bookingsdate WHERE id_service = ?  and isvalid = true";
+        String query = "SELECT * FROM bookingsdate WHERE id_service = ?  and isvalid = true and data >= current_date";
         try (
                 PreparedStatement st = this.con.prepareStatement(query)) {
             st.setLong(1, id);

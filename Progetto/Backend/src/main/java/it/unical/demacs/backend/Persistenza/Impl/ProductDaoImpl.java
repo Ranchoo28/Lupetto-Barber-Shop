@@ -4,6 +4,8 @@ import it.unical.demacs.backend.Persistenza.DAO.ProductDao;
 import it.unical.demacs.backend.Persistenza.Model.Hairdresser;
 import it.unical.demacs.backend.Persistenza.Model.Product;
 import it.unical.demacs.backend.Persistenza.Model.CartProduct;
+import org.springframework.scheduling.annotation.Async;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.concurrent.CompletableFuture;
@@ -14,6 +16,7 @@ public class ProductDaoImpl implements ProductDao {
     public ProductDaoImpl(Connection con) { this.con = con; }
 
     @Override
+    @Async
     public CompletableFuture<ArrayList<Product>> findAll() {
         ArrayList<Product> productsList = new ArrayList<>();
         String query = "SELECT * FROM products";
@@ -38,6 +41,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    @Async
     public CompletableFuture<Product> findByPrimaryKey(Long id) {
         Product product=new ProductProxy(con);
         String query = "SELECT * FROM products WHERE id_product = ?";
@@ -61,6 +65,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    @Async
     public CompletableFuture<Product> findByName(String name) {
         Product product=new ProductProxy(con);
         String query = "SELECT * FROM products WHERE name = ?";
@@ -84,6 +89,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    @Async
     public CompletableFuture<Boolean> insert(Product product) {
         String query = "INSERT INTO products (name, description, category, price, image, id_hairdresser) VALUES ( ?, ?, ?, ?, ?, ?)";
         try {
@@ -105,6 +111,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    @Async
     public CompletableFuture<Boolean> update(Product product) {
         String query = "UPDATE products SET name=?, description=?, category=?, price=?, image=?, id_hairdresser=? WHERE id_product=?";
         try {
@@ -127,6 +134,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    @Async
     public CompletableFuture<Boolean> delete(Long id) {
         String query = "DELETE FROM products WHERE id_product = ?";
         try {
@@ -143,6 +151,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     @Override
+    @Async
     public CompletableFuture<ArrayList<CartProduct>> findAllByCartId(Long id) {
         String query = "SELECT id_product, quantity FROM products_cart WHERE id_cart = ?";
         ArrayList<CartProduct> products = new ArrayList<>();
