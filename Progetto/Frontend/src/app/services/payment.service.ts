@@ -1,5 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -9,10 +10,15 @@ export class PaymentService {
 
   constructor(private http: HttpClient) {}
 
-  createPaymentIntent(amount: number, description: string): Promise<any> {
+  creaIntentPagamento(amount: number, description: string): Promise<any> {
     const params = new HttpParams()
       .set('amount', amount.toString())
       .set('description', description);
-    return this.http.get(`${this.baseUrl}/create`, { params }).toPromise();
+    return firstValueFrom(this.http.get(`${this.baseUrl}/create`, { params }));
   }
+
+
+
+
+
 }

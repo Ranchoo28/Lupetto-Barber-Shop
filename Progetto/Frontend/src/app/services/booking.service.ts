@@ -32,8 +32,10 @@ export class BookingService {
     this.email = email;
   }
 
-  insertFromPayment(): Observable<any> {
-    return this.http.post(`${this.baseUrl}/api/booking/insert`, null, {
+  insertFromPayment(intent: string): Observable<any> {
+    const body = { intent: "intent"};
+
+    return this.http.post(`${this.baseUrl}/api/booking/insert`, body, {
       params: {
         email: this.email,
         idBookingDate: this.bookingDate.toString()

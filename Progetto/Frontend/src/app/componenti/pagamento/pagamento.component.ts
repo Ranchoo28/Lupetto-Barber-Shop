@@ -44,7 +44,7 @@ export class PagamentoComponent implements OnInit {
     }
 
     // Assicurati che il valore restituito sia una stringa
-    let paymentIntentId = await this.paymentService.createPaymentIntent(this.cartService.getTotalPrice(),`Acquisto di ${this.cartService.getNumberOfItems()} prodotti`)
+    let paymentIntentId = await this.paymentService.creaIntentPagamento(this.cartService.getTotalPrice(),`Acquisto di ${this.cartService.getNumberOfItems()} prodotti`)
       .then(data => data.intent)
       .catch(error => {
         console.log(error);
@@ -84,7 +84,7 @@ export class PagamentoComponent implements OnInit {
     }
 
     // Assicurati che il valore restituito sia una stringa
-    let paymentIntentId = await this.paymentService.createPaymentIntent(1000, 'Esempio di descrizione')
+    let paymentIntentId = await this.paymentService.creaIntentPagamento(1000, 'Esempio di descrizione')
       .then(data => data.intent)
       .catch(error => {
         return '';
@@ -104,9 +104,11 @@ export class PagamentoComponent implements OnInit {
       }
     } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
 
-      this.bookingService.insertFromPayment().subscribe(data => {
+      this.bookingService.insertFromPayment(paymentIntentId).subscribe(data => {
 
         this.bookingService.pagamentoInCorso = false;
+
+
 
         swal({
           title: 'Prenotazione effettuata e pagamento completato con successo',
