@@ -68,13 +68,24 @@ public class AuthenticationService {
                     hairdresserDao.findByEmail(user.getEmail()).join().getEmail() != null) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"message\": \"A person with this email already exists\", \"errorCode\": \"EMAIL_CONFLICT\"}");
             }
-            String htmlBody = "<html><h3 style=\"color:Blue\">Ciao " + user.getName() + ", benvenuto in Lupetto Barber Shop!</h3>" +
-                    "<br>Grazie per esserti registrato :)<br>Adesso puoi iniziare a usufruire di tutti i vantaggi da noi offerti!<br>" +
-                    "Puoi prenotare un appuntamento, acquistare i tuoi prodotti preferiti e tanto altro ancora!<br>" +
-                    "Ti aspettiamo in negozio (e online)!!!<br><br>" +
-                    "<h5 style=\"color:White; background-color:Blue; text-align:center\">Il team Lupetto Barber Shop</h5><br>" +
-                    "<footer><small>©2024 Lupetto-Barber-Shop. Designed by team Lupetto</small>\n" +
-                    "</footer></html>";
+            String htmlBody = "<html><head>"
+                    + "<style>"
+                    + ".bodyStyle {font-family: Arial, sans-serif; background-color: #f4f4f4; color: #333333; margin: 0; padding: 0;}"
+                    + ".container {width: 100%; max-width: 600px; margin: 20px auto; background-color: #ffffff; padding: 20px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);}"
+                    + ".header {background-color: #007bff; color: #ffffff; padding: 20px; text-align: center; border-radius: 5px 5px 0 0;}"
+                    + ".textCenter {padding: 15px; text-align: center; font-size: 16px;}"
+                    + ".footer {text-align: center; padding: 20px; background-color: #f0f0f0; color: #333; font-size: 14px; border-radius: 0 0 5px 5px;}"
+                    + "</style>"
+                    + "</head><body class=\"bodyStyle\">"
+                    + "<div class=\"container\">"
+                    + "<div class=\"header\">"
+                    + "<h1 style=\"margin: 0; font-size: 24px;\">Lupetto Barber Shop <br> Ciao "+user.getName()+", finalmente fai parte del nostro branco!</h1>"
+                    + "</div>"
+                    + "<div class=\"textCenter\">Adesso puoi iniziare a usufruire di tutti i vantaggi da noi offerti!</div>"
+                    + "<div class=\"textCenter\">Puoi prenotare un appuntamento, acquistare i tuoi prodotti preferiti e tanto altro ancora!</div>"
+                    + "<div class=\"textCenter\">Ti aspettiamo in negozio (e online)!!!</div>"
+                    + "<div class=\"footer\">©2024 Lupetto-Barber-Shop. Designed by team Lupetto</div>"
+                    + "</div></body></html>";
 
             utenteDao.insert(user);
             emailService.sendEmail(

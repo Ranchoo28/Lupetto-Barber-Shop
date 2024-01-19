@@ -32,7 +32,7 @@ public class EmailHandler {
             // Creazione e invio del messaggio MIME (per HTML)
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
-            helper.setFrom("projectuid28@gmail.com");
+            helper.setFrom("lupettobarbershop@gmail.com");
             helper.setTo(toEmail);
             helper.setSubject(subject);
             helper.setText(body, true); // true per indicare che il corpo è HTML
