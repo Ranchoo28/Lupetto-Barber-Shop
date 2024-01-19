@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.Date;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:4200")
 @RequiredArgsConstructor
 public class BookingsDateController {
     private final HandleBookingDateService handleBookingDateService;

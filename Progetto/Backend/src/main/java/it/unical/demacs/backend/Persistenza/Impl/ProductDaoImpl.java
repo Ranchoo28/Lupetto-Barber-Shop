@@ -24,7 +24,6 @@ public class ProductDaoImpl implements ProductDao {
                 Product product = new ProductProxy(con);
                 product.setIdProduct(rs.getLong(1));
                 product.setName(rs.getString(2));
-                //product.setDescription(rs.getString(3));
                 product.setCategory(rs.getString(4));
                 product.setPrice(rs.getDouble(5));
                 product.setImage(rs.getString(6));
@@ -49,7 +48,6 @@ public class ProductDaoImpl implements ProductDao {
                 if (rs.next()) {
                     product.setIdProduct(rs.getLong(1));
                     product.setName(rs.getString(2));
-                    //product.setDescription(rs.getString(3));
                     product.setCategory(rs.getString(4));
                     product.setPrice(rs.getDouble(5));
                     product.setImage(rs.getString(6));
@@ -73,7 +71,6 @@ public class ProductDaoImpl implements ProductDao {
                 if (rs.next()) {
                     product.setIdProduct(rs.getLong(1));
                     product.setName(rs.getString(2));
-                    //product.setDescription(rs.getString(3));
                     product.setCategory(rs.getString(4));
                     product.setPrice(rs.getDouble(5));
                     product.setImage(rs.getString(6));

@@ -63,11 +63,12 @@ public class BookingDaoImpl implements BookingDao {
     @Override
     @Async
     public CompletableFuture<Boolean> insert(Booking booking) {
-        String query = "INSERT INTO bookings ( id_user, id_bookingdate) VALUES (?, ?)";
+        String query = "INSERT INTO bookings (id_user, id_bookingdate,payment_intent) VALUES (?,?,?)";
         try {
             PreparedStatement st = this.con.prepareStatement(query);
             st.setLong(1, booking.getUser().getIdUser());
             st.setLong(2, booking.getBookingDate().getIdBookingDate());
+            st.setString(3, booking.getPayment_intent());
             int rowsAffected = st.executeUpdate();
             st.close();
 

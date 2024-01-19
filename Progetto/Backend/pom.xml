@@ -53,6 +53,11 @@
             <artifactId>spring-security-web</artifactId>
             <version>6.1.0</version>
         </dependency>
+        <dependency>
+            <groupId>org.json</groupId>
+            <artifactId>json</artifactId>
+            <version>20231013</version>
+        </dependency>
 
         <dependency>
         <groupId>io.jsonwebtoken</groupId>

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.lang.ref.PhantomReference;
 
-@CrossOrigin(origins = "http://localhost:4200")
+
 @RestController
 @RequiredArgsConstructor
 public class RegisterController {

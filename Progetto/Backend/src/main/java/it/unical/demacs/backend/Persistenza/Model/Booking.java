@@ -16,18 +16,20 @@ public class Booking {
     private Long idBooking;
     private User user;
     private BookingDate bookingDate;
+    private String payment_intent;
 
-    public Booking(User user, BookingDate bookingDate)
+    public Booking(User user, BookingDate bookingDate, String payment_intent)
     {
         this.user = user;
         this.bookingDate = bookingDate;
+        this.payment_intent = payment_intent;
     }
 
     public Booking(Long idBooking)
     {
-        Booking b= DatabaseHandler.getInstance().getBookingDao().findByPrimaryKey(idBooking).join();
-        this.idBooking=b.getIdBooking();
-        this.user=b.getUser();
-        this.bookingDate=b.getBookingDate();
+        Booking b = DatabaseHandler.getInstance().getBookingDao().findByPrimaryKey(idBooking).join();
+        this.idBooking = b.getIdBooking();
+        this.user = b.getUser();
+        this.bookingDate = b.getBookingDate();
     }
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 
 import java.io.IOException;
 
-@CrossOrigin(origins = "http://localhost:4200")
+
 @WebServlet("/api/booking/delete")
 @RequiredArgsConstructor
 

@@ -4,6 +4,7 @@ import it.unical.demacs.backend.Persistenza.DatabaseHandler;
 import it.unical.demacs.backend.Persistenza.Model.BookingDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -23,14 +24,11 @@ public class ScheduledService {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-
-    //@Scheduled(cron = "0 01 00 * * *")
-   /* @Async
+    @Scheduled(cron = "0 01 00 * * *")
     public void isValidCheck() {
-        System.out.println("Eseguo isValidCheck()");
         String query = "SELECT public.isvalidcheck();";
         jdbcTemplate.execute(query);
-    }*/
+    }
 
     @Scheduled(fixedRate = 1209600000)
     public void addBookingDate() {

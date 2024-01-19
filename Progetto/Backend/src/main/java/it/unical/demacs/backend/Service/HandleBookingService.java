@@ -1,15 +1,19 @@
 package it.unical.demacs.backend.Service;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import it.unical.demacs.backend.Persistenza.DatabaseHandler;
 import it.unical.demacs.backend.Persistenza.Model.*;
 import it.unical.demacs.backend.Service.Response.UserBookingResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -35,27 +39,31 @@ public class HandleBookingService {
             DatabaseHandler.getInstance().openConnection();
             String email = request.getParameter("email");
             Long idBookingDate = Long.valueOf(request.getParameter("idBookingDate"));
+
+            BufferedReader reader = request.getReader();
+            StringBuilder sb = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) { sb.append(line); }
+
+            JSONObject jsonObj = new JSONObject(sb.toString());
+            String intent = jsonObj.getString("intent");
             BookingDate bookingDate = DatabaseHandler.getInstance().getBookingDateDao().findByPrimaryKey(idBookingDate).join();
-            if(!bookingDate.getIsValid())
-            {
+            if (!bookingDate.getIsValid()) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 outputJSON(response, "Invalid booking date ID provided", "ERROR");
                 return;
             }
             User user = DatabaseHandler.getInstance().getUserDao().findByEmail(email).join();
             try {
-                Booking booking = new Booking(user, bookingDate);
-                boolean res=DatabaseHandler.getInstance().getBookingDateDao().updateIsValid(idBookingDate, false).join();
+                Booking booking = new Booking(user, bookingDate, intent);
+                boolean res = DatabaseHandler.getInstance().getBookingDateDao().updateIsValid(idBookingDate, false).join();
                 if (res) {
-                    res=DatabaseHandler.getInstance().getBookingDao().insert(booking).join();
-                    if(res)
-                    {
+                    res = DatabaseHandler.getInstance().getBookingDao().insert(booking).join();
+                    if (res) {
                         //smsSender.SendSms(booking);
                         response.setStatus(HttpServletResponse.SC_OK);
                         outputJSON(response, "Successful insert of the booking", "OK");
-                    }
-                    else
-                    {
+                    } else {
                         response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                         outputJSON(response, "Insert failed", "ERROR");
                     }
@@ -77,14 +85,12 @@ public class HandleBookingService {
         try{
             DatabaseHandler.getInstance().openConnection();
         Booking b= new Booking(Long.parseLong(request.getParameter("idBooking")));
-        System.out.println("idBooking " + b.getIdBooking());
         String email=request.getParameter("email");
 
         if (b.getUser().getEmail().equals(email)) {
             try {
                 Long idBookingDate = DatabaseHandler.getInstance().getBookingDateDao().findByBookingId(b.getIdBooking()).join();
                 boolean res= DatabaseHandler.getInstance().getBookingDateDao().updateIsValid(idBookingDate, true).join();
-                System.out.println("idBookingdate " + idBookingDate);
                 if (res)
                 {
                     res= DatabaseHandler.getInstance().getBookingDao().delete(b.getIdBooking()).join();
