@@ -28,3 +28,40 @@ h1{
   margin: 20px;
   font-size: 50px;
 }
+
+
+.modern-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(75deg, #000000, #656565);
+  border: none;
+  border-radius: 5px;
+  color: white;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.modern-button:hover, .modern-button:focus {
+  background: linear-gradient(75deg, #1c1c1c, #939292);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.modern-button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.modern-button img {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.disabled-content {
+  opacity: 0.5;
+  pointer-events: none;
+}

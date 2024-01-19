@@ -92,14 +92,6 @@ export class CarrelloComponent {
       }
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      swal({
-        title: 'Pagamento Completato Con Successo',
-        text: 'Grazie per aver acquistato da noi!',
-        icon: 'success',
-        timer: 2500
-      });
-    });
   }
 
 }

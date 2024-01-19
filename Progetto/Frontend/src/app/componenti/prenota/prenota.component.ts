@@ -7,6 +7,8 @@ import {MatSelectChange} from "@angular/material/select";
 import {MatDatepickerInputEvent} from "@angular/material/datepicker";
 import swal from "sweetalert";
 import {JwttokenhandlerService} from "../../services/jwttokenhandler.service";
+import {CheckoutComponent} from "../checkout/checkout.component";
+import {MatDialog} from "@angular/material/dialog";
 @Component({
   selector: 'app-prenota',
   templateUrl: './prenota.component.html',
@@ -18,9 +20,7 @@ export class PrenotaComponent implements OnInit{
   bookingDates: any[] = [];
   idService!: number;
 
-  sessoSelected = false;
-  servizioSelected = false;
-  dataSelected = false;
+  isDisabled: boolean = true;
 
   sessoCheck = new FormControl('', [
     Validators.required
@@ -41,10 +41,14 @@ export class PrenotaComponent implements OnInit{
   constructor(private bookingService: BookingService,
               private serviceService: ServiceService,
               private bookingDateService: BookingDateService,
-              private jwtTokenHandler: JwttokenhandlerService) {
+              private jwtTokenHandler: JwttokenhandlerService,
+              public dialog: MatDialog) {
   }
 
   ngOnInit(): void {
+
+    this.bookingService.resetVars();
+
     this.prenotaForm = new FormGroup({
       sesso: this.sessoCheck,
       servizio: this.servizioCheck,
@@ -55,23 +59,13 @@ export class PrenotaComponent implements OnInit{
     this.prenotaForm.get('servizio')!.disable();
     this.prenotaForm.get('data')!.disable();
     this.prenotaForm.get('orario')!.disable();
+    this.isDisabled = true;
   }
 
-  effettuaPrenotazione() {
-    let idBookingDate = Number(this.prenotaForm.get('orario')!.value);
-    let email = this.jwtTokenHandler.getEmail(sessionStorage.getItem('accessToken')!);
-    this.isLoading = true;
-    setTimeout(() => {
-      this.bookingService.insertBooking(idBookingDate, email).subscribe((response) => {
-        this.isLoading = false;
-        swal("Prenotazione effettuata con successo", {
-          icon: "success",
-          timer: 3000
-        }).then(() => {
-          window.location.reload();
-        });
-      });
-    }, 1000);
+  ngAfterContentChecked(): void {
+    if(!this.bookingService.pagamentoInCorso) {
+      this.dialog.closeAll();
+    }
   }
 
   dateFilter = (d: Date | null): boolean => {
@@ -85,6 +79,8 @@ export class PrenotaComponent implements OnInit{
     this.prenotaForm.get('data')!.disable();
     this.prenotaForm.get('orario')!.disable();
 
+    this.isDisabled = true;
+
     let sesso = $event.value;
 
     this.prenotaForm.get('servizio')!.setValue('');
@@ -92,10 +88,12 @@ export class PrenotaComponent implements OnInit{
     this.prenotaForm.get('orario')!.setValue('');
 
     this.serviceService.getServiceBySex(sesso!).subscribe((response) => {
+
       this.servizi = response.map((service: any) => {
         return {
           id: service.idService,
-          name: service.name
+          name: service.name,
+          prezzo: service.price
         };
       });
     });
@@ -103,12 +101,17 @@ export class PrenotaComponent implements OnInit{
 
   changeServizio($event: MatSelectChange) {
 
+    let hlpID = Number($event.value);
+    let hlpPrezzo = this.servizi.find((service: any) => service.id === hlpID).prezzo;
+
+    this.bookingService.prezzoTrattamento = hlpPrezzo;
+
     this.prenotaForm.get('data')!.enable();
     this.prenotaForm.get('orario')!.disable();
 
-    let idService = Number($event.value);
+    this.isDisabled = true;
 
-    this.servizioSelected = true;
+    let idService = Number($event.value);
 
     this.prenotaForm.get('data')!.setValue('');
     this.prenotaForm.get('orario')!.setValue('');
@@ -123,10 +126,9 @@ export class PrenotaComponent implements OnInit{
 
   changeDate($event: MatDatepickerInputEvent<any, any>) {
     this.prenotaForm.get('orario')!.enable();
-
     this.prenotaForm.get('orario')!.setValue('');
 
-    this.dataSelected = true;
+    this.isDisabled = true;
 
     const localDate = new Date($event.value!);
     const offset = localDate.getTimezoneOffset();
@@ -140,6 +142,34 @@ export class PrenotaComponent implements OnInit{
         };
       });
     });
+  }
+
+  changeOrario() {
+    this.isDisabled = false;
+  }
+
+  effettuaPrenotazione() {
+    this.bookingService.setVars(
+      Number(this.prenotaForm.get('orario')!.value),
+      this.jwtTokenHandler.getEmail(sessionStorage.getItem('accessToken')!));
+  }
+
+
+  apriPagamento() {
+
+    this.effettuaPrenotazione();
+
+
+    this.bookingService.pagamentoInCorso = true;
+
+    const dialogRef = this.dialog.open(CheckoutComponent, {
+      width: '550px',
+      data: {
+        items: 10,
+        prezzo: 500,
+      }
+    });
+
   }
 
 }

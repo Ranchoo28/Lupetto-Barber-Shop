@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import {CartService} from "../../services/cart.service";
+import {Router} from "@angular/router";
+import {BookingService} from "../../services/booking.service";
 
 @Component({
   selector: 'app-checkout',
@@ -8,11 +10,24 @@ import {CartService} from "../../services/cart.service";
 })
 export class CheckoutComponent {
 
-  constructor(private cartService: CartService) {
+  constructor(private cartService: CartService,
+              private router: Router,
+              private bookingService: BookingService) {
   }
 
-  prezzo = this.cartService.getTotalPrice();
-  quantita = this.cartService.getNumberOfItems();
+  prezzo: number = 0;
+  quantita: number = 0;
+
+  ngOnInit(): void {
+    if(this.router.url === '/prenota') {
+      this.prezzo=this.bookingService.prezzoTrattamento;
+    }
+    else{
+      this.prezzo = this.cartService.getTotalPrice();
+      this.quantita = this.cartService.getNumberOfItems();
+
+    }
+  }
 
 
 }

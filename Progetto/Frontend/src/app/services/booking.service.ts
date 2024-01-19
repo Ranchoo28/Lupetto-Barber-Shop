@@ -15,6 +15,34 @@ export class BookingService {
 
   constructor(private http: HttpClient) { }
 
+  pagamentoInCorso = false;
+
+  prezzoTrattamento: number = 0;
+  bookingDate: number = 0;
+  email: string = "";
+
+  resetVars(){
+    this.prezzoTrattamento = 0;
+    this.bookingDate = 0;
+    this.email = "";
+  }
+
+  setVars(bookingDate: number, email: string){
+    this.bookingDate = bookingDate;
+    this.email = email;
+  }
+
+  insertFromPayment(): Observable<any> {
+    return this.http.post(`${this.baseUrl}/api/booking/insert`, null, {
+      params: {
+        email: this.email,
+        idBookingDate: this.bookingDate.toString()
+      },
+      responseType: 'text'
+    });
+  }
+
+
   insertBooking(idBookingDate: number, email: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/api/booking/insert`, null, {
       params: {
@@ -24,7 +52,6 @@ export class BookingService {
       responseType: 'text'
     });
   }
-
 
   deleteBooking(idBooking: number, email: string): Observable<any> {
     return this.http.post(`${this.baseUrl}/api/booking/delete`, "", {
@@ -53,4 +80,11 @@ export class BookingService {
     return this.http.get(`${this.baseUrl}/api/hairdresser/bookings/getByDate`, {params: {email: email, date: data}});
 
   }
+
+
+
+
+
+
+
 }

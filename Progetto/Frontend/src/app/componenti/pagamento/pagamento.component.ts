@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { loadStripe, Stripe, StripeCardElement } from '@stripe/stripe-js';
 import { PaymentService } from "../../services/payment.service";
 import { CartService } from "../../services/cart.service";
+import swal from "sweetalert";
+import {Router} from "@angular/router";
+import {BookingService} from "../../services/booking.service";
 
 @Component({
   selector: 'app-pagamento',
@@ -12,7 +15,10 @@ export class PagamentoComponent implements OnInit {
   stripe: Stripe | null = null;
   card: StripeCardElement | null = null;
 
-  constructor(private paymentService: PaymentService, private cartService: CartService) {
+  constructor(private paymentService: PaymentService,
+              private cartService: CartService,
+              private router: Router,
+              private bookingService: BookingService) {
   }
 
   async ngOnInit() {
@@ -22,19 +28,26 @@ export class PagamentoComponent implements OnInit {
     this.card.mount('#card-element');
   }
 
-  async gestisciPagamento() {
+  handlePayment() {
+    if(this.router.url === '/prenota') {
+      this.gestisciPagamentoPrenotazione();
+    }
+    else{
+      this.gestisciPagamentoCarrello();
+    }
+  }
+
+  async gestisciPagamentoCarrello() {
     if (!this.stripe || !this.card) {
       console.error('Stripe o card non sono stati inizializzati correttamente.');
       return;
     }
 
-//const paymentIntentId = 'pi_3OX7hKJkGG7c6naX0wZI5L8o_secret_LG512hM8GvG0czL4mFodw3l6Z';
-
-// Assicurati che il valore restituito sia una stringa
-    let paymentIntentId = await this.paymentService.createPaymentIntent(1000, 'Esempio di descrizione')
+    // Assicurati che il valore restituito sia una stringa
+    let paymentIntentId = await this.paymentService.createPaymentIntent(this.cartService.getTotalPrice(),`Acquisto di ${this.cartService.getNumberOfItems()} prodotti`)
       .then(data => data.intent)
       .catch(error => {
-        console.error(error);
+        console.log(error);
         return '';
       });
 
@@ -43,7 +56,6 @@ export class PagamentoComponent implements OnInit {
         card: this.card,
       }
     });
-
 
     if (result.error) {
       const errorElement = document.getElementById('card-errors');
@@ -55,8 +67,69 @@ export class PagamentoComponent implements OnInit {
       this.cartService.clearCart();
       this.cartService.visible = false;
       this.cartService.pagamentoInCorso = false;
+
+      swal({
+        title: 'Pagamento Completato Con Successo',
+        text: 'Grazie per aver acquistato da noi!',
+        icon: 'success',
+        timer: 2500
+      });
+
     }
 
 
   }
+
+  async gestisciPagamentoPrenotazione() {
+    if (!this.stripe || !this.card) {
+      console.error('Stripe o card non sono stati inizializzati correttamente.');
+      return;
+    }
+
+    // Assicurati che il valore restituito sia una stringa
+    let paymentIntentId = await this.paymentService.createPaymentIntent(1000, 'Esempio di descrizione')
+      .then(data => data.intent)
+      .catch(error => {
+        return '';
+      });
+
+    const result = await this.stripe.confirmCardPayment(paymentIntentId, {
+      payment_method: {
+        card: this.card,
+      }
+    });
+
+    if (result.error) {
+      const errorElement = document.getElementById('card-errors');
+      if (errorElement) {
+        // @ts-ignore
+        errorElement.textContent = result.error.message;
+      }
+    } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
+
+      this.bookingService.insertFromPayment().subscribe(data => {
+
+        this.bookingService.pagamentoInCorso = false;
+
+        swal({
+          title: 'Prenotazione effettuata con successo',
+          text: 'Ti aspettiamo!',
+          icon: 'success',
+          timer: 2500
+        });
+
+        this.bookingService.resetVars()
+
+      });
+
+
+
+
+
+
+    }
+
+
+  }
+
 }
