@@ -101,6 +101,7 @@ public class HandleBookingService {
                     res=DatabaseHandler.getInstance().getBookingDao().insert(booking).join();
                     if(res)
                     {
+                        smsSender.SendSms(booking);
                         response.setStatus(HttpServletResponse.SC_OK);
                         response.getWriter().write("Successful insert of the booking");
                     }

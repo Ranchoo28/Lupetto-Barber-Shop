@@ -68,12 +68,19 @@ public class AuthenticationService {
                     hairdresserDao.findByEmail(user.getEmail()).join().getEmail() != null) {
                 return ResponseEntity.status(HttpStatus.CONFLICT).body("{\"message\": \"A person with this email already exists\", \"errorCode\": \"EMAIL_CONFLICT\"}");
             }
+            String htmlBody = "<html><h3 style=\"color:Blue\">Ciao " + user.getName() + ", benvenuto in Lupetto Barber Shop!</h3>" +
+                    "<br>Grazie per esserti registrato :)<br>Adesso puoi iniziare a usufruire di tutti i vantaggi da noi offerti!<br>" +
+                    "Puoi prenotare un appuntamento, acquistare i tuoi prodotti preferiti e tanto altro ancora!<br>" +
+                    "Ti aspettiamo in negozio (e online)!!!<br><br>" +
+                    "<h5 style=\"color:White; background-color:Blue; text-align:center\">Il team Lupetto Barber Shop</h5><br>" +
+                    "<footer><small>©2024 Lupetto-Barber-Shop. Designed by team Lupetto</small>\n" +
+                    "</footer></html>";
 
             utenteDao.insert(user);
             emailService.sendEmail(
                     user.getEmail(),
                     "Benvenuto in Lupetto Barber Shop" ,
-                    "Complimenti, " + user.getName() + " ti sei registrato con successo!"
+                    htmlBody
             );
             return ResponseEntity.ok().body("{\"message\": \"User registered successfully\"}");
         }
