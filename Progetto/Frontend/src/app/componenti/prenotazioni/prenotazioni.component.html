@@ -1,9 +1,10 @@
 <div class="container">
-  <mat-card>
+  <mat-card class="modal-dialog-scrollable">
     <h1 *ngIf="role !== 'HAIRDRESSER'">Appuntamenti Prenotati</h1>
     <h1 *ngIf="role === 'HAIRDRESSER'">Elenco Prenotazioni</h1>
     <br>
     <mat-progress-spinner *ngIf="isLoading" class="center-screen" mode="indeterminate"></mat-progress-spinner>
+    <div class="scrollable-div">
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
       <!-- ----------------- idBooking ----------------- -->
@@ -58,13 +59,14 @@
       </ng-container>
 
       <ng-container matColumnDef="intent">
-    <th mat-header-cell *matHeaderCellDef> Pagamento </th>
-    <td mat-cell *matCellDef="let booking"> {{booking.intent ? 'Si' : 'No'}} </td>
-</ng-container>
+      <th mat-header-cell *matHeaderCellDef> Pagamento </th>
+      <td mat-cell *matCellDef="let booking"> {{booking.intent ? 'Si' : 'No'}} </td>
+      </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+    </div>
     <br *ngIf="role !== 'HAIRDRESSER'">
     <button mat-raised-button *ngIf="role !== 'HAIRDRESSER'" (click)="eliminaPrenotazione()" color="primary" [disabled]="role === 'HAIRDRESSER'">Elimina</button>
 
