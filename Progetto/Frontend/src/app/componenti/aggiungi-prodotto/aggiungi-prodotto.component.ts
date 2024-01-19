@@ -52,10 +52,17 @@ export class AggiungiProdottoComponent implements OnInit {
         this.aggiungiProdottoForm.get('categoriaProdotto')!.value,
         this.aggiungiProdottoForm.get('prezzoProdotto')!.value,
         this.aggiungiProdottoForm.get('immagineProdotto')!.value
-
       ).pipe(
         tap((data) => {
+
+          // resetta l'input type file
+          let fileInput = document.getElementById('formFileLg') as HTMLInputElement;
+          if (fileInput) {
+            fileInput.value = '';
+          }
+
           this.aggiungiProdottoForm.reset();
+
           swal("Prodotto aggiunto con successo", {
             icon: "success",
             timer: 1000
@@ -78,9 +85,5 @@ export class AggiungiProdottoComponent implements OnInit {
         })
       ).subscribe();
     }
-
-
-
   }
-
 }

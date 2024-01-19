@@ -33,9 +33,10 @@ public class ProductsService {
             if (hairdresser.getId_hairdresser() != null) {
                 product.setHairdresser(hairdresser);
 
-                boolean oggettoMancante = DatabaseHandler.getInstance().getProductDao().findByName(product.getName()).join() == null;
-                if(!oggettoMancante)
+                boolean oggettoMancante = DatabaseHandler.getInstance().getProductDao().findByName(product.getName()).join().getIdProduct() == null;
+                if(!oggettoMancante){
                     return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("{\"message\": \"Product exist\", \"errorCode\": \"PRODUCT_EXISTS\"}");
+                }
 
                 boolean res = DatabaseHandler.getInstance().getProductDao().insert(product).join();
                 if (res) {
