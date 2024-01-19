@@ -35,3 +35,23 @@
     </button>
   </div>
 </div>
+
+<mat-grid-list cols="4" rowHeight="400px" style="margin: 20px;">
+  @for (tile of tiles; track tile) {
+    <mat-grid-tile
+      [colspan]="tile.cols"
+      [rowspan]="tile.rows">
+      <img [src]="tile.image" alt="Image description">
+      </mat-grid-tile>
+  }
+</mat-grid-list>
+
+<mat-grid-list cols="4" rowHeight="400px" style="margin: 20px;">
+  @for (tile of tiles2; track tile) {
+    <mat-grid-tile
+      [colspan]="tile.cols"
+      [rowspan]="tile.rows">
+      <img [src]="tile.image" alt="Image description">
+    </mat-grid-tile>
+  }
+</mat-grid-list>
