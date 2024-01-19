@@ -26,7 +26,17 @@ export class PrenotazioniComponent implements OnInit {
   isOneSelected = false;
 
 
-  constructor(private bookingService: BookingService, private jtwtoken:JwttokenhandlerService) { }
+  onCheckboxChange(row: any): void {
+    if (this.selection.isSelected(row)) {
+      this.selection.deselect(row);
+    } else {
+      this.selection.clear();
+      this.selection.select(row);
+    }
+  }
+
+
+constructor(private bookingService: BookingService, private jtwtoken:JwttokenhandlerService) { }
 
   ngOnInit(): void {
     if(this.role=="USER"){
@@ -117,10 +127,6 @@ export class PrenotazioniComponent implements OnInit {
     }
   }
 }
-
-
-
-
   visualizzaPrenotazioniHairDbyDate() {
 
       if (!this.dataRicerca) {

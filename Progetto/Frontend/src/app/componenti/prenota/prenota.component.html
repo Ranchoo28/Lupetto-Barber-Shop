@@ -51,7 +51,7 @@
       </div>
 
       <div class="row" [class.disabled-content]="isDisabled">
-      <div class="fixed-payment-button" style="display: flex; justify-content: center; align-items: center; width: 100%;">
+      <div style="display: flex; justify-content: center; align-items: center; width: 100%;">
         <button (click)="apriPagamento()" class="modern-button" [disabled]="isDisabled">
           <span>Prenota e Paga</span>
           <mat-icon>payment</mat-icon>
@@ -63,7 +63,7 @@
 
       <div class="row">
         <!-- ----------------- SUBMITTA LA PRENOTAZIONE ----------------- -->
-        <button mat-raised-button color="primary" [disabled]="prenotaForm.invalid" (click)="effettuaPrenotazione()">Prenota ora e paga dopo</button>
+        <button mat-raised-button color="primary" [disabled]="prenotaForm.invalid" (click)="effettuaPrenotazione()">Prenota ora e paga in salone</button>
 
       </div>
 
