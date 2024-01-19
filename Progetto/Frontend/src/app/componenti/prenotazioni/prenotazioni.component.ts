@@ -84,7 +84,7 @@ export class PrenotazioniComponent implements OnInit {
         setTimeout(() => {
         this.bookingService.deleteBooking(idBooking, this.email).subscribe(() => {},);
           this.isLoading = false;
-          swal("La tua prenotazione è stata eliminata!"+ "\nContatta il Parrucchiere per ricevere il tuo rimorso", {
+          swal("La tua prenotazione è stata eliminata!"+ "\nContatta il Parrucchiere per ricevere il tuo rimborso", {
             icon: "success",
           },).then(() => {
           this.selection.clear();

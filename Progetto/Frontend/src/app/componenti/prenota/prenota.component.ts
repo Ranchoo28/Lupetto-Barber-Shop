@@ -148,6 +148,24 @@ export class PrenotaComponent implements OnInit{
     this.isDisabled = false;
   }
 
+  effettuaPrenotazione() {
+
+      this.settaVariabili();
+
+      this.bookingService.insertBooking(this.bookingService.bookingDate, this.bookingService.email).subscribe(data => {
+        swal({
+          title: 'Prenotazione Effettuata Con Successo',
+          text: 'Grazie per aver prenotato da noi!',
+          icon: 'success',
+          timer: 2500
+        });
+      });
+
+
+
+  }
+
+
   settaVariabili() {
     this.bookingService.setVars(
       Number(this.prenotaForm.get('orario')!.value),
