@@ -74,10 +74,7 @@ export class PagamentoComponent implements OnInit {
         icon: 'success',
         timer: 2500
       });
-
     }
-
-
   }
 
   async gestisciPagamentoPrenotazione() {
@@ -112,24 +109,13 @@ export class PagamentoComponent implements OnInit {
         this.bookingService.pagamentoInCorso = false;
 
         swal({
-          title: 'Prenotazione effettuata con successo',
+          title: 'Prenotazione effettuata e pagamento completato con successo',
           text: 'Ti aspettiamo!',
           icon: 'success',
           timer: 2500
         });
-
         this.bookingService.resetVars()
-
       });
-
-
-
-
-
-
     }
-
-
   }
-
 }

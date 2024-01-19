@@ -149,6 +149,25 @@ export class PrenotaComponent implements OnInit{
   }
 
   effettuaPrenotazione() {
+
+      this.settaVariabili();
+
+      this.bookingService.insertBooking(this.bookingService.bookingDate, this.bookingService.email).subscribe(data => {
+        swal({
+          title: 'Prenotazione Effettuata Con Successo',
+          text: 'Grazie per aver prenotato da noi!',
+          icon: 'success',
+          timer: 2500
+        });
+      });
+
+      this.prenotaForm.reset();
+      this.isDisabled = true;
+
+  }
+
+
+  settaVariabili() {
     this.bookingService.setVars(
       Number(this.prenotaForm.get('orario')!.value),
       this.jwtTokenHandler.getEmail(sessionStorage.getItem('accessToken')!));
@@ -157,8 +176,7 @@ export class PrenotaComponent implements OnInit{
 
   apriPagamento() {
 
-    this.effettuaPrenotazione();
-
+    this.settaVariabili();
 
     this.bookingService.pagamentoInCorso = true;
 
