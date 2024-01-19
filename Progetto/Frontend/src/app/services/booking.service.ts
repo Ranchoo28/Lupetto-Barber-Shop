@@ -40,12 +40,23 @@ export class BookingService {
   insertFromPayment(_intent: string): Observable<any> {
     const body = { intent: _intent};
 
-    return this.http.post(`${this.baseUrl}/api/booking/insert`, body, {
+    return this.http.post(`${this.baseUrl}/api/booking/insertWithIntent`, body, {
       params: {
         email: this.email,
         idBookingDate: this.bookingDate.toString()
       },
-      headers: this.httpOptions2.headers
+      responseType: 'text'
+    });
+  }
+
+
+  insertBooking(idBookingDate: number, email: string): Observable<any> {
+    return this.http.post(`${this.baseUrl}/api/booking/insert`, "", {
+      params: {
+        email: email,
+        idBookingDate: idBookingDate.toString()
+      },
+      responseType: 'text'
     });
   }
 
@@ -60,9 +71,6 @@ export class BookingService {
     });
   }
 
-  updateBooking(booking: any, email: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/api/booking/update`, booking, {params: {email: email}});
-  }
 
   getUserBooking(email: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/api/user/booking`, {

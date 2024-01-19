@@ -3,7 +3,9 @@
     <a class="navbar-brand" [routerLink]="['/']">
       <img src="../../../assets/images/Logo/text-logo.png" alt="" id="homeText" >
     </a>
-    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#idNavBar" aria-controls="idNavBar" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#idNavBar" aria-controls="idNavBar" aria-expanded="false"
+            aria-label="Toggle navigation" (click)="chiudiCarrello()">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="navbar-collapse collapse" id="idNavBar">

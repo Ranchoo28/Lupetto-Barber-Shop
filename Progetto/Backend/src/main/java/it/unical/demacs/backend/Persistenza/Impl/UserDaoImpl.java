@@ -91,7 +91,7 @@ public class UserDaoImpl implements UserDao {
     {
         ArrayList<UserBookingResponse> bookings = new ArrayList<>();
         String query =
-                "SELECT s.name, bd.data, bd.ora, b.id_booking, b.intent" +
+                "SELECT s.name, bd.data, bd.ora, b.id_booking, b.payment_intent " +
                 "FROM bookings as b, bookingsdate as bd, services as s " +
                 "WHERE b.id_user = ? and b.id_bookingdate = bd.id_bookingdate and bd.id_service = s.id_service";
         try {

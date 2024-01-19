@@ -60,7 +60,7 @@ public class HandleBookingService {
                 if (res) {
                     res = DatabaseHandler.getInstance().getBookingDao().insert(booking).join();
                     if (res) {
-                        smsSender.SendSms(booking);
+                        //smsSender.SendSms(booking);
                         response.setStatus(HttpServletResponse.SC_OK);
                         outputJSON(response, "Successful insert of the booking", "OK");
                     } else {

@@ -21,17 +21,17 @@ export class GalleriaComponent{
   ];
 
   tiles = [
-    {cols: 3, rows: 1,image: './assets/images/Carousel/taglio.png'},
-    {cols: 1, rows: 2,image: './assets/images/Carousel/taglio-donna1.png'},
-    {cols: 1, rows: 1,image: './assets/images/Carousel/taglio-uomo1.png'},
-    {cols: 2, rows: 1,image: './assets/images/Carousel/taglio.png'},
+    {cols: 3, rows: 1,image: './assets/images/Carousel/prodotti1.png'},
+    {cols: 1, rows: 2,image: './assets/images/Carousel/salone1.png'},
+    {cols: 1, rows: 1,image: './assets/images/Carousel/attrezzi1.png'},
+    {cols: 2, rows: 1,image: './assets/images/Carousel/taglio1.png'},
 
 ];
   tiles2 = [
-    {cols: 1, rows: 2,image: './assets/images/Carousel/taglio-uomo1.png'},
-    {cols: 1, rows: 1,image: './assets/images/Carousel/taglio-donna1.png'},
-    {cols: 2, rows: 1,image: './assets/images/Carousel/taglio.png'},
-    {cols: 3, rows: 1,image: './assets/images/Carousel/taglio.png'},
+    {cols: 1, rows: 2,image: './assets/images/Carousel/prodotti2.png'},
+    {cols: 1, rows: 1,image: './assets/images/Carousel/salone2.png'},
+    {cols: 2, rows: 1,image: './assets/images/Carousel/attrezzi2.png'},
+    {cols: 3, rows: 1,image: './assets/images/Carousel/taglio2.png'},
 
 
   ];
