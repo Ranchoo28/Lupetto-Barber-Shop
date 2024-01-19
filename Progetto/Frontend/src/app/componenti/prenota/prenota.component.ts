@@ -158,6 +158,8 @@ export class PrenotaComponent implements OnInit{
           text: 'Grazie per aver prenotato da noi!',
           icon: 'success',
           timer: 2500
+        }).then(() => {
+          window.location.reload();
         });
       });
 

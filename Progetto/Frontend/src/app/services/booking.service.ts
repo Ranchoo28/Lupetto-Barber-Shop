@@ -71,9 +71,6 @@ export class BookingService {
     });
   }
 
-  updateBooking(booking: any, email: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/api/booking/update`, booking, {params: {email: email}});
-  }
 
   getUserBooking(email: string): Observable<any> {
     return this.http.get(`${this.baseUrl}/api/user/booking`, {

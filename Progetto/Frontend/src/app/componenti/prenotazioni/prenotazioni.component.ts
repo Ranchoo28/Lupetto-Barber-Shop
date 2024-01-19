@@ -19,7 +19,7 @@ export class PrenotazioniComponent implements OnInit {
   role: string = this.jtwtoken.getRole(sessionStorage.getItem('accessToken')!);
   email: string = this.jtwtoken.getEmail(sessionStorage.getItem('accessToken')!);
   dataSource!: MatTableDataSource<any>;
-  displayedColumns: string[] = this.role === 'HAIRDRESSER' ? ['select', 'Servizio', 'Data', 'Orario', 'idBooking', 'user_surname','user_name', 'tel_number'] : ['select', 'Servizio', 'Data', 'Orario', 'idBooking'];
+  displayedColumns: string[] = this.role === 'HAIRDRESSER' ? ['select', 'Servizio', 'Data', 'Orario', 'idBooking', 'user_surname','user_name', 'tel_number'] : ['select', 'Servizio', 'Data', 'Orario', 'idBooking','intent'];
   selection = new SelectionModel<any>(true, []);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   isLoading = false;
@@ -79,20 +79,30 @@ export class PrenotazioniComponent implements OnInit {
       dangerMode: true,
     })
     .then((willDelete) => {
-      if (willDelete) {
-        this.isLoading = true;
-        setTimeout(() => {
+    if (willDelete) {
+      this.isLoading = true;
+      setTimeout(() => {
         this.bookingService.deleteBooking(idBooking, this.email).subscribe(() => {},);
-          this.isLoading = false;
+        this.isLoading = false;
+        console.log(selected[0].intent);
+        if (selected[0].intent !== null ) {
           swal("La tua prenotazione è stata eliminata!"+ "\nContatta il Parrucchiere per ricevere il tuo rimborso", {
             icon: "success",
-          },).then(() => {
-          this.selection.clear();
-          this.visualizzaPrenotazioni();
-        });
-      }, 4000);
-      }
-    });
+          }).then(() => {
+            this.selection.clear();
+            this.visualizzaPrenotazioni();
+          });
+        } else {
+          swal("Prenotazione eliminata con successo", {
+            icon: "success",
+          }).then(() => {
+            this.selection.clear();
+            this.visualizzaPrenotazioni();
+          });
+        }
+      }, 2000);
+    }
+  });
   } else {
     if(selected.length === 0){
     swal('Errore: Nessuna prenotazione selezionata', {
