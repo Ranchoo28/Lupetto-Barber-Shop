@@ -1,10 +1,8 @@
 package it.unical.demacs.backend.Persistenza.Impl;
 
 import it.unical.demacs.backend.Persistenza.DAO.CartDao;
-import it.unical.demacs.backend.Persistenza.DatabaseHandler;
 import it.unical.demacs.backend.Persistenza.Model.Cart;
 import it.unical.demacs.backend.Persistenza.Model.CartProduct;
-import it.unical.demacs.backend.Persistenza.Model.Product;
 import it.unical.demacs.backend.Persistenza.Model.User;
 import org.springframework.scheduling.annotation.Async;
 
@@ -132,7 +130,7 @@ public class CartDaoImpl implements CartDao {
                 String insertQuery = "INSERT INTO products_cart (id_cart, id_product, quantity) VALUES (?, ?, ?)";
                 PreparedStatement insertStatement = this.con.prepareStatement(insertQuery);
                 insertStatement.setLong(1, idCart);
-                insertStatement.setLong(2, product.getIdProduct());
+                insertStatement.setLong(2, product.getId_product());
                 insertStatement.setInt(3, product.getQuantity());
                 insertStatement.executeUpdate();
                 insertStatement.close();

@@ -162,7 +162,7 @@ public class ProductDaoImpl implements ProductDao {
                 while (rs.next()) {
                     Product product = new Product(rs.getLong(1));
                     CartProduct response = new CartProduct();
-                    response.setIdProduct(product.getIdProduct());
+                    response.setId_product(product.getIdProduct());
                     response.setName(product.getName());
                     response.setPrice(product.getPrice());
                     response.setImage(product.getImage());
