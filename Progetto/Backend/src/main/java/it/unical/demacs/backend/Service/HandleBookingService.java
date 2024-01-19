@@ -34,7 +34,7 @@ public class HandleBookingService {
         response.getWriter().write(" {\"message\": \""+message+"\", \"errorCode\": \""+error+"\"}");
     }
 
-    public void insertBooking(HttpServletRequest request, HttpServletResponse response) {
+    public void insertBookingWithIntent(HttpServletRequest request, HttpServletResponse response) {
         try {
             DatabaseHandler.getInstance().openConnection();
             String email = request.getParameter("email");
@@ -60,7 +60,7 @@ public class HandleBookingService {
                 if (res) {
                     res = DatabaseHandler.getInstance().getBookingDao().insert(booking).join();
                     if (res) {
-                        //smsSender.SendSms(booking);
+                        smsSender.SendSms(booking);
                         response.setStatus(HttpServletResponse.SC_OK);
                         outputJSON(response, "Successful insert of the booking", "OK");
                     } else {
@@ -70,6 +70,48 @@ public class HandleBookingService {
                 } else {
                     response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
                     outputJSON(response, "Insert failed", "ERROR");
+                }
+            } catch (NumberFormatException | IOException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            DatabaseHandler.getInstance().closeConnection();
+        }
+    }
+
+    public void insertBooking(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            DatabaseHandler.getInstance().openConnection();
+            String email = request.getParameter("email");
+            Long idBookingDate = Long.valueOf(request.getParameter("idBookingDate"));
+            BookingDate bookingDate = DatabaseHandler.getInstance().getBookingDateDao().findByPrimaryKey(idBookingDate).join();
+            if(!bookingDate.getIsValid())
+            {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                response.getWriter().write("Invalid booking date ID provided");
+                return;
+            }
+            User user = DatabaseHandler.getInstance().getUserDao().findByEmail(email).join();
+            try {
+                Booking booking = new Booking(user, bookingDate);
+                boolean res=DatabaseHandler.getInstance().getBookingDateDao().updateIsValid(idBookingDate, false).join();
+                if (res) {
+                    res=DatabaseHandler.getInstance().getBookingDao().insert(booking).join();
+                    if(res)
+                    {
+                        response.setStatus(HttpServletResponse.SC_OK);
+                        response.getWriter().write("Successful insert of the booking");
+                    }
+                    else
+                    {
+                        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                        response.getWriter().write("Insert failed");
+                    }
+                } else {
+                    response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                    response.getWriter().write("Insert failed");
                 }
             } catch (NumberFormatException | IOException e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

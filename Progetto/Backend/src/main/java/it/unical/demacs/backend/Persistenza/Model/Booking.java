@@ -32,4 +32,10 @@ public class Booking {
         this.user = b.getUser();
         this.bookingDate = b.getBookingDate();
     }
+
+    public Booking(User user, BookingDate bookingDate) {
+        this.user = user;
+        this.bookingDate = bookingDate;
+        this.payment_intent = null;
+    }
 }
