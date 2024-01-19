@@ -2,6 +2,7 @@ package it.unical.demacs.backend.Service;
 
 import it.unical.demacs.backend.Persistenza.DatabaseHandler;
 import it.unical.demacs.backend.Persistenza.Model.BookingDate;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.scheduling.annotation.Async;
@@ -15,14 +16,10 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 @Component
+@AllArgsConstructor
 @Service
 public class ScheduledService {
     private final JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    public ScheduledService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
 
     @Scheduled(cron = "0 01 00 * * *")
     public void isValidCheck() {
