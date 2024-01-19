@@ -84,13 +84,13 @@ export class PrenotazioniComponent implements OnInit {
         setTimeout(() => {
         this.bookingService.deleteBooking(idBooking, this.email).subscribe(() => {},);
           this.isLoading = false;
-          swal("La tua prenotazione è stata eliminata!", {
+          swal("La tua prenotazione è stata eliminata!"+ "\nContatta il Parrucchiere per ricevere il tuo rimorso", {
             icon: "success",
           },).then(() => {
           this.selection.clear();
           this.visualizzaPrenotazioni();
         });
-      }, 1000);
+      }, 4000);
       }
     });
   } else {

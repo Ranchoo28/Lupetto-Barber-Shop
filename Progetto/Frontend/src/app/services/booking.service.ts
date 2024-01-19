@@ -45,17 +45,6 @@ export class BookingService {
         email: this.email,
         idBookingDate: this.bookingDate.toString()
       },
-      responseType: 'text'
-    });
-  }
-
-
-  insertBooking(idBookingDate: number, email: string): Observable<any> {
-    return this.http.post(`${this.baseUrl}/api/booking/insert`, null, {
-      params: {
-        email: email,
-        idBookingDate: idBookingDate.toString()
-      },
       headers: this.httpOptions2.headers
     });
   }
