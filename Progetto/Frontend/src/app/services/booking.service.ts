@@ -12,6 +12,11 @@ export class BookingService {
       'Content-Type': 'application/json'
     })
   };
+  httpOptions2 = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    })
+  };
 
   constructor(private http: HttpClient) { }
 
@@ -51,7 +56,7 @@ export class BookingService {
         email: email,
         idBookingDate: idBookingDate.toString()
       },
-      responseType: 'text'
+      headers: this.httpOptions2.headers
     });
   }
 
@@ -61,6 +66,7 @@ export class BookingService {
         idBooking: idBooking,
         email: email
       },
+      headers: this.httpOptions2.headers
 
     });
   }
@@ -70,16 +76,25 @@ export class BookingService {
   }
 
   getUserBooking(email: string): Observable<any> {
-    return this.http.get(`${this.baseUrl}/api/user/booking`, {params: {email: email}});
+    return this.http.get(`${this.baseUrl}/api/user/booking`, {
+      params: {email: email},
+      headers:this.httpOptions.headers
+    });
   }
 
   getAllBooking(email: string): Observable<any>{
-    return this.http.get(`${this.baseUrl}/api/hairdresser/bookings`, {params: {email: email}});
+    return this.http.get(`${this.baseUrl}/api/hairdresser/bookings`, {
+      params: {email: email},
+      headers:this.httpOptions.headers
+    });
 
   }
 
   getBookingsByDate(email: string, data:string): Observable<any>{
-    return this.http.get(`${this.baseUrl}/api/hairdresser/bookings/getByDate`, {params: {email: email, date: data}});
+    return this.http.get(`${this.baseUrl}/api/hairdresser/bookings/getByDate`, {
+      params: {email: email, date: data},
+      headers:this.httpOptions.headers
+    });
 
   }
 

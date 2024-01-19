@@ -115,7 +115,9 @@ export class PagamentoComponent implements OnInit {
           text: 'Ti aspettiamo!',
           icon: 'success',
           timer: 2500
-        });
+        }).then(() => {
+          window.location.reload();
+        },);
         this.bookingService.resetVars()
       });
     }
