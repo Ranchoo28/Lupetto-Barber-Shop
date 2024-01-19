@@ -4,7 +4,6 @@ import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,7 +21,7 @@ public class SmsSender {
     }
 
     public void SendSms(Booking booking) {
-        Twilio.init("ACc537d7c8ef8fb09dde82b0a499679df2", decode() );
+        Twilio.init("AC9615a241f3b49db73939c5135872d9d4", decode() );
 
         Message message = Message.creator(
                         new PhoneNumber("+393505111318"),
