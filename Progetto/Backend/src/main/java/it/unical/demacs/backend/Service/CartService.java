@@ -14,7 +14,7 @@ public class CartService {
         try {
             DatabaseHandler.getInstance().openConnection();
             Long id_user = DatabaseHandler.getInstance().getUserDao().findByEmail(email).join().getIdUser();
-            if(id_user == null){
+            if(DatabaseHandler.getInstance().getCartDao().findCartByUserId(id_user).join().getId_cart() == null){
                 return ResponseEntity.badRequest().body("{\"message\": \"No cart found\"}");
             }else{
                 Cart cart = DatabaseHandler.getInstance().getCartDao().findCartByUserId(id_user).join();
@@ -31,7 +31,7 @@ public class CartService {
         try {
             DatabaseHandler.getInstance().openConnection();
             Long id_user = DatabaseHandler.getInstance().getUserDao().findByEmail(email).join().getIdUser();
-            if (id_user == null) {
+            if (DatabaseHandler.getInstance().getCartDao().findCartByUserId(id_user).join().getId_cart() == null) {
                 return ResponseEntity.badRequest().body("{\"message\": \"No user found\"}");
             } else {
                 if (DatabaseHandler.getInstance().getCartDao().addCart(id_user).join()) {

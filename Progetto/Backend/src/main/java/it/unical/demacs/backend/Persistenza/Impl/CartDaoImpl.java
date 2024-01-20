@@ -83,7 +83,7 @@ public class CartDaoImpl implements CartDao {
     @Async
     public CompletableFuture<Cart> findCartByUserId(Long id) {
         String query = "SELECT id_cart FROM carts WHERE id_user = ?";
-        Cart cart = null;
+        Cart cart = new Cart();
         try (
                 PreparedStatement st = this.con.prepareStatement(query)) {
             st.setLong(1, id);
