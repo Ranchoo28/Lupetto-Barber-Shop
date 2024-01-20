@@ -17,6 +17,7 @@ export class CarrelloComponent {
   }
 
   visible: boolean = false;
+  totale: number = 0;
 
   ngOnInit(): void {
     this.cartService.settaEmailEPrendiCarrello();
@@ -26,7 +27,7 @@ export class CarrelloComponent {
     this.items = this.cartService.getItems();
     this.visible = this.cartService.isCartVisible();
 
-    this.cartService
+    this.totale = this.cartService.getTotalPrice();
 
     if(!this.cartService.pagamentoInCorso && !this.cartService.descrizionePopUp) {
       this.dialog.closeAll();

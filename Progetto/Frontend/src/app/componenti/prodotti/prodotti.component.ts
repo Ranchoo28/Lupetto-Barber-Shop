@@ -12,24 +12,30 @@ import {JwttokenhandlerService} from "../../services/jwttokenhandler.service";
 })
 export class ProdottiComponent implements OnInit {
   prodotti: any[] = [];
-  role: string = this.jwtoken.getRole(sessionStorage.getItem('accessToken')!);
+  role: string = "";
 
   constructor(private productsService: ProductsService,
               private cartService: CartService,
               public dialog: MatDialog,
-              private jwtoken:JwttokenhandlerService) {}
+              private jwtTokenService:JwttokenhandlerService) {}
 
   isHidden = false;
 
   ngOnInit() {
-    this.productsService.getProducts().subscribe(
-      (data) => {
+    this.productsService.getProducts().subscribe({
+      next: (data) => {
         this.prodotti = data;
       },
-      (error) => {
+      error: (error) => {
         console.error(error);
       }
-    );
+    });
+
+    const accessToken = sessionStorage.getItem('accessToken');
+    if (accessToken !== null) {
+      this.role = this.jwtTokenService.getRole(accessToken);
+    }
+
   }
 
   ngAfterContentChecked(): void {
