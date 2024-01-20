@@ -3,7 +3,7 @@
 <div class="container">
   <div class="row">
 
-    <mat-card style="padding: 10px" [hidden]="isHidden">
+    <mat-card style="padding: 10px" [hidden]="isHidden" *ngIf="role !== 'HAIRDRESSER'">
       <button class="modern-button" (click)="mostraCarrello()"
                id="buttonCarrello">
         <mat-icon>shopping_cart</mat-icon>
@@ -38,7 +38,7 @@
                   <p class="prezzo">{{ prodotto.price }} €</p>
                 </div>
                 <div class="col-lg-4">
-                  <button class="modern-button" (click)="addToCart(prodotto)">
+                  <button class="modern-button" (click)="addToCart(prodotto)" *ngIf="role !== 'HAIRDRESSER'">
                     <mat-icon>add_shopping_cart</mat-icon>
                   </button>
                 </div>

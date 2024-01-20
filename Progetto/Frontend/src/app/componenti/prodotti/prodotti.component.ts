@@ -3,6 +3,7 @@ import {ProductsService} from "../../services/products.service";
 import {CartService} from "../../services/cart.service";
 import {DescrizioneProxyComponent} from "../descrizione-proxy/descrizione-proxy.component";
 import {MatDialog} from "@angular/material/dialog";
+import {JwttokenhandlerService} from "../../services/jwttokenhandler.service";
 
 @Component({
   selector: 'app-prodotti',
@@ -11,10 +12,12 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class ProdottiComponent implements OnInit {
   prodotti: any[] = [];
+  role: string = this.jwtoken.getRole(sessionStorage.getItem('accessToken')!);
 
   constructor(private productsService: ProductsService,
               private cartService: CartService,
-              public dialog: MatDialog) {}
+              public dialog: MatDialog,
+              private jwtoken:JwttokenhandlerService) {}
 
   isHidden = false;
 
