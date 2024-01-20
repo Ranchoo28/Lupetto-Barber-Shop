@@ -1,73 +1,95 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Contatti Parrucchiere</title>
+    <meta charset="UTF-8">
+    <title>Contatti Parrucchiere</title>
 
-  <style>
-    .contact-card {
-      width: 400px;
-      margin: 0 auto;
-      background: #fff;
-      padding: 20px;
-      text-align: center;
-      border-radius: 5px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, .1);
-    }
+    <style>
+        .contact-card {
+            width: 600px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, .1);
+        }
 
-    .contact-card h1 {
-      color: #1c87c9;
-      margin: 0 0 20px;
-      font-size: 30px;
-      font-weight: 400;
-    }
+        .contact-card h1 {
+            color: #1c87c9;
+            margin: 0 0 20px;
+            font-size: 30px;
+            font-weight: 400;
+        }
 
-    .contact-card p {
-      font-size: 23px;
-      line-height: 26px;
-      margin: 0 0 10px;
-      color: #555;
-    }
+        .contact-card p {
+            font-size: 23px;
+            line-height: 26px;
+            margin: 0 0 10px;
+            color: #555;
+            display: none; /* Initially hide the contact details */
+        }
 
-    .contact-card p span {
-      color: #888;
-    }
+        .contact-card p span {
+            color: #888;
+        }
 
-    .contact-card .btn {
-      display: inline-block;
-      background: #1c87c9;
-      color: #fff;
-      text-decoration: none;
-      border-radius: 5px;
-      padding: 10px 20px;
-      font-size: 14px;
-      margin: 20px 0 0;
-    }
+        .contact-card .btn {
+            display: inline-block;
+            background: #1c87c9;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 14px;
+            margin: 20px 0 0;
+            cursor: pointer;
+        }
 
-    .contact-card .btn:hover {
-      background: #2371a0;
-    }
+        .contact-card .btn:hover {
+            background: #2371a0;
+        }
 
     </style>
 </head>
 
 <body>
 
-
-
 <div class="contact-card">
-  <h1 th:text="${title}">Contatti Parrucchiere</h1>
-  <div>
-    <p><strong>Telefono: </strong><span th:text="${number}"></span></p>
-    <p><strong>Email: </strong><span th:text="${email}"></span></p>
-    <p><strong>Indirizzo: </strong><span th:text="${address}"></span></p>
-  </div>
+    <h1 th:text="${title}">Contatti Parrucchiere</h1>
+    <div>
+        <p id="phone" class="contact-details"><strong>Telefono: </strong><span th:text="${number}"></span></p>
+        <p id="email" class="contact-details"><strong>Email: </strong><span th:text="${email}"></span></p>
+        <p id="address" class="contact-details"><strong>Indirizzo: </strong><span th:text="${address}"></span></p>
+        <div id="map-container" style="display: none;">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d385.58614686556615!2d16.226465936786433!3d39.36327490778505!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x133f99f27cde92f1%3A0x5ac2147bc2e45931!2sAula%20mt5%2C%20cubo%2031A!5e0!3m2!1sit!2sit!4v1705765013883!5m2!1sit!2sit" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>        </div>
+    </div>
+    <div class="btn" style="display: block" onclick="revealContacts()">Mostra Contatti</div>
+    <div class="btn" style="display: none;" onclick="hideContacts()">Nascondi Contatti</div>
 </div>
+    <script>
+        function revealContacts() {
+    var contactDetails = document.querySelectorAll('.contact-details');
+    contactDetails.forEach(function (element) {
+        element.style.display = 'block'; // Display the previously hidden contact details
+    });
 
+    document.querySelector('.btn').style.display = 'none'; // Hide the "Mostra Contatti" button
+    document.querySelectorAll('.btn')[1].style.display = 'block'; // Show the "Nascondi Contatti" button
+    document.getElementById('map-container').style.display = 'block'; // Show the map container
+}
 
+    function hideContacts() {
+    var contactDetails = document.querySelectorAll('.contact-details');
+    contactDetails.forEach(function (element) {
+        element.style.display = 'none'; // Hide the contact details
+    });
 
+    document.querySelector('.btn').style.display = 'block'; // Show the "Mostra Contatti" button
+    document.querySelectorAll('.btn')[1].style.display = 'none'; // Hide the "Nascondi Contatti" button
+    document.getElementById('map-container').style.display = 'none'; // Hide the map container
+}
+
+</script>
 </body>
-
 </html>
-
-
