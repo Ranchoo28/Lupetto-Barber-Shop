@@ -20,9 +20,15 @@ export class CarrelloComponent {
 
   visible = false;
 
+  ngOnInit(): void {
+    this.cartService.settaEmailEPrendiCarrello();
+  }
+
   ngAfterContentChecked(): void {
     this.items = this.cartService.getItems();
     this.visible = this.cartService.isCartVisible();
+
+    this.cartService
 
     if(!this.cartService.pagamentoInCorso) {
       this.dialog.closeAll();

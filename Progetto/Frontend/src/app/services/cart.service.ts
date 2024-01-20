@@ -1,15 +1,37 @@
 import { Injectable } from '@angular/core';
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class CartService {
+
+  private addUrl = 'http://localhost:8080/api/user/cart/add';
+  private getUrl = 'http://localhost:8080/api/user/cart/get';
+  httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
+  };
 
   items = new Map<number, { product: any, quantity: number }>();
 
   pagamentoInCorso = false;
 
-  constructor() { }
+  email: string= '';
+
+  settaEmailEPrendiCarrello() {
+    if (typeof window !== 'undefined') {
+      this.email = sessionStorage.getItem('email') || '';
+      this.getItemsFromDB();
+    }
+  }
+
+  constructor(private http: HttpClient) {
+    this.settaEmailEPrendiCarrello();
+  }
+
 
   visible = false;
 
@@ -21,15 +43,42 @@ export class CartService {
     return this.items.size == 0;
   }
 
+  inviaCarrelloAlDB() {
+    if (typeof window !== 'undefined') {
+      if(this.email == '') {
+        return;
+      }
+      else{
+
+        let prodotti: any[] = [];
+
+        this.items.forEach((item) => {
+          let prodotto = {
+            id_product: item.product.idProduct,
+            name: item.product.name,
+            price: item.product.price,
+            quantity: item.quantity
+          };
+          prodotti.push(prodotto);
+        });
+
+        let jsonBody = JSON.stringify(prodotti);
+
+        this.http.post(`${this.addUrl}`, jsonBody, {
+          params: {email: this.email},
+          headers:this.httpOptions.headers});
+      }
+    }
+  }
+
   addToCart(product: any) {
-
-    // invia al
-
     if (this.items.has(product.idProduct)) {
       this.items.get(product.idProduct)!.quantity++;
     } else {
       this.items.set(product.idProduct, { product, quantity: 1 });
     }
+
+    this.inviaCarrelloAlDB();
 
     if (!this.visible) {
       this.visible = true;
@@ -40,6 +89,9 @@ export class CartService {
     if (this.items.has(productId)) {
       this.items.get(productId)!.quantity++;
     }
+
+    this.inviaCarrelloAlDB();
+
   }
 
   decreaseQuantity(productId: number) {
@@ -52,6 +104,8 @@ export class CartService {
       }
     }
 
+    this.inviaCarrelloAlDB();
+
     if (this.isCartEmpty()) {
       this.visible = false;
     }
@@ -60,12 +114,20 @@ export class CartService {
   removeFromCart(productId: number) {
     this.items.delete(productId);
 
+    this.inviaCarrelloAlDB();
+
     if (this.isCartEmpty()) {
       this.visible = false;
     }
   }
 
-  getItems() {
+  getItemsFromDB() {
+    this.http.get(`${this.getUrl}`, {
+      params: {email: this.email},
+      headers:this.httpOptions.headers});
+  }
+
+  getItems(){
     return Array.from(this.items.values());
   }
 
