@@ -69,26 +69,26 @@
 </div>
     <script>
         function revealContacts() {
-    var contactDetails = document.querySelectorAll('.contact-details');
-    contactDetails.forEach(function (element) {
-        element.style.display = 'block'; // Display the previously hidden contact details
-    });
+            var contactDetails = document.querySelectorAll('.contact-details');
+            contactDetails.forEach(function (element) {
+                element.style.display = 'block'; // Display the previously hidden contact details
+            });
 
-    document.querySelector('.btn').style.display = 'none'; // Hide the "Mostra Contatti" button
-    document.querySelectorAll('.btn')[1].style.display = 'block'; // Show the "Nascondi Contatti" button
-    document.getElementById('map-container').style.display = 'block'; // Show the map container
-}
+            document.querySelector('.btn').style.display = 'none'; // Hide the "Mostra Contatti" button
+            document.querySelectorAll('.btn')[1].style.display = 'block'; // Show the "Nascondi Contatti" button
+            document.getElementById('map-container').style.display = 'block'; // Show the map container
+        }
 
     function hideContacts() {
-    var contactDetails = document.querySelectorAll('.contact-details');
-    contactDetails.forEach(function (element) {
-        element.style.display = 'none'; // Hide the contact details
-    });
+        var contactDetails = document.querySelectorAll('.contact-details');
+        contactDetails.forEach(function (element) {
+            element.style.display = 'none'; // Hide the contact details
+        });
 
-    document.querySelector('.btn').style.display = 'block'; // Show the "Mostra Contatti" button
-    document.querySelectorAll('.btn')[1].style.display = 'none'; // Hide the "Nascondi Contatti" button
-    document.getElementById('map-container').style.display = 'none'; // Hide the map container
-}
+        document.querySelector('.btn').style.display = 'block'; // Show the "Mostra Contatti" button
+        document.querySelectorAll('.btn')[1].style.display = 'none'; // Hide the "Nascondi Contatti" button
+        document.getElementById('map-container').style.display = 'none'; // Hide the map container
+    }
 
 </script>
 </body>

@@ -12,7 +12,7 @@ import {JwttokenhandlerService} from "../../services/jwttokenhandler.service";
 })
 export class ProdottiComponent implements OnInit {
   prodotti: any[] = [];
-  role: string = this.jwtoken.getRole(sessionStorage.getItem('accessToken')!);
+  role: string = "";
 
   constructor(private productsService: ProductsService,
               private cartService: CartService,
@@ -30,6 +30,11 @@ export class ProdottiComponent implements OnInit {
         console.error(error);
       }
     );
+
+    //se sessionStorege.getRole("accessToken") è definito allora role = sessionStorege.getRole("accessToken")
+    if(this.jwtoken.getRole("accessToken") != null){
+      this.role = this.jwtoken.getRole("accessToken");
+    }
   }
 
   ngAfterContentChecked(): void {
