@@ -52,6 +52,7 @@ import { NgOptimizedImage, registerLocaleData} from '@angular/common';
 import localeIt from '@angular/common/locales/it';
 import { FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { AuthInterceptorService } from "./services/auth-interceptor.service";
+import { DescrizioneProxyComponent } from './componenti/descrizione-proxy/descrizione-proxy.component';
 
 
 
@@ -73,6 +74,7 @@ registerLocaleData(localeIt, 'it');
     PagamentoComponent,
     CheckoutComponent,
     AggiungiProdottoComponent,
+    DescrizioneProxyComponent,
   ],
     imports: [
         RouterModule,

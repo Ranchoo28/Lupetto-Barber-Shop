@@ -1,9 +1,7 @@
-// cart.component.ts
 import { Component, OnInit } from '@angular/core';
 import { CartService } from '../../services/cart.service';
 import swal from "sweetalert";
 import {MatDialog} from "@angular/material/dialog";
-import {PagamentoComponent} from "../pagamento/pagamento.component";
 import {CheckoutComponent} from "../checkout/checkout.component";
 
 @Component({
@@ -18,7 +16,7 @@ export class CarrelloComponent {
   constructor(private cartService: CartService, public dialog: MatDialog) {
   }
 
-  visible = false;
+  visible: boolean = false;
 
   ngOnInit(): void {
     this.cartService.settaEmailEPrendiCarrello();
@@ -30,7 +28,7 @@ export class CarrelloComponent {
 
     this.cartService
 
-    if(!this.cartService.pagamentoInCorso) {
+    if(!this.cartService.pagamentoInCorso && !this.cartService.descrizionePopUp) {
       this.dialog.closeAll();
     }
   }

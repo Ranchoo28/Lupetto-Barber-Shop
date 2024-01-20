@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {ProductsService} from "../../services/products.service";
 import {CartService} from "../../services/cart.service";
+import {DescrizioneProxyComponent} from "../descrizione-proxy/descrizione-proxy.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-prodotti',
@@ -10,7 +12,9 @@ import {CartService} from "../../services/cart.service";
 export class ProdottiComponent implements OnInit {
   prodotti: any[] = [];
 
-  constructor(private productsService: ProductsService, private cartService: CartService) {}
+  constructor(private productsService: ProductsService,
+              private cartService: CartService,
+              public dialog: MatDialog) {}
 
   isHidden = false;
 
@@ -27,6 +31,24 @@ export class ProdottiComponent implements OnInit {
 
   ngAfterContentChecked(): void {
     this.isHidden = this.cartService.visible;
+  }
+
+
+  proxyDescrizione(idProdotto: number, event: Event){
+    event.stopPropagation();
+    this.productsService.getDatiProxy(idProdotto).subscribe(
+      (data) => {
+        this.productsService.descrizionePopUp = data.description;
+
+        const dialogRef = this.dialog.open(DescrizioneProxyComponent, {
+          width: '550px',
+        });
+
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
 
   addToCart(prodotto: any) {

@@ -27,8 +27,9 @@
             </mat-card-header>
             <mat-card-content>
               <div class="row">
-                <p>{{ prodotto.description }}</p>
-                <img [src]="prodotto.image" alt="Immagine del prodotto" class="img-fluid"/>
+                <div (click)="proxyDescrizione(prodotto.idProduct, $event)">
+                  <img [src]="prodotto.image" alt="Immagine del prodotto" class="img-fluid"/>
+                </div>
               </div>
               <br><br>
               <div class="row">

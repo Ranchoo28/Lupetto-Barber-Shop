@@ -11,7 +11,7 @@ export class ProductsService {
   private addProductUrl = '/api/hairdresser/addProduct';
   private deleteProductUrl = '/api/hairdresser/deleteProduct';
 
-
+  descrizionePopUp: string = "";
 
   constructor(private http: HttpClient) {}
 
@@ -40,4 +40,7 @@ export class ProductsService {
   }
 
 
+  getDatiProxy(idProdotto: number){
+    return this.http.get<any>('http://localhost:8080/api/hairdresser/productProxy?id_product='+idProdotto);
+  }
 }

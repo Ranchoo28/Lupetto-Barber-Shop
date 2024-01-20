@@ -17,7 +17,8 @@ export class CartService {
 
   items = new Map<number, { product: any, quantity: number }>();
 
-  pagamentoInCorso = false;
+  pagamentoInCorso:boolean = false;
+  descrizionePopUp: boolean = false;
 
   email: string= '';
 
