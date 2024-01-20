@@ -39,7 +39,7 @@
             <!-- ----------------- PREZZO PRODOTTO ----------------- -->
             <mat-form-field class="full-width" appearance="outline">
               <mat-label>Prezzo Prodotto</mat-label>
-              <input matInput type="number" [formControl]="prezzoProdotto">
+              <input matInput type="number" min="0" [formControl]="prezzoProdotto">
             </mat-form-field>
           </div>
           <br>
