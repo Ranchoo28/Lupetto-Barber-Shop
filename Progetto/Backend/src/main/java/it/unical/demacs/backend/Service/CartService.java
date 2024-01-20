@@ -6,6 +6,7 @@ import it.unical.demacs.backend.Persistenza.Model.CartProduct;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 
 @Service
@@ -31,18 +32,13 @@ public class CartService {
         try {
             DatabaseHandler.getInstance().openConnection();
             Long id_user = DatabaseHandler.getInstance().getUserDao().findByEmail(email).join().getIdUser();
-            if (DatabaseHandler.getInstance().getCartDao().findCartByUserId(id_user).join().getId_cart() == null) {
-                return ResponseEntity.badRequest().body("{\"message\": \"No user found\"}");
-            } else {
-                if (DatabaseHandler.getInstance().getCartDao().addCart(id_user).join()) {
-                    Cart cart = DatabaseHandler.getInstance().getCartDao().findCartByUserId(id_user).join();
-                    DatabaseHandler.getInstance().getCartDao().addProductToCart(cart.getId_cart(), products);
-                    return ResponseEntity.ok().body("{\"message\": \"Cart created and products added\"}");
-                }
-                else{
-                    return ResponseEntity.badRequest().body("{\"message\": \"Cart creation failed\"}");
-                }
+            Cart cart = DatabaseHandler.getInstance().getCartDao().findCartByUserId(id_user).join();
+            if(cart.getId_cart() == null){
+                DatabaseHandler.getInstance().getCartDao().addCart(id_user).join();
             }
+            Long id_cart = DatabaseHandler.getInstance().getCartDao().findCartByUserId(id_user).join().getId_cart();
+            DatabaseHandler.getInstance().getCartDao().addProductToCart(id_cart, products);
+            return ResponseEntity.ok().body("{\"message\": \"Cart created and products added\"}");
         }
         finally{
                 DatabaseHandler.getInstance().closeConnection();

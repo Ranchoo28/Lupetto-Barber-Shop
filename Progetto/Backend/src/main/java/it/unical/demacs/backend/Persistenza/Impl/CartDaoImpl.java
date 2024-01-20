@@ -101,7 +101,8 @@ public class CartDaoImpl implements CartDao {
     @Override
     @Async
     public CompletableFuture<Boolean> addCart(long idUser) {
-        if(findCartByUserId(idUser).join() != null){
+        Long id_cart = findCartByUserId(idUser).join().getId_cart();
+        if(id_cart != null){
             return CompletableFuture.completedFuture(true);
         }
         String query = "INSERT INTO carts (id_user) VALUES (?)";
