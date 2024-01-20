@@ -14,6 +14,7 @@ import {BookingService} from "../../services/booking.service";
 export class PagamentoComponent implements OnInit {
   stripe: Stripe | null = null;
   card: StripeCardElement | null = null;
+  isLoading = false;
 
   constructor(private paymentService: PaymentService,
               private cartService: CartService,
@@ -29,6 +30,7 @@ export class PagamentoComponent implements OnInit {
   }
 
   handlePayment() {
+      this.isLoading = true;
     if(this.router.url === '/prenota') {
       this.gestisciPagamentoPrenotazione();
     }
@@ -38,6 +40,7 @@ export class PagamentoComponent implements OnInit {
   }
 
   async gestisciPagamentoCarrello() {
+
     if (!this.stripe || !this.card) {
       console.error('Stripe o card non sono stati inizializzati correttamente.');
       return;
@@ -67,6 +70,7 @@ export class PagamentoComponent implements OnInit {
       this.cartService.clearCart();
       this.cartService.visible = false;
       this.cartService.pagamentoInCorso = false;
+      this.isLoading = false;
 
       swal({
         title: 'Pagamento Completato Con Successo',
