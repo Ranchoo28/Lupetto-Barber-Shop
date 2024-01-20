@@ -21,13 +21,13 @@ public class SmsSender {
     }
 
     public void SendSms(Booking booking) {
-//        Twilio.init("AC9615a241f3b49db73939c5135872d9d4", decode() );
-//
-//        Message message = Message.creator(
-//                        new PhoneNumber("+393505111318"),
-//                        new PhoneNumber("+12054635379"),
-//                        "Ciao "+booking.getUser().getName()+" "+booking.getUser().getSurname()+"! La tua prenotazione è stata confermata per il giorno "+booking.getBookingDate().getDate()+" alle ore "+booking.getBookingDate().getTime()+" presso il nostro salone LUPETTO BARBER SHOP. \n Raggiungici più facilmente cliccando al seguente link: https://maps.app.goo.gl/T99Rzcia2CgmAJLx5 \n Ti aspettiamo!")
-//                .create();
+        Twilio.init("AC9615a241f3b49db73939c5135872d9d4", decode() );
+
+        Message message = Message.creator(
+                        new PhoneNumber("+393505111318"),
+                        new PhoneNumber("+12054635379"),
+                        "Ciao "+booking.getUser().getName()+" "+booking.getUser().getSurname()+"! La tua prenotazione è stata confermata per il giorno "+booking.getBookingDate().getDate()+" alle ore "+booking.getBookingDate().getTime()+" presso il nostro salone LUPETTO BARBER SHOP. \n Raggiungici più facilmente cliccando al seguente link: https://maps.app.goo.gl/T99Rzcia2CgmAJLx5 \n Ti aspettiamo!")
+                .create();
 
     }
 
