@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from "../../services/authentication.service";
 import swal from "sweetalert";
-import {JwttokenhandlerService} from "../../services/jwttokenhandler.service";
 import {CartService} from "../../services/cart.service";
 
 @Component({
@@ -11,8 +10,6 @@ import {CartService} from "../../services/cart.service";
 })
 
 export class NavbarComponent {
-
-
 
 
   constructor(protected authService: AuthenticationService,
@@ -25,6 +22,9 @@ export class NavbarComponent {
 
   logout() {
     this.authService.logout();
+
+    this.cartService.clearCart();
+
     console.log("Logout effettuato");
     swal(`Logout effettuato con successo.
                   A presto !`, {

@@ -31,9 +31,11 @@ export class ProdottiComponent implements OnInit {
       }
     });
 
-    const accessToken = sessionStorage.getItem('accessToken');
-    if (accessToken !== null) {
-      this.role = this.jwtTokenService.getRole(accessToken);
+    if (typeof sessionStorage !== 'undefined') {
+      const accessToken = sessionStorage.getItem('accessToken');
+      if (accessToken !== null) {
+        this.role = this.jwtTokenService.getRole(accessToken);
+      }
     }
 
   }
