@@ -16,26 +16,28 @@
 
   </div>
   <br>
+  <div class="container">
   <div class="row">
     <div class="col-lg-12">
 
       <div class="row">
         <div *ngFor="let prodotto of prodotti" class="col-12 col-sm-6 col-md-4 col-lg-3">
-          <mat-card>
+          <mat-card class="product-card">
             <mat-card-header>
-              <mat-card-title>{{ prodotto.name }}</mat-card-title>
+              <mat-card-title class="product-title">{{ prodotto.name }}</mat-card-title>
             </mat-card-header>
             <mat-card-content>
               <div class="row">
-                <div (click)="proxyDescrizione(prodotto.idProduct, $event)">
-                  <img [src]="prodotto.image" alt="Immagine del prodotto" class="img-fluid"/>
+                <div (click)="proxyDescrizione(prodotto.idProduct, $event)"
+                     class="d-flex align-items-center justify-content-center">
+                  <img [src]="prodotto.image" alt="Immagine del prodotto" class="product-image"/>
                 </div>
               </div>
               <br><br>
               <div class="row">
                 <div class="col-lg-2"></div>
                 <div class="col-lg-4">
-                  <p class="prezzo">{{ prodotto.price }} €</p>
+                  <p class="product-price">{{ prodotto.price }} €</p>
                 </div>
                 <div class="col-lg-4">
                   <button class="modern-button" (click)="addToCart(prodotto)" *ngIf="role !== 'HAIRDRESSER'">
@@ -51,7 +53,7 @@
       </div>
 
       <app-carrello></app-carrello>
-
+    </div>
     </div>
   </div>
 </div>

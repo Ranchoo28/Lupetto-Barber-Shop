@@ -1,5 +1,4 @@
 
-
 .carrello {
   position: fixed;
   right: 0;
@@ -59,3 +58,26 @@ img {
   cursor: pointer;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
+.product-image {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.product-title {
+  min-height: 3em;
+}
+
+.product-price {
+  font-weight: bold;
+  font-size: large
+}
+
+
