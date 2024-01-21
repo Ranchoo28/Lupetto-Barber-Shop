@@ -46,7 +46,6 @@ export class PagamentoComponent implements OnInit {
       return;
     }
 
-    // Assicurati che il valore restituito sia una stringa
     let paymentIntentId = await this.paymentService.creaIntentPagamento(this.cartService.getTotalPrice(),`Acquisto di ${this.cartService.getNumberOfItems()} prodotti`)
       .then(data => data.intent)
       .catch(error => {
@@ -87,7 +86,6 @@ export class PagamentoComponent implements OnInit {
       return;
     }
 
-    // Assicurati che il valore restituito sia una stringa
     let paymentIntentId = await this.paymentService.creaIntentPagamento(1000, 'Esempio di descrizione')
       .then(data => data.intent)
       .catch(error => {
@@ -103,8 +101,7 @@ export class PagamentoComponent implements OnInit {
     if (result.error) {
       const errorElement = document.getElementById('card-errors');
       if (errorElement) {
-        // @ts-ignore
-        errorElement.textContent = result.error.message;
+        errorElement.textContent = result.error.message || 'Si è verificato un errore imprevisto.';
       }
     } else if (result.paymentIntent && result.paymentIntent.status === 'succeeded') {
 

@@ -3,7 +3,8 @@ import { LOCALE_ID, NgModule} from '@angular/core';
 import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-// Material
+
+
 import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from '@angular/material/icon';
@@ -22,7 +23,8 @@ import { MatRadioModule } from "@angular/material/radio";
 import { MatPaginatorModule } from "@angular/material/paginator";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 
-// Components
+
+
 import {  CarouselCaptionComponent, CarouselComponent,
           CarouselControlComponent, CarouselIndicatorsComponent,
           CarouselInnerComponent, CarouselItemComponent } from "@coreui/angular";
@@ -42,12 +44,13 @@ import { CheckoutComponent } from './componenti/checkout/checkout.component';
 import { PrenotazioniComponent } from './componenti/prenotazioni/prenotazioni.component';
 import { AggiungiProdottoComponent } from './componenti/aggiungi-prodotto/aggiungi-prodotto.component';
 
-// Routing
+
+
 import { AppRoutingModule } from './app-routing.module';
 import { RouterModule } from '@angular/router';
 import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 
-// Altri
+
 import { NgOptimizedImage, registerLocaleData} from '@angular/common';
 import localeIt from '@angular/common/locales/it';
 import { FormsModule, ReactiveFormsModule} from "@angular/forms";

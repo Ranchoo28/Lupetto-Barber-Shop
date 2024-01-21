@@ -3,7 +3,7 @@
 }
 
 .fixed-payment-button {
-  position: fixed; /* or 'sticky' */
+  position: fixed;
   bottom: 0;
   padding-bottom: 50px;
 }

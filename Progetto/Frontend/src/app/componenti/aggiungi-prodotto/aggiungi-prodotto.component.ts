@@ -54,8 +54,6 @@ export class AggiungiProdottoComponent implements OnInit {
         this.aggiungiProdottoForm.get('immagineProdotto')!.value
       ).pipe(
         tap((data) => {
-
-          // resetta l'input type file
           let fileInput = document.getElementById('formFileLg') as HTMLInputElement;
           if (fileInput) {
             fileInput.value = '';

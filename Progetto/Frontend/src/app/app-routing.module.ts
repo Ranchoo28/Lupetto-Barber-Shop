@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
-/* Componenti */
 import { HomeComponent} from "./componenti/home/home.component";
 import { ProdottiComponent } from './componenti/prodotti/prodotti.component';
 import { PrenotaComponent } from './componenti/prenota/prenota.component';
@@ -12,7 +11,7 @@ import { PrenotazioniComponent } from "./componenti/prenotazioni/prenotazioni.co
 import { ContattiComponent } from "./componenti/contatti/contatti.component";
 import { AggiungiProdottoComponent } from "./componenti/aggiungi-prodotto/aggiungi-prodotto.component";
 
-/* Guards */
+
 import { AuthGuard} from "./services/auth-guard.service";
 import { UnAuthGuard } from "./services/unauth-guard.service";
 import { UserGuard } from "./services/user-guard.service";
