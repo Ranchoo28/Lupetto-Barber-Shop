@@ -1,4 +1,4 @@
-# ProgettoWeb
+# Lupetto Barber Shop 🐺💈
 
 ### Per avere un Database popolato seguire i seguenti passaggi:
 
